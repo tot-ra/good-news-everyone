@@ -1,11 +1,16 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "./styles.css";
+import matthewVerseArtAssessment from "./data/assessments/matthew-art-assessment.json";
+import lukeVerseArtAudit from "./data/books/luke-art-audit.json";
+import johnVerseArtAssessment from "./data/research/john-verse-art-assessment.json";
 import {
   commentarySourceLibrary,
   getVerseCommentaries
 } from "./commentary.js";
+import { greekFormFallbacks } from "./greek-form-fallbacks.js";
 import { greekLemmaLexicon } from "./lexicon.js";
+import { greekLemmaFallbackLexicon } from "./lexicon-fallbacks.js";
 import {
   allScenes,
   findSceneByRoute,
@@ -55,6 +60,145 @@ const translationDetailsById = Object.fromEntries(
 );
 const visibleLanguagesStorageKey = "good-news-everyone:visible-languages";
 const defaultVisibleLanguages = ["greek", "russianSynodal", "russianCassian", "russianBti"];
+
+function normalizeAssessmentBook(source) {
+  if (!source) {
+    return { verses: [], artworks: {} };
+  }
+
+  if (Array.isArray(source.verses) && source.artworks) {
+    return source;
+  }
+
+  const verses = Array.isArray(source.assessments)
+    ? source.assessments.map((entry) => ({
+        chapter: entry.chapter,
+        verse: entry.verse,
+        reference: entry.reference,
+        assessment:
+          entry.rating === "exact"
+            ? "specific"
+            : entry.rating === "scene"
+              ? "scene"
+              : "none",
+        artworkId: entry.artworkId,
+        note: entry.note
+      }))
+    : [];
+
+  const artworks = Object.fromEntries(
+    (source.artworkLibrary ?? [])
+      .filter((item) => item?.id)
+      .map((item) => [
+        item.id,
+        {
+          title: item.title,
+          artist: item.artist,
+          pageUrl: item.commonsPage,
+          imageUrl: item.previewSrc,
+          note: item.note ?? ""
+        }
+      ])
+  );
+
+  return { verses, artworks };
+}
+
+const assessmentDataByBook = {
+  matthew: normalizeAssessmentBook(matthewVerseArtAssessment),
+  john: normalizeAssessmentBook(johnVerseArtAssessment)
+};
+
+function buildUniqueAssessmentVerseMap(entries, getArtworkKey) {
+  const counts = new Map();
+
+  entries.forEach((entry) => {
+    const artworkKey = getArtworkKey(entry);
+
+    if (!artworkKey) {
+      return;
+    }
+
+    const chapterKey = `${entry.chapter}:${artworkKey}`;
+    counts.set(chapterKey, (counts.get(chapterKey) ?? 0) + 1);
+  });
+
+  return new Map(
+    entries
+      .filter((entry) => {
+        const artworkKey = getArtworkKey(entry);
+
+        if (!artworkKey) {
+          return false;
+        }
+
+        return counts.get(`${entry.chapter}:${artworkKey}`) === 1;
+      })
+      .map((entry) => [`${entry.chapter}:${entry.verse}`, entry])
+  );
+}
+
+const verseArtAssessmentByBook = {
+  matthew: buildUniqueAssessmentVerseMap(
+    assessmentDataByBook.matthew.verses
+      .filter((entry) => entry.assessment !== "none" && entry.artworkId),
+    (entry) => entry.artworkId
+  ),
+  john: buildUniqueAssessmentVerseMap(
+    assessmentDataByBook.john.verses
+      .filter((entry) => entry.assessment !== "none" && entry.artworkId),
+    (entry) => entry.artworkId
+  ),
+  luke: buildUniqueAssessmentVerseMap(
+    lukeVerseArtAudit.verses
+      .filter((entry) => entry.art?.src),
+    (entry) => entry.art?.src
+  )
+};
+
+const chapterArtAssessmentByBook = {
+  matthew: new Map(
+    assessmentDataByBook.matthew.verses
+      .filter((entry) => entry.assessment !== "none" && entry.artworkId)
+      .reduce((chapters, entry) => {
+        const current = chapters.get(entry.chapter);
+
+        if (!current || (current.assessment === "scene" && entry.assessment === "specific")) {
+          chapters.set(entry.chapter, entry);
+        }
+
+        return chapters;
+      }, new Map())
+  ),
+  john: new Map(
+    assessmentDataByBook.john.verses
+      .filter((entry) => entry.assessment !== "none" && entry.artworkId)
+      .reduce((chapters, entry) => {
+        const current = chapters.get(entry.chapter);
+
+        if (!current || (current.assessment === "scene" && entry.assessment === "specific")) {
+          chapters.set(entry.chapter, entry);
+        }
+
+        return chapters;
+      }, new Map())
+  ),
+  luke: new Map(
+    lukeVerseArtAudit.verses
+      .filter((entry) => entry.art?.src)
+      .reduce((chapters, entry) => {
+        const current = chapters.get(entry.chapter);
+        const entryWeight = entry.assessment === "exact" ? 2 : 1;
+        const currentWeight = current ? (current.assessment === "exact" ? 2 : 1) : 0;
+
+        if (!current || entryWeight > currentWeight) {
+          chapters.set(entry.chapter, entry);
+        }
+
+        return chapters;
+      }, new Map())
+  )
+};
 
 const bookLabels = {
   matthew: "Матфей",
@@ -533,7 +677,8 @@ function getSceneContextReferences(scene) {
     title: item.name,
     meta: item.meta,
     description: item.description,
-    aliases: getContextReferenceAliases(item.name, item.aliases)
+    aliases: getContextReferenceAliases(item.name, item.aliases),
+    verseNumbers: item.verseNumbers ?? null
   }));
   const glossary = (scene.glossary ?? []).map((item, index) => ({
     id: `glossary:${index}`,
@@ -541,7 +686,8 @@ function getSceneContextReferences(scene) {
     title: item.term,
     meta: item.meta,
     description: item.description,
-    aliases: getContextReferenceAliases(item.term, item.aliases)
+    aliases: getContextReferenceAliases(item.term, item.aliases),
+    verseNumbers: item.verseNumbers ?? null
   }));
 
   return [...entities, ...glossary].map((item) => ({
@@ -570,7 +716,16 @@ function getVerseContextMatches(scene, verse, language) {
     return [];
   }
 
+  const currentVerseNumber = String(verse?.number ?? "");
   const references = getSceneContextReferences(scene).filter((reference) => {
+    if (
+      Array.isArray(reference.verseNumbers) &&
+      reference.verseNumbers.length > 0 &&
+      !reference.verseNumbers.map((value) => String(value)).includes(currentVerseNumber)
+    ) {
+      return false;
+    }
+
     if (reference.kind !== "entity") {
       return true;
     }
@@ -836,17 +991,15 @@ function selectGreekWord(scene, verse, tokenIndex) {
     return;
   }
 
+  const formFallback = !token.lemma ? getGreekFormFallback(token) : null;
+  const lexiconMatch =
+    findLexiconMatch(token.lemma) ??
+    findLexiconMatch(formFallback?.lemma) ??
+    findLexiconMatch(token.text);
+  const resolvedLemma = token.lemma || formFallback?.lemma || lexiconMatch?.key || "";
   const preferredRussianTranslationId = getPreferredRussianTranslationId();
-  const russianTokens = splitDisplayTokens(getTranslationText(verse, preferredRussianTranslationId));
-  const englishTokens = splitDisplayTokens(getTranslationText(verse, "english"));
-  const russianIndex =
-    getAlignmentForTranslation(verse, preferredRussianTranslationId)?.[tokenIndex] ??
-    getAlignedTokenIndex(greekTokens.length, russianTokens.length, tokenIndex);
-  const englishIndex =
-    getAlignmentForTranslation(verse, "english")?.[tokenIndex] ??
-    getAlignedTokenIndex(greekTokens.length, englishTokens.length, tokenIndex);
-  const lexiconEntry = getLexiconEntry(token.lemma);
-  const relatedVerses = getRelatedVersesForLemma(scene.bookId, token.lemma, {
+  const contextualTranslation = getAlignedTranslationToken(verse, tokenIndex, preferredRussianTranslationId);
+  const relatedVerses = getRelatedVersesForLemma(scene.bookId, resolvedLemma, {
     chapterNumber: scene.chapterNumber,
     verseNumber: verse.number
   });
@@ -858,16 +1011,14 @@ function selectGreekWord(scene, verse, tokenIndex) {
     verseNumber: verse.number,
     greekIndex: tokenIndex,
     token: token.text,
-    lemma: token.lemma,
-    pos: token.pos,
-    parsing: token.parsing,
-    russianTranslationId: preferredRussianTranslationId,
-    russianIndex,
-    englishIndex,
-    russianToken: russianTokens[russianIndex] ?? "",
-    englishToken: englishTokens[englishIndex] ?? "",
-    lexiconEntry,
-    relatedVerses
+    lemma: resolvedLemma,
+    originalLemma: token.lemma,
+    pos: token.pos || formFallback?.pos || "",
+    parsing: token.parsing || formFallback?.parsing || "",
+    lexiconEntry: lexiconMatch?.entry ?? null,
+    relatedVerses,
+    contextualTranslation,
+    contextualTranslationId: contextualTranslation ? preferredRussianTranslationId : null
   };
 
   playGreekPronunciation(state.selectedWord);
@@ -893,15 +1044,6 @@ function renderVerseText(scene, verse, language) {
   }
 
   const tokens = splitDisplayTokens(getDisplayTranslationText(verse, language));
-  const languageFamily = translationOptionById[language]?.family;
-  const highlightIndex =
-    isSelectedVerse &&
-    languageFamily === "russian" &&
-    selection.russianTranslationId === language
-      ? selection.russianIndex
-      : isSelectedVerse && language === "english"
-        ? selection.englishIndex
-        : -1;
   const contextMatches = getVerseContextMatches(scene, verse, language);
   const contextMatchMap = new Map(contextMatches.map((item) => [item.start, item]));
   const activeContextRef = getSelectedContextReference(scene);
@@ -912,10 +1054,9 @@ function renderVerseText(scene, verse, language) {
     if (contextMatch) {
       const phraseTokens = tokens.slice(index, index + contextMatch.length);
       const isActive = activeContextRef?.id === contextMatch.reference.id;
-      const highlightedPhrase = phraseTokens.some((_, offset) => highlightIndex === index + offset);
       parts.push(`
         <button
-          class="word-chip word-chip--context${isActive ? " is-active" : ""}${highlightedPhrase ? " is-match" : ""}"
+          class="word-chip word-chip--context${isActive ? " is-active" : ""}"
           type="button"
           data-context-ref="${verse.number}:${contextMatch.reference.id}"
           title="${contextMatch.reference.title}"
@@ -927,9 +1068,7 @@ function renderVerseText(scene, verse, language) {
       continue;
     }
 
-    parts.push(
-      `<span class="word-chip${highlightIndex === index ? " is-match" : ""}">${tokens[index]}</span>`
-    );
+    parts.push(`<span class="word-chip">${tokens[index]}</span>`);
   }
 
   return parts.join(" ");
@@ -961,11 +1100,18 @@ function renderWordPanel(scene, verse) {
   const lexiconSummary = selection.lexiconEntry?.summary
     ? `<p><strong>Смысловое поле:</strong> ${selection.lexiconEntry.summary}</p>`
     : `<p class="word-panel__subtle">Для этой леммы расширенная словарная заметка пока не добавлена, но ниже всё равно показаны другие стихи с тем же словом.</p>`;
-  const lexiconGloss = selection.lexiconEntry?.gloss
-    ? `<p><strong>Базовый перевод леммы:</strong> ${selection.lexiconEntry.gloss}</p>`
+  const contextualTranslationLabel = selection.contextualTranslationId
+    ? translationOptionById[selection.contextualTranslationId]?.label ?? "русском переводе"
     : "";
-  const russianTranslationLabel =
-    translationOptionById[selection.russianTranslationId]?.label ?? "Русский";
+  const contextualTranslationMarkup = selection.contextualTranslation
+    ? `<p><strong>Перевод в ${contextualTranslationLabel}:</strong> ${selection.contextualTranslation}</p>`
+    : "";
+  const lexiconGloss = selection.lexiconEntry?.gloss
+    ? `<p><strong>Перевод греческой леммы:</strong> ${selection.lexiconEntry.gloss}</p>`
+    : "";
+  const lexiconVariants = selection.lexiconEntry?.variants?.length
+    ? `<p><strong>Другие возможные переводы:</strong> ${selection.lexiconEntry.variants.join(", ")}</p>`
+    : "";
 
   return `
     <div class="word-panel">
@@ -975,9 +1121,9 @@ function renderWordPanel(scene, verse) {
       </div>
       <p class="word-panel__hint">${pronunciationActive ? "Сейчас воспроизводится." : pronunciationError || pronunciationHint}</p>
       <p><strong>Лемма:</strong> ${selection.lemma || "не определена"}</p>
-      <p><strong>Вероятный перевод в тексте ${russianTranslationLabel}:</strong> ${selection.russianToken || "не найден"}</p>
-      <p><strong>Вероятный перевод в английском стихе:</strong> ${selection.englishToken || "не найден"}</p>
+      ${contextualTranslationMarkup}
       ${lexiconGloss}
+      ${lexiconVariants}
       ${lexiconSummary}
       ${senseMarkup}
       ${relatedMarkup}
@@ -994,61 +1140,116 @@ function normalizeGreekForLookup(text = "") {
     .replace(/ς/g, "σ");
 }
 
-function normalizeSenseToken(text = "") {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/ё/g, "е")
-    .replace(/[^\p{Letter}\p{Number}]+/gu, "");
+function cleanupLexiconText(value = "") {
+  return String(value)
+    .replace(/\[\[\[(?:FIELD|VARIANT)_BREAK_[A-Z0-9]+\]\]\]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^[,;:\-\s]+/g, "")
+    .replace(/[,;:\-\s]+$/g, "");
 }
 
-function getLexiconEntry(lemma) {
-  if (!lemma) {
+function normalizeLexiconEntry(entry) {
+  if (!entry) {
     return null;
   }
 
-  if (greekLemmaLexicon[lemma]) {
-    return greekLemmaLexicon[lemma];
+  const rawGloss = String(entry.gloss ?? "");
+  const rawVariants = Array.isArray(entry.variants) ? entry.variants : [];
+  const fieldMatch = rawGloss.match(/\[\[\[FIELD_BREAK_[A-Z0-9]+\]\]\]/);
+  const variantMatches = [...rawGloss.matchAll(/\[\[\[VARIANT_BREAK_[A-Z0-9]+\]\]\]/g)];
+
+  let gloss = cleanupLexiconText(rawGloss);
+  let variants = rawVariants.map(cleanupLexiconText).filter(Boolean);
+
+  if (fieldMatch || variantMatches.length) {
+    const fieldPattern = /\[\[\[FIELD_BREAK_[A-Z0-9]+\]\]\]/;
+    const variantPattern = /\[\[\[VARIANT_BREAK_[A-Z0-9]+\]\]\]/;
+    const [, afterField = rawGloss] = rawGloss.split(fieldPattern);
+    const parts = afterField
+      .split(variantPattern)
+      .map(cleanupLexiconText)
+      .filter(Boolean);
+
+    gloss = parts[0] ?? gloss;
+    variants = [...new Set([...parts.slice(1), ...variants])];
   }
 
-  const normalizedLemma = normalizeGreekForLookup(lemma);
-  return (
-    Object.entries(greekLemmaLexicon).find(([key]) => normalizeGreekForLookup(key) === normalizedLemma)?.[1] ??
-    null
-  );
+  return {
+    ...entry,
+    gloss,
+    variants
+  };
 }
 
-function scoreSenseMatch(selection, sense) {
-  const russianToken = normalizeSenseToken(selection.russianToken);
-  const englishToken = normalizeSenseToken(selection.englishToken);
-  let score = 0;
+function findLexiconMatch(term) {
+  if (!term) {
+    return null;
+  }
 
-  (sense.keywords?.russian ?? []).forEach((keyword) => {
-    if (russianToken && russianToken.includes(normalizeSenseToken(keyword))) {
-      score += 2;
-    }
-  });
+  if (greekLemmaLexicon[term]) {
+    return {
+      key: term,
+      entry: normalizeLexiconEntry(greekLemmaLexicon[term])
+    };
+  }
 
-  (sense.keywords?.english ?? []).forEach((keyword) => {
-    if (englishToken && englishToken.includes(normalizeSenseToken(keyword))) {
-      score += 1;
-    }
-  });
+  if (greekLemmaFallbackLexicon[term]) {
+    return {
+      key: term,
+      entry: normalizeLexiconEntry(greekLemmaFallbackLexicon[term])
+    };
+  }
 
-  return score;
+  const normalizedTerm = normalizeGreekForLookup(term);
+  const match = [greekLemmaLexicon, greekLemmaFallbackLexicon]
+    .map(
+      (lexicon) =>
+        Object.entries(lexicon).find(([key]) => normalizeGreekForLookup(key) === normalizedTerm) ?? null
+    )
+    .find(Boolean);
+
+  if (!match) {
+    return null;
+  }
+
+  const [key, entry] = match;
+  return {
+    key,
+    entry: normalizeLexiconEntry(entry)
+  };
 }
 
-function getSenseFitLabel(score, index) {
-  if (score >= 3) {
-    return "хорошо подходит к этому стиху";
+function getGreekFormFallback(token) {
+  if (!token?.text) {
+    return null;
   }
 
-  if (score >= 1) {
-    return "возможно подходит";
+  return greekFormFallbacks[normalizeGreekForLookup(token.text)] ?? null;
+}
+
+function getAlignedTranslationToken(verse, greekIndex, translationId) {
+  if (!verse || greekIndex == null || greekIndex < 0 || !translationId) {
+    return "";
   }
 
-  return index === 0 ? "общий базовый смысл" : "дополнительный оттенок";
+  const alignment = getAlignmentForTranslation(verse, translationId);
+  if (!Array.isArray(alignment) || greekIndex >= alignment.length) {
+    return "";
+  }
+
+  const targetIndex = alignment[greekIndex];
+  if (!Number.isInteger(targetIndex) || targetIndex < 0) {
+    return "";
+  }
+
+  const translationText = getTranslationText(verse, translationId);
+  if (!translationText) {
+    return "";
+  }
+
+  const tokens = splitDisplayTokens(translationText);
+  return tokens[targetIndex] ?? "";
 }
 
 function renderLexiconSenses(selection) {
@@ -1057,26 +1258,16 @@ function renderLexiconSenses(selection) {
     return "";
   }
 
-  const rankedSenses = entry.senses
-    .map((sense, index) => ({
-      ...sense,
-      index,
-      score: scoreSenseMatch(selection, sense)
-    }))
-    .sort((a, b) => b.score - a.score || a.index - b.index)
-    .slice(0, 3);
-
   return `
     <div class="word-panel__section">
       <p class="word-panel__section-title">Возможные смыслы</p>
       <div class="word-sense-list">
-        ${rankedSenses
+        ${entry.senses
           .map(
             (sense) => `
               <article class="word-sense">
                 <p><strong>${sense.label}</strong> <span class="word-panel__meta">· ${sense.weight}</span></p>
                 <p>${sense.description}</p>
-                <p class="word-panel__subtle">${getSenseFitLabel(sense.score, sense.index)}</p>
               </article>
             `
           )
@@ -1227,6 +1418,16 @@ function renderCommentaryRail(scene, verse) {
   `;
 }
 
+function renderVerseAside(scene, verse, verseIndex) {
+  return `
+    <aside class="verse-side">
+      <div class="verse-number">Стих ${verse.number}</div>
+      ${renderVerseArtwork(scene, verse, verseIndex)}
+      ${renderCommentaryRail(scene, verse)}
+    </aside>
+  `;
+}
+
 function renderCommentaryPanel(scene, verse) {
   const entries = getVerseCommentaries(scene.bookId, scene.chapterNumber, verse.number);
   const activeCommentary = getActiveCommentary(scene, verse);
@@ -1275,9 +1476,78 @@ function renderCommentaryPanel(scene, verse) {
   `;
 }
 
+function getAssessedArtwork(bookId, assessmentEntry, { mode }) {
+  const genericAssessmentNotes = [
+    "Есть устоявшаяся картина или иконографическая сцена, которая хорошо ложится именно на этот стих.",
+    "Есть подходящая картина всей сцены, но обычно она относится к эпизоду целиком, а не строго к одной строке."
+  ];
+
+  function getAssessmentCaption({ note, title }) {
+    const trimmedNote = typeof note === "string" ? note.trim() : "";
+
+    if (trimmedNote && !genericAssessmentNotes.includes(trimmedNote)) {
+      return trimmedNote;
+    }
+
+    return title ?? "";
+  }
+
+  if (assessmentEntry?.art?.src) {
+    return {
+      src: assessmentEntry.art.src,
+      credit: assessmentEntry.art.credit ?? "",
+      caption: getAssessmentCaption({
+        note: assessmentEntry.note,
+        title: assessmentEntry.art.title
+      })
+    };
+  }
+
+  if (!assessmentEntry?.artworkId) {
+    return null;
+  }
+
+  const assessmentBook = assessmentDataByBook[bookId] ?? null;
+  const artwork = assessmentBook?.artworks?.[assessmentEntry.artworkId];
+  if (!artwork?.imageUrl) {
+    return null;
+  }
+
+  const credit = `${artwork.artist}, через Wikimedia Commons`;
+
+  return {
+    src: artwork.imageUrl,
+    credit,
+    caption: getAssessmentCaption({
+      note: assessmentEntry.note,
+      title: artwork.title
+    })
+  };
+}
+
+function getSceneArt(scene) {
+  const chapterAssessment = chapterArtAssessmentByBook[scene.bookId]?.get(scene.chapterNumber);
+  const assessedArtwork = getAssessedArtwork(scene.bookId, chapterAssessment, { mode: "chapter" });
+
+  if (assessedArtwork) {
+    return assessedArtwork;
+  }
+
+  return scene.art ?? null;
+}
+
 function getVerseArt(scene, verse) {
   if (verse.art) {
     return verse.art;
+  }
+
+  const assessmentEntry = verseArtAssessmentByBook[scene.bookId]?.get(
+    `${scene.chapterNumber}:${verse.number}`
+  );
+  const assessedArtwork = getAssessedArtwork(scene.bookId, assessmentEntry, { mode: "verse" });
+
+  if (assessedArtwork) {
+    return assessedArtwork;
   }
 
   return null;
@@ -1296,7 +1566,7 @@ function renderVerseArtwork(scene, verse, verseIndex) {
         type="button"
         data-artwork-open="true"
         data-art-src="${artwork.src}"
-        data-art-title="${encodeURIComponent(`Стих ${verse.number}`)}"
+        data-art-title="${encodeURIComponent(artwork.caption ?? `Стих ${verse.number}`)}"
         data-art-credit="${encodeURIComponent(artwork.credit ?? "")}"
         aria-label="Увеличить иллюстрацию к стиху ${verse.number}"
       >
@@ -1306,6 +1576,7 @@ function renderVerseArtwork(scene, verse, verseIndex) {
       </button>
       <figcaption class="verse-visual__meta">
         <strong>Стих ${verse.number}</strong>
+        ${artwork.caption ? `<span>${artwork.caption}</span>` : ""}
         <span>${artwork.credit}</span>
       </figcaption>
     </figure>
@@ -1539,6 +1810,7 @@ async function render() {
   const activePhotos = activePlace?.photos ?? [];
   const journey = getJourneyConfig(activeBook.id, activeBook.chapters);
   const totalChapters = activeBook.chapters.length;
+  const sceneArtwork = getSceneArt(scene);
 
   app.innerHTML = `
     <div class="page-shell">
@@ -1670,11 +1942,11 @@ async function render() {
         <section class="reading-room">
           <div class="art-panel">
             <div class="art-frame">
-              <img src="${scene.art.src}" alt="${scene.bookTitle} artwork" />
+              <img src="${sceneArtwork.src}" alt="${scene.bookTitle} artwork" />
             </div>
             <div class="art-overlay art-overlay--static">
-              <p class="art-credit">${scene.art.credit}</p>
-              <p class="art-caption">${scene.art.caption}</p>
+              <p class="art-credit">${sceneArtwork.credit}</p>
+              <p class="art-caption">${sceneArtwork.caption}</p>
             </div>
           </div>
 
@@ -1731,11 +2003,7 @@ async function render() {
                 (verse, verseIndex) => `
                   <article class="verse-block">
                     <div class="verse-row">
-                    <div class="verse-side">
-                      <div class="verse-number">Стих ${verse.number}</div>
-                      ${renderVerseArtwork(scene, verse, verseIndex)}
-                    </div>
-                    ${renderCommentaryRail(scene, verse)}
+                    ${renderVerseAside(scene, verse, verseIndex)}
                     ${state.visibleLanguages
                       .map(
                         (language) => `

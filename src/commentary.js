@@ -667,6 +667,636 @@ export const verseCommentaryLibrary = {
       href: "https://biblehub.com/commentaries/john/1-1.htm"
     })
   ],
+  "john:2:11": [
+    commentary({
+      id: "john-2-11-chrysostom",
+      sourceId: "catena",
+      author: "Иоанн Златоуст",
+      authorShort: "Зл",
+      era: "IV век",
+      role: "Святой отец",
+      summary:
+        "Златоуст видит в Кане не просто помощь на свадьбе, а тихое начало откровения. Христос не ищет внешнего эффекта, но через знак постепенно вводит учеников в веру.",
+      href: "https://catenabible.com/jn/2/11"
+    }),
+    commentary({
+      id: "john-2-11-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт подчеркивает, что чудо называется знамением, потому что ведет дальше самой воды и вина. Оно открывает славу Христа и учит читать события не только буквально.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/2"
+    }),
+    commentary({
+      id: "john-2-11-ellicott",
+      sourceId: "biblehub",
+      author: "Чарльз Элликотт",
+      authorShort: "Эл",
+      era: "XIX век",
+      role: "Англиканский комментатор",
+      summary:
+        "Элликотт обращает внимание, что у Иоанна это первое из знаков, а не просто первое чудо. Стих задает важную линию всей книги: дела Иисуса раскрывают Его славу и вызывают веру.",
+      href: "https://biblehub.com/commentaries/john/2-11.htm"
+    })
+  ],
+  "john:3:3": [
+    commentary({
+      id: "john-3-3-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин читает рождение свыше как вход в новую жизнь, которую человек не может произвести из себя сам. Разговор с Никодимом сразу переводит тему спасения из плоскости заслуг в плоскость дара.",
+      href: "https://catenabible.com/jn/3/3"
+    }),
+    commentary({
+      id: "john-3-3-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт поясняет, что Христос говорит не о втором телесном рождении, а о духовном обновлении. Именно поэтому Никодим сначала слышит слова буквально и теряется.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/3"
+    }),
+    commentary({
+      id: "john-3-3-benson",
+      sourceId: "biblehub",
+      author: "Джозеф Бенсон",
+      authorShort: "Бе",
+      era: "XVIII век",
+      role: "Методистский комментатор",
+      summary:
+        "Бенсон подчеркивает категоричность стиха: без нового рождения нельзя даже увидеть Царство. Это помогает услышать ответ Иисуса как необходимость, а не как совет для особенно ревностных.",
+      href: "https://biblehub.com/commentaries/john/3-3.htm"
+    })
+  ],
+  "john:4:14": [
+    commentary({
+      id: "john-4-14-chrysostom",
+      sourceId: "catena",
+      author: "Иоанн Златоуст",
+      authorShort: "Зл",
+      era: "IV век",
+      role: "Святой отец",
+      summary:
+        "Златоуст видит здесь контраст между обычной водой, которая снимает жажду лишь на время, и даром Христа, который меняет самого человека изнутри. Образ источника делает обещание особенно личным и постоянным.",
+      href: "https://catenabible.com/jn/4/14"
+    }),
+    commentary({
+      id: "john-4-14-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин читает воду как образ благодати, ведущей к вечной жизни. Важно, что у Иоанна речь идет не просто об утолении нужды, а о появлении внутри человека новой, текущей жизни.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-4-14-pulpit",
+      sourceId: "biblehub",
+      author: "Pulpit Commentary",
+      authorShort: "Pu",
+      era: "XIX век",
+      role: "Пасторский комментарий",
+      summary:
+        "Пасторская линия подчеркивает, что обещанный источник не просто снабжает человека, но начинает бить в нем самом. Это хорошо передает иоанновскую тему внутренне усвоенной благодати.",
+      href: "https://biblehub.com/commentaries/john/4-14.htm"
+    })
+  ],
+  "john:5:24": [
+    commentary({
+      id: "john-5-24-cyril",
+      sourceId: "catena",
+      author: "Кирилл Александрийский",
+      authorShort: "Ки",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Кирилл подчеркивает, что вера здесь соединена со слушанием слова Сына и доверием Отцу, Который Его послал. Жизнь вечная у Иоанна уже начинается в настоящем, а не только обещается на будущее.",
+      href: "https://catenabible.com/jn/5/24"
+    }),
+    commentary({
+      id: "john-5-24-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт отмечает сильный переход в формулировке: верующий уже перешел от смерти в жизнь. Стих звучит как объявление о совершившемся переносе, а не только как дальняя надежда.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/5"
+    }),
+    commentary({
+      id: "john-5-24-ellicott",
+      sourceId: "biblehub",
+      author: "Чарльз Элликотт",
+      authorShort: "Эл",
+      era: "XIX век",
+      role: "Англиканский комментатор",
+      summary:
+        "Элликотт обращает внимание на глаголы настоящего времени: имеет, не приходит, перешел. Для Иоанна спасение здесь не только будущий приговор, но уже начавшаяся реальность общения с Богом.",
+      href: "https://biblehub.com/commentaries/john/5-24.htm"
+    })
+  ],
+  "john:6:35": [
+    commentary({
+      id: "john-6-35-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин любит объяснять этот стих через движение веры: прийти ко Христу значит уверовать в Него. Образ хлеба говорит о постоянном насыщении души, а не о единичном религиозном переживании.",
+      href: "https://catenabible.com/jn/6/35"
+    }),
+    commentary({
+      id: "john-6-35-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин показывает, что после насыщения множества Иисус переводит разговор от земной пищи к Себе Самому. Так знак хлеба становится входом в христологическое откровение.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-6-35-meyer",
+      sourceId: "biblehub",
+      author: "Генрих Майер",
+      authorShort: "Ма",
+      era: "XIX век",
+      role: "Филологический комментарий",
+      summary:
+        "Майер подчеркивает параллель между приходом и верой, голодом и жаждой. Стих построен так, чтобы показать полноту удовлетворения, которое Христос дает человеку.",
+      href: "https://biblehub.com/commentaries/john/6-35.htm"
+    })
+  ],
+  "john:7:37": [
+    commentary({
+      id: "john-7-37-chrysostom",
+      sourceId: "catena",
+      author: "Иоанн Златоуст",
+      authorShort: "Зл",
+      era: "IV век",
+      role: "Святой отец",
+      summary:
+        "Златоуст замечает силу момента: в кульминационный день праздника Иисус встает и громко зовет жаждущих к Себе. На фоне храмовых обрядов это звучит как смелое присвоение мессианского центра.",
+      href: "https://catenabible.com/jn/7/37"
+    }),
+    commentary({
+      id: "john-7-37-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт читает жажду как стремление души к истине и благодати. Призыв «иди ко Мне и пей» показывает, что в центре праздника стоит уже не обряд, а Сам Христос.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/7"
+    }),
+    commentary({
+      id: "john-7-37-ellicott",
+      sourceId: "biblehub",
+      author: "Чарльз Элликотт",
+      authorShort: "Эл",
+      era: "XIX век",
+      role: "Англиканский комментатор",
+      summary:
+        "Элликотт связывает стих с водной символикой праздника Кущей. Поэтому приглашение Иисуса особенно сильно: Он ставит Себя на место того, что обряд только изображал.",
+      href: "https://biblehub.com/commentaries/john/7-37.htm"
+    })
+  ],
+  "john:8:12": [
+    commentary({
+      id: "john-8-12-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин видит в свете мира не внешнее озарение, а истину, которая просвещает внутреннего человека. Следование Христу здесь означает не только видеть свет, но и жить в нем.",
+      href: "https://catenabible.com/jn/8/12"
+    }),
+    commentary({
+      id: "john-8-12-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин отмечает возможную связь слов Иисуса с праздничным освещением храма. На этом фоне заявление становится еще острее: Христос называет источником подлинного света не храмовый ритуал, а Себя.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-8-12-benson",
+      sourceId: "biblehub",
+      author: "Джозеф Бенсон",
+      authorShort: "Бе",
+      era: "XVIII век",
+      role: "Методистский комментатор",
+      summary:
+        "Бенсон подчеркивает практическую сторону стиха: тот, кто идет за Христом, не остается во тьме нравственной и духовной. Образ света сразу соединен с путем ученичества.",
+      href: "https://biblehub.com/commentaries/john/8-12.htm"
+    })
+  ],
+  "john:9:3": [
+    commentary({
+      id: "john-9-3-chrysostom",
+      sourceId: "catena",
+      author: "Иоанн Златоуст",
+      authorShort: "Зл",
+      era: "IV век",
+      role: "Святой отец",
+      summary:
+        "Златоуст замечает, что Христос отвергает упрощенную схему, по которой всякая беда прямо объясняется чьим-то конкретным грехом. В центре стиха не поиск виновного, а грядущее явление дел Божиих.",
+      href: "https://catenabible.com/jn/9/3"
+    }),
+    commentary({
+      id: "john-9-3-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт поясняет, что слова Иисуса не отрицают всякую связь страдания с падшим миром, но отвергают механическое обвинение именно этого человека и его родителей. Слепота становится местом откровения милости.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/9"
+    }),
+    commentary({
+      id: "john-9-3-pulpit",
+      sourceId: "biblehub",
+      author: "Pulpit Commentary",
+      authorShort: "Pu",
+      era: "XIX век",
+      role: "Пасторский комментарий",
+      summary:
+        "Пасторская линия видит здесь поворот от теоретического спора к сострадательному действию. Стих помогает читать историю исцеления как откровение Божьего дела, а не как судебное расследование.",
+      href: "https://biblehub.com/commentaries/john/9-3.htm"
+    })
+  ],
+  "john:10:11": [
+    commentary({
+      id: "john-10-11-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин подчеркивает, что добрый пастырь отличается не только заботой, но и готовностью положить жизнь за овец. Образ пастыря у Иоанна сразу несет в себе тень креста.",
+      href: "https://catenabible.com/jn/10/11"
+    }),
+    commentary({
+      id: "john-10-11-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт противопоставляет истинного пастыря наемнику: первый любит овец, второй бережет себя. Так стих раскрывает характер мессианского служения Иисуса как жертвенной верности.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/10"
+    }),
+    commentary({
+      id: "john-10-11-ellicott",
+      sourceId: "biblehub",
+      author: "Чарльз Элликотт",
+      authorShort: "Эл",
+      era: "XIX век",
+      role: "Англиканский комментатор",
+      summary:
+        "Элликотт обращает внимание, что доброта пастыря здесь не абстрактное качество, а красота подлинной пастырской любви, подтвержденной самопожертвованием. Формула ведет прямо к страстям.",
+      href: "https://biblehub.com/commentaries/john/10-11.htm"
+    })
+  ],
+  "john:11:25": [
+    commentary({
+      id: "john-11-25-cyril",
+      sourceId: "catena",
+      author: "Кирилл Александрийский",
+      authorShort: "Ки",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Кирилл видит в словах к Марфе не отвлеченное учение о будущем воскресении, а откровение о Самом Христе. Он не только дает жизнь, но и Сам является воскресением и жизнью.",
+      href: "https://catenabible.com/jn/11/25"
+    }),
+    commentary({
+      id: "john-11-25-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин подчеркивает, что Иисус переводит разговор Марфы от общей веры в последний день к личной вере в Него. Так центр надежды смещается от события к Личности.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-11-25-benson",
+      sourceId: "biblehub",
+      author: "Джозеф Бенсон",
+      authorShort: "Бе",
+      era: "XVIII век",
+      role: "Методистский комментатор",
+      summary:
+        "Бенсон подчеркивает утешительный парадокс стиха: верующий может умереть, но не теряет жизни во Христе. Здесь Иоанн особенно ясно соединяет нынешнюю веру и будущую победу над смертью.",
+      href: "https://biblehub.com/commentaries/john/11-25.htm"
+    })
+  ],
+  "john:12:24": [
+    commentary({
+      id: "john-12-24-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин читает зерно прежде всего христологически: Христос умирает как одно зерно, чтобы принести множество плодов в Своем народе. Крест здесь уже представлен как плодоносящая смерть.",
+      href: "https://catenabible.com/jn/12/24"
+    }),
+    commentary({
+      id: "john-12-24-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт показывает, что образ зерна одновременно объясняет крест и задает образ для ученичества. Потеря и смерть у Иоанна не бесплодны, если они соединены со Христом.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/12"
+    }),
+    commentary({
+      id: "john-12-24-meyer",
+      sourceId: "biblehub",
+      author: "Генрих Майер",
+      authorShort: "Ма",
+      era: "XIX век",
+      role: "Филологический комментарий",
+      summary:
+        "Майер подчеркивает логику сравнения: сохранение зерна означает одиночество, а его смерть ведет к множественному плоду. Стих готовит читателя к тому, что слава Иисуса пройдет через умирание.",
+      href: "https://biblehub.com/commentaries/john/12-24.htm"
+    })
+  ],
+  "john:13:34": [
+    commentary({
+      id: "john-13-34-chrysostom",
+      sourceId: "catena",
+      author: "Иоанн Златоуст",
+      authorShort: "Зл",
+      era: "IV век",
+      role: "Святой отец",
+      summary:
+        "Златоуст замечает, что новизна заповеди не в самом слове любовь, а в мере и образце: «как Я возлюбил вас». Христос делает Свою собственную любовь нормой для общины учеников.",
+      href: "https://catenabible.com/jn/13/34"
+    }),
+    commentary({
+      id: "john-13-34-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин подчеркивает контекст Тайной вечери: заповедь дана на пороге страстей и потому наполнена конкретным содержанием жертвенной любви. Это не отвлеченный этический принцип, а завещание Учителя.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-13-34-pulpit",
+      sourceId: "biblehub",
+      author: "Pulpit Commentary",
+      authorShort: "Pu",
+      era: "XIX век",
+      role: "Пасторский комментарий",
+      summary:
+        "Пасторская линия отмечает, что эта любовь становится отличительным знаком христианской общины. У Иоанна истина никогда не остается чисто доктринальной, а принимает форму взаимоотношений.",
+      href: "https://biblehub.com/commentaries/john/13-34.htm"
+    })
+  ],
+  "john:14:6": [
+    commentary({
+      id: "john-14-6-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин кратко раскладывает формулу так: Христос как путь ведет нас, как истина наставляет, как жизнь доводит до цели. Стих поэтому читался как почти целая карта христианского пути.",
+      href: "https://catenabible.com/jn/14/6"
+    }),
+    commentary({
+      id: "john-14-6-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт подчеркивает, что Иисус не только показывает дорогу к Отцу, но Сам является этой дорогой. Через это стих приобретает исключительную христоцентричность.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/14"
+    }),
+    commentary({
+      id: "john-14-6-ellicott",
+      sourceId: "biblehub",
+      author: "Чарльз Элликотт",
+      authorShort: "Эл",
+      era: "XIX век",
+      role: "Англиканский комментатор",
+      summary:
+        "Элликотт отмечает внутреннюю связность тройной формулы: путь был бы бесполезен без истины, а истина без жизни не довела бы к Отцу. Вся полнота посредничества собрана в одной строке.",
+      href: "https://biblehub.com/commentaries/john/14-6.htm"
+    })
+  ],
+  "john:15:5": [
+    commentary({
+      id: "john-15-5-cyril",
+      sourceId: "catena",
+      author: "Кирилл Александрийский",
+      authorShort: "Ки",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Кирилл видит в образе лозы не просто нравственную зависимость, а реальное жизненное единение учеников со Христом. Плод возникает не из автономной силы ветви, а из пребывания в источнике жизни.",
+      href: "https://catenabible.com/jn/15/5"
+    }),
+    commentary({
+      id: "john-15-5-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин обращает внимание, что речь идет не о редком религиозном подъеме, а о постоянном пребывании. Последняя фраза стиха особенно сильна: без Христа ученик лишается не части силы, а самой плодотворности.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-15-5-benson",
+      sourceId: "biblehub",
+      author: "Джозеф Бенсон",
+      authorShort: "Бе",
+      era: "XVIII век",
+      role: "Методистский комментатор",
+      summary:
+        "Бенсон подчеркивает практический вывод: всякий духовный плод обязан своему происхождению союзу со Христом. Поэтому стих одновременно утешает и смиряет.",
+      href: "https://biblehub.com/commentaries/john/15-5.htm"
+    })
+  ],
+  "john:16:33": [
+    commentary({
+      id: "john-16-33-chrysostom",
+      sourceId: "catena",
+      author: "Иоанн Златоуст",
+      authorShort: "Зл",
+      era: "IV век",
+      role: "Святой отец",
+      summary:
+        "Златоуст замечает, что Христос заранее говорит ученикам о скорби не для устрашения, а для укрепления. Мир побежден еще до Голгофы в уверенности слова Иисуса.",
+      href: "https://catenabible.com/jn/16/33"
+    }),
+    commentary({
+      id: "john-16-33-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт соединяет обе половины стиха: ученики неизбежно встретят скорбь в мире, но во Христе получают мир и дерзновение. Утешение здесь не отменяет страдание, а удерживает среди него.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/16"
+    }),
+    commentary({
+      id: "john-16-33-ellicott",
+      sourceId: "biblehub",
+      author: "Чарльз Элликотт",
+      authorShort: "Эл",
+      era: "XIX век",
+      role: "Англиканский комментатор",
+      summary:
+        "Элликотт подчеркивает контраст между «во Мне» и «в мире». Именно эта двойная перспектива делает стих одной из самых насыщенных формул ученичества у Иоанна.",
+      href: "https://biblehub.com/commentaries/john/16-33.htm"
+    })
+  ],
+  "john:17:21": [
+    commentary({
+      id: "john-17-21-cyril",
+      sourceId: "catena",
+      author: "Кирилл Александрийский",
+      authorShort: "Ки",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Кирилл читает единство учеников как участие в Божественной любви и истине, а не как простое внешнее согласие. Молитва Иисуса показывает, что церковное единство имеет источник в жизни Отца и Сына.",
+      href: "https://catenabible.com/jn/17/21"
+    }),
+    commentary({
+      id: "john-17-21-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин подчеркивает миссионерский нерв стиха: единство учеников связано с тем, чтобы мир уверовал. У Иоанна видимая жизнь общины становится частью свидетельства о посланничестве Христа.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-17-21-pulpit",
+      sourceId: "biblehub",
+      author: "Pulpit Commentary",
+      authorShort: "Pu",
+      era: "XIX век",
+      role: "Пасторский комментарий",
+      summary:
+        "Пасторская линия отмечает, что Иисус просит не о стирании личных различий, а о глубоком единении в Боге. Именно такое единство имеет убедительную силу для мира.",
+      href: "https://biblehub.com/commentaries/john/17-21.htm"
+    })
+  ],
+  "john:18:37": [
+    commentary({
+      id: "john-18-37-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин замечает парадокс суда: обвиняемый перед Пилатом говорит как Царь, пришедший свидетельствовать об истине. Стих показывает достоинство Христа именно в момент Его унижения.",
+      href: "https://catenabible.com/jn/18/37"
+    }),
+    commentary({
+      id: "john-18-37-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт подчеркивает, что царство Иисуса раскрывается через истину, а не через политическое насилие. Поэтому ответ Пилату одновременно признает царское достоинство и переопределяет его смысл.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/18"
+    }),
+    commentary({
+      id: "john-18-37-benson",
+      sourceId: "biblehub",
+      author: "Джозеф Бенсон",
+      authorShort: "Бе",
+      era: "XVIII век",
+      role: "Методистский комментатор",
+      summary:
+        "Бенсон обращает внимание на последнюю строку стиха: принадлежность истине узнается в способности слышать голос Христа. Судебная сцена внезапно становится духовным испытанием для слушателя.",
+      href: "https://biblehub.com/commentaries/john/18-37.htm"
+    })
+  ],
+  "john:19:30": [
+    commentary({
+      id: "john-19-30-chrysostom",
+      sourceId: "catena",
+      author: "Иоанн Златоуст",
+      authorShort: "Зл",
+      era: "IV век",
+      role: "Святой отец",
+      summary:
+        "Златоуст слышит в слове «совершилось» не крик поражения, а объявление о завершении дела. Даже смерть Иисуса у Иоанна сохраняет черты царственной сознательности и власти.",
+      href: "https://catenabible.com/jn/19/30"
+    }),
+    commentary({
+      id: "john-19-30-lopukhin",
+      sourceId: "azbyka",
+      author: "А. П. Лопухин",
+      authorShort: "Лп",
+      era: "XIX век",
+      role: "Русский библеист",
+      summary:
+        "Лопухин подчеркивает, что здесь завершается исполнение воли Отца и ветхозаветных предначертаний. Крест у Иоанна не просто страдание, но доведение миссии до полноты.",
+      href: "https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_54/"
+    }),
+    commentary({
+      id: "john-19-30-ellicott",
+      sourceId: "biblehub",
+      author: "Чарльз Элликотт",
+      authorShort: "Эл",
+      era: "XIX век",
+      role: "Англиканский комментатор",
+      summary:
+        "Элликотт обращает внимание на последовательность жестов: Иисус произносит слово, склоняет голову и предает дух. Повествование подчеркивает добровольность и завершенность Его исхода.",
+      href: "https://biblehub.com/commentaries/john/19-30.htm"
+    })
+  ],
   "john:20:28": [
     commentary({
       id: "john-20-28-cyril",
@@ -744,6 +1374,41 @@ export const verseCommentaryLibrary = {
       summary:
         "Пасторская линия называет это кульминацией пути Фомы и одной из вершин всего Евангелия от Иоанна: сомневающийся ученик произносит одно из самых полных исповеданий во всей книге.",
       href: "https://biblehub.com/commentaries/john/20-28.htm"
+    })
+  ],
+  "john:21:15": [
+    commentary({
+      id: "john-21-15-augustine",
+      sourceId: "catena",
+      author: "Августин",
+      authorShort: "Авг",
+      era: "V век",
+      role: "Святой отец",
+      summary:
+        "Августин видит в троекратном вопросе Иисуса исцеление троекратного отречения Петра. Любовь здесь становится не просто чувством, а основанием пастырского поручения.",
+      href: "https://catenabible.com/jn/21/15"
+    }),
+    commentary({
+      id: "john-21-15-theophylact",
+      sourceId: "azbyka",
+      author: "Блж. Феофилакт Болгарский",
+      authorShort: "ФБ",
+      era: "XI век",
+      role: "Святой отец",
+      summary:
+        "Феофилакт подчеркивает, что Христос сначала спрашивает о любви, а уже потом вверяет овец. В иоанновской логике подлинное руководство Церковью вырастает из личной привязанности ко Христу.",
+      href: "https://azbyka.ru/otechnik/Feofilakt_Bolgarskij/tolkovanie-na-evangelie-ot-ioanna/21"
+    }),
+    commentary({
+      id: "john-21-15-pulpit",
+      sourceId: "biblehub",
+      author: "Pulpit Commentary",
+      authorShort: "Pu",
+      era: "XIX век",
+      role: "Пасторский комментарий",
+      summary:
+        "Пасторская линия подчеркивает мягкость восстановления Петра: публичное поручение отвечает на публичное падение. Финал Евангелия превращает провал ученика в зрелое служение.",
+      href: "https://biblehub.com/commentaries/john/21-15.htm"
     })
   ]
 };

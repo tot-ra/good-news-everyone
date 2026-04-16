@@ -776,7 +776,7 @@ h1 {
 
 .verse-row {
   display: grid;
-  grid-template-columns: minmax(112px, 144px) 72px repeat(var(--language-count), minmax(0, 1fr));
+  grid-template-columns: minmax(112px, 144px) repeat(var(--language-count), minmax(0, 1fr));
   gap: 14px;
   align-items: start;
   padding: 22px 0;
@@ -796,7 +796,7 @@ h1 {
 }
 
 .verse-visual--empty {
-  min-height: 1px;
+  display: none;
 }
 
 .verse-visual__button {
@@ -920,13 +920,12 @@ h1 {
 
 .commentary-rail {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   align-content: start;
-  padding-top: 4px;
 }
 
 .commentary-rail--empty {
-  min-height: 1px;
+  display: none;
 }
 
 .commentary-rail__label {
@@ -939,8 +938,8 @@ h1 {
 
 .commentary-rail__avatars {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .commentary-avatar,
@@ -953,8 +952,8 @@ h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 1px solid color-mix(in srgb, var(--commentary-accent) 30%, rgba(47, 36, 29, 0.12));
   border-radius: 999px;
@@ -965,7 +964,7 @@ h1 {
 }
 
 .commentary-avatar span {
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.04em;
 }
@@ -1063,7 +1062,8 @@ h1 {
 }
 
 .word-panel {
-  margin-left: 100px;
+  margin-left: 0;
+  grid-column: 1 / -1;
   padding: 18px 20px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.58);
@@ -1071,7 +1071,8 @@ h1 {
 }
 
 .commentary-panel {
-  margin-left: 100px;
+  margin-left: 0;
+  grid-column: 1 / -1;
   padding: 18px 20px;
   border-radius: 22px;
   background:

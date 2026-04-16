@@ -335,6 +335,265 @@ const RARE_TERM_CATALOG = [
   }
 ];
 
+const MARK_CHAPTER_GLOSSARY_ADDITIONS = {
+  1: [
+    {
+      term: "Иоанн Креститель",
+      aliases: ["Иоанн Креститель", "Иоанна Крестителя", "Иоанн"],
+      meta: "пророк перед служением Иисуса",
+      description:
+        "Проповедник покаяния у Иордана, который готовит народ к явлению Иисуса и крестит Его."
+    },
+    {
+      term: "Назарет",
+      aliases: ["Назарет", "Назарета", "Назарете", "Назарянин", "Назарянином"],
+      meta: "город в Галилее",
+      description:
+        "Город, с которым связывают раннюю жизнь Иисуса. В Евангелиях название часто звучит как указание на Его происхождение."
+    }
+  ],
+  2: [
+    {
+      term: "Авиафар",
+      aliases: ["Авиафаре", "Авиафар", "Авиафара"],
+      meta: "ветхозаветный первосвященник",
+      description:
+        "Священник времён Давида. Марк вспоминает его в споре о субботе, связывая рассказ Иисуса с историей Писания."
+    },
+    {
+      term: "книжники",
+      aliases: ["книжники", "книжников", "книжникам", "книжник"],
+      meta: "знатоки закона",
+      description:
+        "Учёные толкователи Писания и закона. В Евангелиях они часто выступают как религиозные оппоненты Иисуса."
+    }
+  ],
+  3: [
+    {
+      term: "Идумея",
+      aliases: ["Идумея", "Идумеи", "Идумею"],
+      meta: "область к югу от Иудеи",
+      description:
+        "Южный регион, связанный с потомками Едома. У Марка его упоминание показывает, как далеко расходится слух об Иисусе."
+    },
+    {
+      term: "Иуда Искариот",
+      aliases: ["Искариот", "Искариотского", "Иуда Искариот"],
+      meta: "один из двенадцати",
+      description:
+        "Ученик, который позже предаст Иисуса. Марк называет его уже в списке двенадцати, заранее создавая напряжение."
+    }
+  ],
+  4: [
+    {
+      term: "притча",
+      aliases: ["притча", "притчи", "притчах", "притчу"],
+      meta: "образный способ учить",
+      description:
+        "Короткий образный рассказ или сравнение, через которое Иисус раскрывает смысл Божьего Царства."
+    },
+    {
+      term: "сеятель",
+      aliases: ["сеятель", "сеятеля", "сеятелю"],
+      meta: "образ из сельской жизни",
+      description:
+        "Человек, разбрасывающий зерно. В притче этот образ помогает объяснить, как по-разному люди принимают слово."
+    }
+  ],
+  5: [
+    {
+      term: "легион",
+      aliases: ["легион", "легионом"],
+      meta: "римское военное слово",
+      description:
+        "Изначально крупное подразделение римской армии. В рассказе о бесноватом слово подчёркивает множество злых духов."
+    },
+    {
+      term: "талифа куми",
+      aliases: ["талифа куми", "талифа", "куми"],
+      meta: "арамейские слова Иисуса",
+      description:
+        "Фраза, обращённая к умершей девочке, обычно понимаемая как «девица, тебе говорю, встань»."
+    }
+  ],
+  6: [
+    {
+      term: "Иродиада",
+      aliases: ["Иродиада", "Иродиады", "Иродиаде"],
+      meta: "жена в доме Ирода",
+      description:
+        "Фигура при дворе Ирода Антипы, чья вражда к Иоанну Крестителю становится частью рассказа о его смерти."
+    },
+    {
+      term: "Геннисарет",
+      aliases: ["Геннисаретскую", "Геннисарет", "Геннисарете"],
+      meta: "равнина у Галилейского моря",
+      description:
+        "Плодородная местность на берегу Галилейского моря, куда причаливает лодка Иисуса после ночного плавания."
+    }
+  ],
+  7: [
+    {
+      term: "корван",
+      aliases: ["корван", "Корван"],
+      meta: "дар, посвящённый Богу",
+      description:
+        "Термин для имущества, объявленного посвящённым храму. Иисус критикует злоупотребление этим обычаем."
+    },
+    {
+      term: "еффафа",
+      aliases: ["еффафа", "Еффафа"],
+      meta: "арамейское слово",
+      description:
+        "Слово Иисуса в сцене исцеления глухого, означающее «откройся»."
+    }
+  ],
+  8: [
+    {
+      term: "Далмануфа",
+      aliases: ["Далмануфские", "Далмануфа"],
+      meta: "местность на берегу моря",
+      description:
+        "Редко упоминаемое место в Марка 8. Точное расположение неясно, но оно связано с очередной остановкой Иисуса у озера."
+    },
+    {
+      term: "закваска Иродова",
+      aliases: ["Иродовой", "закваски Иродовой", "закваска Иродова"],
+      meta: "образ скрытого влияния",
+      description:
+        "Предупреждение Иисуса о разрушительном влиянии двора Ирода и ложных ожиданий власти."
+    }
+  ],
+  9: [
+    {
+      term: "Преображение",
+      aliases: ["преобразился", "преображение"],
+      meta: "явление славы Иисуса",
+      description:
+        "Сцена на горе, где ученики видят необычную славу Иисуса и слышат небесный голос."
+    },
+    {
+      term: "геенна",
+      aliases: ["геенну", "геенна", "геенне"],
+      meta: "образ суда",
+      description:
+        "Название долины южнее Иерусалима, ставшее сильным образом гибели, огня и окончательного суда."
+    }
+  ],
+  10: [
+    {
+      term: "Иерихон",
+      aliases: ["Иерихон", "Иерихона", "Иерихоне"],
+      meta: "город на пути к Иерусалиму",
+      description:
+        "Город в Иорданской долине. В рассказах о последнем пути Иисуса он становится последней крупной остановкой перед Иерусалимом."
+    },
+    {
+      term: "Сын Давидов",
+      aliases: ["Давидов", "Сын Давидов"],
+      meta: "мессианское обращение",
+      description:
+        "Титул, связывающий Иисуса с царской линией Давида и ожиданием обещанного помазанника."
+    }
+  ],
+  11: [
+    {
+      term: "Виффагия",
+      aliases: ["Виффагии", "Виффагия"],
+      meta: "селение у Иерусалима",
+      description:
+        "Небольшое селение на склоне Елеонской горы, рядом с дорогой к Иерусалиму."
+    },
+    {
+      term: "осанна",
+      aliases: ["Осанна", "осанна"],
+      meta: "возглас хвалы и просьбы о спасении",
+      description:
+        "Еврейский литургический возглас, который в этой сцене звучит как радостное приветствие Царю."
+    }
+  ],
+  12: [
+    {
+      term: "денарий",
+      aliases: ["динарий", "динария", "динарию", "денарий"],
+      meta: "римская монета",
+      description:
+        "Обычная серебряная монета Рима. Вопрос о ней у Марка связан с налогом кесарю."
+    },
+    {
+      term: "лепта",
+      aliases: ["лепты", "лепта", "лепту"],
+      meta: "очень мелкая монета",
+      description:
+        "Одна из самых маленьких монет. В рассказе о вдове подчёркивает, что она дала совсем немного по сумме, но всё по сердцу."
+    }
+  ],
+  13: [
+    {
+      term: "мерзость запустения",
+      aliases: ["мерзость запустения", "мерзость"],
+      meta: "язык пророческого предупреждения",
+      description:
+        "Выражение из книги Даниила о святотатственном осквернении святыни и времени великого бедствия."
+    },
+    {
+      term: "Даниил",
+      aliases: ["Даниилом", "Даниил", "Даниила"],
+      meta: "ветхозаветный пророк",
+      description:
+        "Пророк, чьи видения о царствах, бедствиях и конце времён особенно важны для языка Марка 13."
+    }
+  ],
+  14: [
+    {
+      term: "Пасха",
+      aliases: ["Пасхи", "Пасха", "Пасху"],
+      meta: "главный иудейский праздник исхода",
+      description:
+        "Праздник памяти об исходе из Египта. У Марка именно на этом фоне разворачиваются последние часы Иисуса."
+    },
+    {
+      term: "Искариот",
+      aliases: ["Искариот", "Иуда Искариот"],
+      meta: "прозвище Иуды",
+      description:
+        "Идентифицирующее имя Иуды, ученика-предателя. В страстном повествовании оно сразу вызывает чувство опасности."
+    }
+  ],
+  15: [
+    {
+      term: "Киринеянин",
+      aliases: ["Киринеянина", "Киринеянин"],
+      meta: "человек из Кирены",
+      description:
+        "Житель североафриканской Кирены. Марк упоминает Симона Киринеянина как человека, которого заставили нести крест Иисуса."
+    },
+    {
+      term: "Аримафея",
+      aliases: ["Аримафеи", "Аримафея"],
+      meta: "родной город Иосифа",
+      description:
+        "Город, с которым связывают Иосифа Аримафейского, просившего тело Иисуса для погребения."
+    }
+  ],
+  16: [
+    {
+      term: "Мария Магдалина",
+      aliases: ["Мария Магдалина", "Марии Магдалине", "Магдалина", "Магдалине"],
+      meta: "ученица Иисуса",
+      description:
+        "Одна из самых заметных женщин в пасхальном повествовании, первая свидетельница пустой гробницы у Марка."
+    },
+    {
+      term: "Назарянин",
+      aliases: ["Назарянина", "Назарянин"],
+      meta: "обозначение Иисуса по происхождению",
+      description:
+        "Имя, связывающее Иисуса с Назаретом; в пасхальном рассказе оно напоминает, что воскрес именно Тот, Кого знали в земной истории."
+    }
+  ]
+};
+
 function normalizeLookupToken(text = "") {
   return text
     .toLowerCase()
@@ -398,6 +657,14 @@ function buildRareGlossaryEntries(russianTexts) {
     meta: entry.meta,
     description: entry.description
   }));
+}
+
+function getBookSpecificGlossaryEntries(bookId, chapterNumber) {
+  if (bookId === "mark") {
+    return MARK_CHAPTER_GLOSSARY_ADDITIONS[chapterNumber] ?? [];
+  }
+
+  return [];
 }
 
 function createMapContext(scenePlaceId, highlightPlaceIds, title, summary) {
@@ -786,7 +1053,89 @@ const BOOK_METADATA = {
           }
         ]
       },
+      6: {
+        title: "Hidden devotion and trust in the Father",
+        summary:
+          "Matthew 6 turns from public righteousness to secrecy, prayer, fasting, treasure, and freedom from anxiety before God.",
+        sceneTitle: "Prayer, treasure, and daily trust",
+        sceneSummary:
+          "The sermon continues by moving inward. Jesus warns against religious performance, teaches his disciples how to pray, and reorders desire away from display and toward the Father's care.",
+        focusWords: ["Father", "pray", "treasure", "seek"],
+        differences: [
+          {
+            title: "Daily bread",
+            body:
+              "The line about daily bread is simple in English, but the underlying wording has long invited debate about whether it means bread for today, for the coming day, or for what is necessary."
+          },
+          {
+            title: "Single eye and divided loyalty",
+            body:
+              "The saying about a sound or single eye can be flattened into a modern metaphor, yet in context it points to undivided desire rather than eyesight alone."
+          }
+        ]
+      },
+      7: {
+        title: "Judging, asking, and the narrow way",
+        summary:
+          "Matthew 7 brings the sermon toward its close through warnings about judgment, calls to persistence in prayer, and the demand to build on obedient hearing.",
+        sceneTitle: "The sermon reaches decision",
+        sceneSummary:
+          "Images come quickly here: splinters and beams, gates and roads, trees and fruit, rock and sand. The chapter presses listeners toward discernment and response.",
+        focusWords: ["judge", "ask", "fruit", "rock"],
+        differences: [
+          {
+            title: "Judge not",
+            body:
+              "The command is not a ban on all moral discernment. Matthew immediately moves into questions of fruit, false prophets, and wise evaluation."
+          },
+          {
+            title: "Know and do",
+            body:
+              "The final contrast is not between hearing and ignorance but between hearing that remains verbal and hearing that becomes embodied obedience."
+          }
+        ]
+      },
+      8: {
+        title: "Healings, storms, and authority",
+        summary:
+          "Matthew 8 gathers cleansing, healing, exorcism, and command over the sea into a chapter where Jesus' authority is repeatedly tested and revealed.",
+        sceneTitle: "Authority in motion",
+        sceneSummary:
+          "The chapter descends from mountain teaching into embodied need. Lepers, a centurion, a fevered household, frightened disciples, and demoniacs all expose what kind of authority Jesus carries.",
+        focusWords: ["authority", "heal", "faith", "follow"],
+        differences: [
+          {
+            title: "Servant or child",
+            body:
+              "In the centurion scene, translation choices can make the sick person sound strictly like a servant, though the term can also carry a more intimate household sense."
+          },
+          {
+            title: "Little faith",
+            body:
+              "Matthew's rebuke is not aimed at total unbelief. It exposes fragile, shrinking trust in the middle of danger."
+          }
+        ]
+      },
       9: {
+        title: "Mercy, healing, and the call of Matthew",
+        summary:
+          "Matthew 9 keeps the momentum of healing while adding forgiveness, contested table fellowship, and the calling of Matthew himself.",
+        sceneTitle: "Compassion in the crowded town",
+        sceneSummary:
+          "Paralytics stand up, mourners become witnesses, blind men cry out, and the harvest image closes the chapter. Mercy keeps breaking through settings shaped by doubt or ritual concern.",
+        focusWords: ["forgive", "mercy", "faith", "harvest"],
+        differences: [
+          {
+            title: "Take heart",
+            body:
+              "Jesus' repeated word is stronger than a polite reassurance. It gives courage in a setting where forgiveness and healing are arriving together."
+          },
+          {
+            title: "I desire mercy",
+            body:
+              "Matthew lets this quotation interpret the whole chapter: covenant loyalty and compassionate restoration take priority over boundary-making righteousness."
+          }
+        ],
         verseArt: {
           9: {
             src: "https://commons.wikimedia.org/wiki/Special:FilePath/Calling-of-st-matthew.jpg",
@@ -796,7 +1145,362 @@ const BOOK_METADATA = {
           }
         }
       },
+      10: {
+        title: "The mission of the twelve",
+        summary:
+          "Matthew 10 sends the twelve outward with authority, instruction, and sober warning that mission will bring both welcome and resistance.",
+        sceneTitle: "Sent as messengers",
+        sceneSummary:
+          "The chapter begins with names and authority, then widens into a demanding discourse about travel, speech, persecution, courage, and costly allegiance.",
+        focusWords: ["send", "worthy", "peace", "fear not"],
+        differences: [
+          {
+            title: "Worthy",
+            body:
+              "The language of worthiness here is not about earning salvation. It marks a response that matches the weight of the kingdom message and the one who carries it."
+          },
+          {
+            title: "Fear not",
+            body:
+              "This repeated command does not deny danger. It relocates fear by contrasting hostile human power with the Father's deeper care and judgment."
+          }
+        ]
+      },
+      11: {
+        title: "John's question, unbelief, and rest",
+        summary:
+          "Matthew 11 moves from John's imprisoned question to Jesus' rebuke of unresponsive cities and his invitation to the weary to find rest in him.",
+        sceneTitle: "Question and invitation",
+        sceneSummary:
+          "The chapter holds tension together: uncertainty, refusal, judgment, and tenderness. Jesus interprets John, names the failures of his generation, and ends by calling burdened people to his yoke.",
+        focusWords: ["offended", "rest", "yoke", "little ones"],
+        differences: [
+          {
+            title: "Blessed is the one not offended",
+            body:
+              "The line can sound mild in English, but the verb suggests stumbling over Jesus, taking offense at him, or refusing him because he does not fit expectation."
+          },
+          {
+            title: "Easy yoke",
+            body:
+              "Easy does not mean trivial. The point is a yoke that is kind, fitting, and life-giving compared with heavier religious burdens."
+          }
+        ]
+      },
+      12: {
+        title: "Sabbath conflict and the sign of Jonah",
+        summary:
+          "Matthew 12 sharpens the conflict around Jesus through Sabbath controversies, exorcism disputes, and demands for a sign.",
+        sceneTitle: "Mercy amid hard opposition",
+        sceneSummary:
+          "The chapter alternates between healing and accusation. What begins in grainfields and a synagogue expands into a struggle over authority, speech, signs, and true kinship.",
+        focusWords: ["Sabbath", "mercy", "sign", "house"],
+        differences: [
+          {
+            title: "Lord of the Sabbath",
+            body:
+              "The phrase is stronger than a claim to interpretive preference. Matthew presents Jesus as standing over the institution whose meaning is under debate."
+          },
+          {
+            title: "Blasphemy against the Spirit",
+            body:
+              "Translations can make this sound abstract, but in context it arises from the stubborn refusal to name evident divine liberation as the work of evil."
+          }
+        ]
+      },
+      13: {
+        title: "Parables of the kingdom",
+        summary:
+          "Matthew 13 gathers parables about sowing, growth, mixture, concealment, value, and final sorting into the Gospel's great discourse on the kingdom.",
+        sceneTitle: "Mysteries spoken beside the sea",
+        sceneSummary:
+          "Jesus teaches crowds from the edge of the water and then explains more privately to disciples. The chapter moves between public story and inner interpretation.",
+        focusWords: ["seed", "kingdom", "hear", "treasure"],
+        differences: [
+          {
+            title: "Mysteries of the kingdom",
+            body:
+              "Mystery here does not mean puzzle for clever readers. It points to divine realities being disclosed in God's way and time."
+          },
+          {
+            title: "Hear and understand",
+            body:
+              "Matthew keeps hearing tied to reception and fruitfulness. The issue is not bare sound but whether the word takes root deeply enough to endure."
+          }
+        ]
+      },
+      14: {
+        title: "John's death and bread in the wilderness",
+        summary:
+          "Matthew 14 places the death of John the Baptist beside compassion for the crowd, the feeding miracle, and Jesus walking on the sea.",
+        sceneTitle: "Grief, bread, and the night sea",
+        sceneSummary:
+          "The chapter moves from court violence to wilderness provision and then into darkness on the water. It is full of vulnerability, fear, and unexpected sustenance.",
+        focusWords: ["compassion", "bread", "fear", "worship"],
+        differences: [
+          {
+            title: "Take heart; it is I",
+            body:
+              "The phrase can be heard as simple self-identification, yet its wording carries an echo of divine self-disclosure that intensifies the scene on the sea."
+          },
+          {
+            title: "Little faith again",
+            body:
+              "Peter's sinking is not a separate moral tale from the chapter. Matthew uses it to show how fear interrupts trust even in the middle of real encounter."
+          }
+        ]
+      },
+      15: {
+        title: "Purity, faith, and bread for the nations",
+        summary:
+          "Matthew 15 challenges inherited purity boundaries, centers the faith of a foreign woman, and returns to the theme of feeding in a mixed-region setting.",
+        sceneTitle: "From contested purity to abundant provision",
+        sceneSummary:
+          "The chapter begins with dispute over tradition and what truly defiles, then widens toward Gentile territory where persistent faith and shared bread become visible.",
+        focusWords: ["defile", "heart", "faith", "bread"],
+        differences: [
+          {
+            title: "Defilement from the heart",
+            body:
+              "Jesus is not dismissing moral seriousness. He relocates impurity from ritual surface to the deep source of speech and action."
+          },
+          {
+            title: "Children's bread",
+            body:
+              "The exchange with the Canaanite woman is intentionally sharp. Matthew preserves the tension so that her persistence and Jesus' final commendation land with full force."
+          }
+        ]
+      },
+      16: {
+        title: "Confession and the way of the cross",
+        summary:
+          "Matthew 16 turns decisively as Peter confesses Jesus, the cross is announced, and discipleship is redefined through self-denial and loss.",
+        sceneTitle: "A turning point at Caesarea Philippi",
+        sceneSummary:
+          "Questions about signs and leaven give way to the central confession of the chapter. From this point forward, recognition of Jesus cannot be separated from the path toward suffering.",
+        focusWords: ["Christ", "rock", "cross", "life"],
+        differences: [
+          {
+            title: "Church or assembly",
+            body:
+              "The term often translated 'church' can sound institutional to modern readers, but in Matthew it first names a gathered community formed around Jesus' confession."
+          },
+          {
+            title: "Lose life to find it",
+            body:
+              "The word for life can also suggest soul or self. Matthew compresses identity, destiny, and embodied existence into one demanding paradox."
+          }
+        ]
+      },
+      17: {
+        title: "Transfiguration and the beloved Son",
+        summary:
+          "Matthew 17 joins the mountain of transfiguration to healing, renewed passion prediction, and the temple-tax episode back in Capernaum.",
+        sceneTitle: "Glory on the mountain, humility on the road",
+        sceneSummary:
+          "The chapter begins in radiance and fear, then returns to ordinary human struggle: failed disciples, a suffering child, hard teaching, and a question about the temple tax.",
+        focusWords: ["listen", "faith", "rise", "Son"],
+        differences: [
+          {
+            title: "Listen to him",
+            body:
+              "The heavenly voice does more than identify Jesus. It redirects authority so that Moses and Elijah now frame the one whom the disciples must hear."
+          },
+          {
+            title: "Faith like a mustard seed",
+            body:
+              "The point is not the magical power of tiny quantity alone. Matthew pairs smallness with genuine trust that acts from dependence rather than spectacle."
+          }
+        ]
+      },
+      18: {
+        title: "Greatness, stumbling, and forgiveness",
+        summary:
+          "Matthew 18 gathers teaching on humility, care for the little ones, communal discipline, and the costly practice of forgiveness.",
+        sceneTitle: "Life together among disciples",
+        sceneSummary:
+          "A child is set in the middle, lost sheep matter, confrontation is regulated, and the chapter ends with an unforgiving servant. Community is measured by humble care and mercy.",
+        focusWords: ["child", "little ones", "forgive", "brother"],
+        differences: [
+          {
+            title: "Little ones",
+            body:
+              "The phrase can refer to literal children, but Matthew also uses it for vulnerable believers who must not be despised or caused to stumble."
+          },
+          {
+            title: "Seventy-seven times",
+            body:
+              "Whether rendered seventy times seven or seventy-seven, the force is the same: forgiveness is not being turned into a countable limit."
+          }
+        ]
+      },
+      19: {
+        title: "Marriage, children, and costly discipleship",
+        summary:
+          "Matthew 19 moves through teaching on marriage and divorce, blessing of children, and the encounter with the rich young man.",
+        sceneTitle: "Costly obedience on the road south",
+        sceneSummary:
+          "Questions that sound practical quickly become searching. Covenant union, childlike reception, wealth, and reward are all drawn into one demanding vision of discipleship.",
+        focusWords: ["one flesh", "children", "perfect", "follow"],
+        differences: [
+          {
+            title: "Hardness of heart",
+            body:
+              "Jesus explains Moses' concession not as ideal law but as accommodation to a resistant human condition that the kingdom now exposes."
+          },
+          {
+            title: "Perfect",
+            body:
+              "When Jesus says 'be perfect' or 'if you would be perfect,' the sense is closer to completeness or wholeness than to flawless performance."
+          }
+        ]
+      },
+      20: {
+        title: "Vineyard grace and the road to Jerusalem",
+        summary:
+          "Matthew 20 holds together the parable of the vineyard workers, another passion prediction, and acts of mercy on the way out of Jericho.",
+        sceneTitle: "Grace that unsettles calculation",
+        sceneSummary:
+          "This chapter keeps overturning rank. Late workers receive generously, the Son of Man defines greatness through service, and two blind men see what many sighted followers still miss.",
+        focusWords: ["kingdom", "last and first", "serve", "mercy"],
+        differences: [
+          {
+            title: "Denarius and fairness",
+            body:
+              "The parable is not mainly about payroll justice in the abstract. It reveals a master whose generosity exceeds normal calculations of proportional reward."
+          },
+          {
+            title: "Ransom for many",
+            body:
+              "This is one of Matthew's densest sayings. The language evokes liberation through costly substitution without being reduced to a single narrow formula."
+          }
+        ]
+      },
+      21: {
+        title: "The king enters Jerusalem",
+        summary:
+          "Matthew 21 brings Jesus into Jerusalem amid acclamation, temple confrontation, judgment on the fig tree, and parables of rejected authority.",
+        sceneTitle: "Entry, cleansing, and challenge",
+        sceneSummary:
+          "The chapter is public and charged from beginning to end. Crowds cry out, children continue the praise, leaders demand explanations, and parables turn accusation back on the hearers.",
+        focusWords: ["Hosanna", "king", "temple", "stone"],
+        differences: [
+          {
+            title: "Hosanna",
+            body:
+              "What sounds like praise also carries the older force of a plea for saving help, which makes the entry scene both celebratory and urgent."
+          },
+          {
+            title: "The stone the builders rejected",
+            body:
+              "Matthew uses the psalm quotation not as decoration but as an interpretive key for the whole collision between Jesus and the leaders in Jerusalem."
+          }
+        ]
+      },
+      22: {
+        title: "Parables and questions in the temple",
+        summary:
+          "Matthew 22 continues the Jerusalem confrontations through the wedding banquet parable and a series of legal and political questions put to Jesus.",
+        sceneTitle: "The wisdom contest in Jerusalem",
+        sceneSummary:
+          "Invitations are refused, a guest is exposed, Caesar's coin is produced, resurrection is debated, and the law is gathered into love of God and neighbor.",
+        focusWords: ["invite", "wedding", "Caesar", "love"],
+        differences: [
+          {
+            title: "Render to Caesar",
+            body:
+              "The saying is not a neat separation of religion and politics. Jesus answers by exposing competing claims of image, loyalty, and belonging."
+          },
+          {
+            title: "On these two commandments",
+            body:
+              "Matthew presents love of God and neighbor not as a reduction of the law into something easier, but as its living center and summary."
+          }
+        ]
+      },
+      23: {
+        title: "Woes against performative religion",
+        summary:
+          "Matthew 23 is a fierce public denunciation of scribes and Pharisees whose visible piety conceals injustice, pride, and resistance to God's messengers.",
+        sceneTitle: "Judgment on religious display",
+        sceneSummary:
+          "The chapter turns repeated woes into a kind of prophetic hammer. External honor, enlarged symbols, and polished surfaces are exposed as masks that hide inner ruin.",
+        focusWords: ["woe", "hypocrite", "justice", "Jerusalem"],
+        differences: [
+          {
+            title: "Hypocrite",
+            body:
+              "The word originally evokes staged performance. Matthew's accusation is not mere inconsistency but spirituality that has become theatrical."
+          },
+          {
+            title: "Weightier matters",
+            body:
+              "Jesus does not deny tithing minor herbs. He condemns a pattern in which precision on the margins excuses the neglect of justice, mercy, and faithfulness."
+          }
+        ]
+      },
+      24: {
+        title: "The Olivet discourse",
+        summary:
+          "Matthew 24 places the disciples before Jesus' long discourse about the temple, tribulation, vigilance, and the coming of the Son of Man.",
+        sceneTitle: "Watchfulness from the Mount of Olives",
+        sceneSummary:
+          "The chapter moves through upheaval, deception, endurance, and delayed expectation. Images of collapse are repeatedly joined to commands for patient alertness.",
+        focusWords: ["watch", "endure", "coming", "Son of Man"],
+        differences: [
+          {
+            title: "This generation",
+            body:
+              "Readers have long debated how narrowly or broadly to hear the phrase. Matthew leaves the saying close to historical urgency while also embedding it in a larger apocalyptic horizon."
+          },
+          {
+            title: "Watch therefore",
+            body:
+              "Watchfulness here is not panic. It is disciplined readiness in a time when dates cannot be mastered and false certainty is dangerous."
+          }
+        ]
+      },
+      25: {
+        title: "Readiness, stewardship, and judgment",
+        summary:
+          "Matthew 25 develops the themes of waiting and accountability through the ten virgins, the talents, and the judgment of the nations.",
+        sceneTitle: "Parables of delayed arrival",
+        sceneSummary:
+          "Each unit tests preparedness in a different way. Oil must be ready before midnight, entrusted wealth must be used faithfully, and the king is finally met in the least visible neighbors.",
+        focusWords: ["ready", "talents", "least of these", "inherit"],
+        differences: [
+          {
+            title: "Talents",
+            body:
+              "Modern readers often hear 'talent' as natural ability, but in the parable it is first a very large sum of money entrusted to servants."
+          },
+          {
+            title: "The least of these",
+            body:
+              "Matthew's phrase can be read narrowly for Jesus' vulnerable brothers or more broadly for those in need; either way, the chapter refuses to separate final judgment from enacted mercy."
+          }
+        ]
+      },
       26: {
+        title: "Anointing, supper, and Gethsemane",
+        summary:
+          "Matthew 26 moves from plot and anointing to the Passover meal, the agony of Gethsemane, betrayal, arrest, and Peter's denial.",
+        sceneTitle: "The night of surrender and failure",
+        sceneSummary:
+          "The chapter is long and intimate. Love and treachery share the same table, prayer wrestles with impending violence, and even the closest disciple collapses under pressure.",
+        focusWords: ["covenant", "watch", "cup", "deny"],
+        differences: [
+          {
+            title: "My blood of the covenant",
+            body:
+              "Matthew keeps sacrificial and covenant language tightly joined here, so the meal interprets the cross before the arrest has even begun."
+          },
+          {
+            title: "Watch with me",
+            body:
+              "The failure in Gethsemane is not only physical sleepiness. It reveals how unprepared the disciples are to remain present in the hour of testing."
+          }
+        ],
         verseArt: {
           26: {
             src: "https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20The%20Last%20Supper%20high%20res.jpg",
@@ -884,10 +1588,11 @@ const BOOK_METADATA = {
     ],
     glossary: [
       {
-        term: "euthys",
-        meta: "Greek: immediately, at once",
+        term: "эвфюс",
+        aliases: ["эвфюс", "euthys"],
+        meta: "греческое слово у Марка: сразу, тотчас",
         description:
-          "A signature Mark term that keeps the Gospel pressing forward and heightens the sense of urgency."
+          "Характерное для Марка слово, которое постоянно ускоряет повествование и подчёркивает срочность действия."
       }
     ],
     differences: [
@@ -939,22 +1644,25 @@ const BOOK_METADATA = {
         ],
         glossary: [
           {
-            term: "deute opiso mou",
-            meta: "Greek: come after me",
+            term: "деуте описо му",
+            aliases: ["деуте описо му", "deute opiso mou"],
+            meta: "греческое выражение: идите за Мной",
             description:
-              "More than walking behind someone. It is an invitation into apprenticeship, shared road, and transferred allegiance."
+              "Не просто просьба идти следом, а приглашение к ученичеству, общей дороге и новой верности."
           },
           {
-            term: "halieis anthropon",
-            meta: "Greek: fishers of people",
+            term: "халиеи антропон",
+            aliases: ["халиеи антропон", "halieis anthropon"],
+            meta: "греческое выражение: ловцы людей",
             description:
-              "Mark keeps the original trade image but transforms its purpose. Their craft becomes a metaphor for gathering people toward life."
+              "Марк сохраняет образ рыбаков, но меняет его смысл: прежнее ремесло становится образом собирания людей к жизни."
           },
           {
-            term: "euthys",
-            meta: "Greek: immediately, at once",
+            term: "эвфюс",
+            aliases: ["эвфюс", "euthys"],
+            meta: "греческое слово у Марка: сразу, тотчас",
             description:
-              "A hallmark Mark word. It gives the Gospel velocity and underlines how quickly decisive moments arrive."
+              "Ключевое слово Марка, задающее скорость повествования и ощущение, что всё происходит без промедления."
           }
         ],
         focusWords: ["follow", "immediately", "fishers"],
@@ -969,7 +1677,21 @@ const BOOK_METADATA = {
             body:
               "Older English keeps 'men,' but the wider meaning is human beings. Rendering it as 'people' often restores the broader sense."
           }
-        ]
+        ],
+        verseArt: {
+          9: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Baptism%20of%20Christ%20%28Verrocchio%20and%20Leonardo%29.jpg",
+            credit: "Andrea del Verrocchio and Leonardo da Vinci, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 1:9 names the baptism itself, so Verrocchio and Leonardo's Baptism of Christ serves as a natural verse-level match."
+          },
+          13: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Ary%20Scheffer%20-%20The%20Temptation%20of%20Christ%20%281854%29.jpg",
+            credit: "Ary Scheffer, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 1:13 compresses the wilderness testing into a stark scene, and Scheffer's Temptation of Christ fits that concentrated struggle."
+          }
+        }
       },
       4: {
         verseArt: {
@@ -981,23 +1703,141 @@ const BOOK_METADATA = {
           }
         }
       },
+      5: {
+        verseArt: {
+          13: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Briton%20Riviere%20%281840-1920%29%20-%20The%20Miracle%20of%20the%20Gaderene%20Swine%20-%20N01515%20-%20National%20Gallery.jpg",
+            credit: "Briton Riviere, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 5:13 reaches the violent rush of the swine, and Riviere's Gaderene Swine gives that exact moment a rare, specific painting."
+          },
+          41: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Peter%20De%20Witte%20%28Candid%29%20-%20Raising%20of%20Jairus%E2%80%99%20Daughter%20from%20the%20Dead%20-%20O%2010652%20-%20National%20Gallery%20Prague.jpg",
+            credit: "Peter Candid (Peter de Witte), public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 5:41 holds the touch and command at Jairus's house, and Peter Candid's scene aligns closely with that awakening moment."
+          }
+        }
+      },
+      6: {
+        verseArt: {
+          41: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Jacopo%20Tintoretto%20-%20The%20Miracle%20of%20the%20Loaves%20and%20Fishes%20-%20WGA22566.jpg",
+            credit: "Jacopo Tintoretto, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 6:41 turns on taking, blessing, breaking, and giving, and Tintoretto's loaves-and-fishes painting works well at that verse."
+          },
+          48: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Christ%20walking%20on%20the%20water%2C%20Henry%20Ossawa%20Tanner.jpg",
+            credit: "Henry Ossawa Tanner, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 6:48 names Jesus coming toward the boat on the sea, which Tanner renders with the right mixture of distance, night, and awe."
+          }
+        }
+      },
+      9: {
+        verseArt: {
+          2: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Bellini%20Transfiguration.jpg",
+            credit: "Giovanni Bellini, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 9:2 introduces the transfiguration itself, and Bellini's image remains one of the clearest visual companions to that revelation."
+          }
+        }
+      },
+      10: {
+        verseArt: {
+          16: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Christ%20Blessing%20the%20Children%20%28SM%201723%29.png",
+            credit: "Lucas Cranach the Elder, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 10:16 is the embrace and blessing of the children, so Cranach's painting fits the verse with unusual precision."
+          },
+          52: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/William%20Blake%20-%20Christ%20Giving%20Sight%20to%20Bartimaeus%20-%20Google%20Art%20Project.jpg",
+            credit: "William Blake, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 10:52 names Bartimaeus receiving sight and following on the road, and Blake gives that healing a direct visual counterpart."
+          }
+        }
+      },
+      11: {
+        verseArt: {
+          7: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Giotto%20di%20Bondone%20-%20No.%2026%20Scenes%20from%20the%20Life%20of%20Christ%20-%2010.%20Entry%20into%20Jerusalem%20-%20WGA09206.jpg",
+            credit: "Giotto, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 11:7 places Jesus on the colt before the city, and Giotto's Entry into Jerusalem is a strong verse-level anchor for that approach."
+          }
+        }
+      },
+      12: {
+        verseArt: {
+          42: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/John%20Everett%20Millais%20%281829-1896%29%20-%20A%20Widow%27s%20Mite%20-%201891P26%20-%20Birmingham%20Museums%20Trust.jpg",
+            credit: "John Everett Millais, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 12:42 isolates the widow's small offering, and Millais gives that exact act a focused and memorable painting."
+          }
+        }
+      },
       14: {
         verseArt: {
+          3: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Polidoro%20Lanzani%20-%20Salbung%20Christi%20in%20Bethanien%20GG%2051.jpg",
+            credit: "Polidoro Lanzani, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 14:3 is the Bethany anointing itself, and Lanzani's Anointing of Christ in Bethany is an unusually exact match."
+          },
           22: {
             src: "https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20The%20Last%20Supper%20high%20res.jpg",
             credit: "Leonardo da Vinci, public-domain image via Wikimedia Commons",
             caption:
               "Mark 14:22 reaches the bread-saying of the supper, and Leonardo's mural remains the most instantly legible visual pairing."
+          },
+          35: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Andrea%20Mantegna%20036.jpg",
+            credit: "Andrea Mantegna, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 14:35 narrows to Jesus praying in Gethsemane, and Mantegna's Agony in the Garden catches the solitude and pressure of that moment."
+          },
+          72: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Denial%20of%20St.%20Peter%20-%20Gerard%20Seghers%20-%20Google%20Cultural%20Institute.jpg",
+            credit: "Gerard Seghers, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 14:72 is Peter's collapse under the cockcrow, and Seghers gives that recognition scene a compelling visual form."
           }
         }
       },
       15: {
         verseArt: {
+          17: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Titian%20-%20Christ%20crowned%20with%20Thorns%20-%20Louvre.jpg",
+            credit: "Titian, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 15:17 names the crowning with thorns, and Titian's painting makes that humiliation visible without diffusing its cruelty."
+          },
           24: {
             src: "https://commons.wikimedia.org/wiki/Special:FilePath/Crucifixion%20of%20Christ%20%28circa%201490%29.jpg",
             credit: "Master from Nuremberg or Bamberg, public-domain image via Wikimedia Commons",
             caption:
               "Mark 15:24 names the crucifixion with Mark's stark brevity, so a direct crucifixion image supports the verse without softening it."
+          },
+          46: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Caravaggio%20-%20Entombment%20of%20Christ.jpg",
+            credit: "Caravaggio, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 15:46 turns to wrapping and laying Jesus in the tomb, and Caravaggio's Entombment gives that burial scene a strong visual companion."
+          }
+        }
+      },
+      16: {
+        verseArt: {
+          6: {
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Annibale%20Carracci%20-%20Holy%20Women%20at%20Christ%27%20s%20Tomb%20-%20WGA4454.jpg",
+            credit: "Annibale Carracci, public-domain image via Wikimedia Commons",
+            caption:
+              "Mark 16:6 is the angelic announcement at the empty tomb, and Carracci's Holy Women at Christ's Tomb matches that scene closely."
           }
         }
       }
@@ -1814,7 +2654,10 @@ async function buildLibrary() {
       const russianChapterTexts = verses.map((verse) => verse.translations.russian).filter(Boolean);
       const sceneGlossary = mergeGlossaryEntries(
         override.glossary ?? metadata.glossary,
-        buildRareGlossaryEntries(russianChapterTexts)
+        [
+          ...getBookSpecificGlossaryEntries(bookId, chapterNumber),
+          ...buildRareGlossaryEntries(russianChapterTexts)
+        ]
       );
 
       return {

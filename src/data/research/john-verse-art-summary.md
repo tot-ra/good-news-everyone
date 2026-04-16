@@ -1,0 +1,179 @@
+# Оценка картин по Иоанну
+
+Шкала:
+- `specific` — есть существующая картина, которая довольно точно совпадает именно с данным стихом.
+- `scene` — есть хорошая картина для эпизода в целом, но не обязательно для микро-момента стиха.
+- `none` — я не отметил устойчивую картину, которая хорошо попадает именно в этот стих.
+
+## Сводка по главам
+
+- Иоанна 1: specific 0, scene 0, none 51
+- Иоанна 2: specific 3, scene 12, none 10
+- Иоанна 3: specific 2, scene 10, none 24
+- Иоанна 4: specific 3, scene 19, none 32
+- Иоанна 5: specific 2, scene 6, none 39
+- Иоанна 6: specific 6, scene 13, none 52
+- Иоанна 7: specific 0, scene 0, none 53
+- Иоанна 8: specific 0, scene 0, none 59
+- Иоанна 9: specific 2, scene 5, none 34
+- Иоанна 10: specific 0, scene 0, none 42
+- Иоанна 11: specific 2, scene 5, none 50
+- Иоанна 12: specific 0, scene 4, none 46
+- Иоанна 13: specific 1, scene 11, none 26
+- Иоанна 14: specific 0, scene 0, none 31
+- Иоанна 15: specific 0, scene 0, none 27
+- Иоанна 16: specific 0, scene 0, none 33
+- Иоанна 17: specific 0, scene 0, none 26
+- Иоанна 18: specific 0, scene 0, none 40
+- Иоанна 19: specific 4, scene 6, none 32
+- Иоанна 20: specific 5, scene 8, none 18
+- Иоанна 21: specific 3, scene 10, none 12
+
+## Выделенные стихи
+
+- Иоанна 2:1 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:2 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:3 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:4 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:5 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:6 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:7 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:8 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:9 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:10 — scene; Paolo Veronese, "The Marriage at Cana"; https://commons.wikimedia.org/wiki/File:Veronese,_The_Marriage_at_Cana_(1563).jpg
+- Иоанна 2:13 — scene; El Greco, "Christ Cleansing the Temple"; https://commons.wikimedia.org/wiki/File:Christ_Cleansing_the_Temple_by_El_Greco_-_Q63117265.jpg
+- Иоанна 2:14 — specific; El Greco, "Christ Cleansing the Temple"; https://commons.wikimedia.org/wiki/File:Christ_Cleansing_the_Temple_by_El_Greco_-_Q63117265.jpg
+- Иоанна 2:15 — specific; El Greco, "Christ Cleansing the Temple"; https://commons.wikimedia.org/wiki/File:Christ_Cleansing_the_Temple_by_El_Greco_-_Q63117265.jpg
+- Иоанна 2:16 — specific; El Greco, "Christ Cleansing the Temple"; https://commons.wikimedia.org/wiki/File:Christ_Cleansing_the_Temple_by_El_Greco_-_Q63117265.jpg
+- Иоанна 2:17 — scene; El Greco, "Christ Cleansing the Temple"; https://commons.wikimedia.org/wiki/File:Christ_Cleansing_the_Temple_by_El_Greco_-_Q63117265.jpg
+- Иоанна 3:1 — specific; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:2 — specific; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:3 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:4 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:5 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:6 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:7 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:8 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:9 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:10 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:11 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 3:12 — scene; Henry Ossawa Tanner, "Christ and Nicodemus"; https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg
+- Иоанна 4:5 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:6 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:7 — specific; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:8 — specific; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:9 — specific; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:10 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:11 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:12 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:13 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:14 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:15 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:16 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:17 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:18 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:19 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:20 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:21 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:22 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:23 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:24 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:25 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 4:26 — scene; Annibale Carracci, "Christ and the Samaritan Woman at the Well"; https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_Christ_and_the_Samaritan_Woman_-_Google_Art_Project.jpg
+- Иоанна 5:2 — scene; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 5:3 — scene; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 5:4 — scene; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 5:5 — scene; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 5:6 — scene; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 5:7 — scene; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 5:8 — specific; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 5:9 — specific; Bartolome Esteban Murillo, "Christ healing the Paralytic at the Pool of Bethesda"; https://commons.wikimedia.org/wiki/File:Curacion_del_paralitico_Murillo_1670.jpg
+- Иоанна 6:1 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:2 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:3 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:4 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:5 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:6 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:7 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:8 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:9 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:10 — scene; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:11 — specific; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:12 — specific; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:13 — specific; John Martin, "Feeding the Five Thousand"; https://commons.wikimedia.org/wiki/File:John_Martin_-_Feeding_the_Five_Thousand_-_B1977.14.4260_-_Yale_Center_for_British_Art.jpg
+- Иоанна 6:16 — scene; Henry Ossawa Tanner, "Christ walking on the water"; https://commons.wikimedia.org/wiki/Category:Christ_walking_on_the_water,_Henry_Ossawa_Tanner
+- Иоанна 6:17 — scene; Henry Ossawa Tanner, "Christ walking on the water"; https://commons.wikimedia.org/wiki/Category:Christ_walking_on_the_water,_Henry_Ossawa_Tanner
+- Иоанна 6:18 — scene; Henry Ossawa Tanner, "Christ walking on the water"; https://commons.wikimedia.org/wiki/Category:Christ_walking_on_the_water,_Henry_Ossawa_Tanner
+- Иоанна 6:19 — specific; Henry Ossawa Tanner, "Christ walking on the water"; https://commons.wikimedia.org/wiki/Category:Christ_walking_on_the_water,_Henry_Ossawa_Tanner
+- Иоанна 6:20 — specific; Henry Ossawa Tanner, "Christ walking on the water"; https://commons.wikimedia.org/wiki/Category:Christ_walking_on_the_water,_Henry_Ossawa_Tanner
+- Иоанна 6:21 — specific; Henry Ossawa Tanner, "Christ walking on the water"; https://commons.wikimedia.org/wiki/Category:Christ_walking_on_the_water,_Henry_Ossawa_Tanner
+- Иоанна 9:1 — scene; El Greco, "Christ Healing the Blind"; https://commons.wikimedia.org/wiki/File:El_Greco_-_Christ_Healing_the_Blind_-_WGA10420.jpg
+- Иоанна 9:2 — scene; El Greco, "Christ Healing the Blind"; https://commons.wikimedia.org/wiki/File:El_Greco_-_Christ_Healing_the_Blind_-_WGA10420.jpg
+- Иоанна 9:3 — scene; El Greco, "Christ Healing the Blind"; https://commons.wikimedia.org/wiki/File:El_Greco_-_Christ_Healing_the_Blind_-_WGA10420.jpg
+- Иоанна 9:4 — scene; El Greco, "Christ Healing the Blind"; https://commons.wikimedia.org/wiki/File:El_Greco_-_Christ_Healing_the_Blind_-_WGA10420.jpg
+- Иоанна 9:5 — scene; El Greco, "Christ Healing the Blind"; https://commons.wikimedia.org/wiki/File:El_Greco_-_Christ_Healing_the_Blind_-_WGA10420.jpg
+- Иоанна 9:6 — specific; El Greco, "Christ Healing the Blind"; https://commons.wikimedia.org/wiki/File:El_Greco_-_Christ_Healing_the_Blind_-_WGA10420.jpg
+- Иоанна 9:7 — specific; El Greco, "Christ Healing the Blind"; https://commons.wikimedia.org/wiki/File:El_Greco_-_Christ_Healing_the_Blind_-_WGA10420.jpg
+- Иоанна 11:38 — scene; Sebastiano del Piombo, "The Raising of Lazarus"; https://commons.wikimedia.org/wiki/File:Carel_Fabritius_-_Raising_of_Lazarus_(John_11-41-44)_-_M.Ob.563_-_National_Museum_in_Warsaw.jpg
+- Иоанна 11:39 — scene; Sebastiano del Piombo, "The Raising of Lazarus"; https://commons.wikimedia.org/wiki/File:Carel_Fabritius_-_Raising_of_Lazarus_(John_11-41-44)_-_M.Ob.563_-_National_Museum_in_Warsaw.jpg
+- Иоанна 11:40 — scene; Sebastiano del Piombo, "The Raising of Lazarus"; https://commons.wikimedia.org/wiki/File:Carel_Fabritius_-_Raising_of_Lazarus_(John_11-41-44)_-_M.Ob.563_-_National_Museum_in_Warsaw.jpg
+- Иоанна 11:41 — scene; Sebastiano del Piombo, "The Raising of Lazarus"; https://commons.wikimedia.org/wiki/File:Carel_Fabritius_-_Raising_of_Lazarus_(John_11-41-44)_-_M.Ob.563_-_National_Museum_in_Warsaw.jpg
+- Иоанна 11:42 — scene; Sebastiano del Piombo, "The Raising of Lazarus"; https://commons.wikimedia.org/wiki/File:Carel_Fabritius_-_Raising_of_Lazarus_(John_11-41-44)_-_M.Ob.563_-_National_Museum_in_Warsaw.jpg
+- Иоанна 11:43 — specific; Sebastiano del Piombo, "The Raising of Lazarus"; https://commons.wikimedia.org/wiki/File:Carel_Fabritius_-_Raising_of_Lazarus_(John_11-41-44)_-_M.Ob.563_-_National_Museum_in_Warsaw.jpg
+- Иоанна 11:44 — specific; Sebastiano del Piombo, "The Raising of Lazarus"; https://commons.wikimedia.org/wiki/File:Carel_Fabritius_-_Raising_of_Lazarus_(John_11-41-44)_-_M.Ob.563_-_National_Museum_in_Warsaw.jpg
+- Иоанна 12:12 — scene; Pietro Lorenzetti, "The Entry into Jerusalem"; https://commons.wikimedia.org/wiki/File:The_Entry_into_Jerusalem_P1995.jpg
+- Иоанна 12:13 — scene; Pietro Lorenzetti, "The Entry into Jerusalem"; https://commons.wikimedia.org/wiki/File:The_Entry_into_Jerusalem_P1995.jpg
+- Иоанна 12:14 — scene; Pietro Lorenzetti, "The Entry into Jerusalem"; https://commons.wikimedia.org/wiki/File:The_Entry_into_Jerusalem_P1995.jpg
+- Иоанна 12:15 — scene; Pietro Lorenzetti, "The Entry into Jerusalem"; https://commons.wikimedia.org/wiki/File:The_Entry_into_Jerusalem_P1995.jpg
+- Иоанна 13:4 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:5 — specific; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:6 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:7 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:8 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:9 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:10 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:11 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:12 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:13 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:14 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 13:15 — scene; Jacopo Tintoretto, "Christ Washing the Disciples' Feet"; https://commons.wikimedia.org/wiki/File:Prado_washing_feet.jpg
+- Иоанна 19:1 — scene; Antonio Ciseri, "Ecce Homo"; https://commons.wikimedia.org/wiki/File:Eccehomo1.jpg
+- Иоанна 19:2 — scene; Antonio Ciseri, "Ecce Homo"; https://commons.wikimedia.org/wiki/File:Eccehomo1.jpg
+- Иоанна 19:3 — scene; Antonio Ciseri, "Ecce Homo"; https://commons.wikimedia.org/wiki/File:Eccehomo1.jpg
+- Иоанна 19:4 — scene; Antonio Ciseri, "Ecce Homo"; https://commons.wikimedia.org/wiki/File:Eccehomo1.jpg
+- Иоанна 19:5 — specific; Antonio Ciseri, "Ecce Homo"; https://commons.wikimedia.org/wiki/File:Eccehomo1.jpg
+- Иоанна 19:17 — scene; Rogier van der Weyden, "Christ on the Cross with Mary and St John"; https://commons.wikimedia.org/wiki/File:Weyden_Christ_on_the_Cross_with_Mary_and_St_John.jpg
+- Иоанна 19:18 — scene; Rogier van der Weyden, "Christ on the Cross with Mary and St John"; https://commons.wikimedia.org/wiki/File:Weyden_Christ_on_the_Cross_with_Mary_and_St_John.jpg
+- Иоанна 19:25 — specific; Rogier van der Weyden, "Christ on the Cross with Mary and St John"; https://commons.wikimedia.org/wiki/File:Weyden_Christ_on_the_Cross_with_Mary_and_St_John.jpg
+- Иоанна 19:26 — specific; Rogier van der Weyden, "Christ on the Cross with Mary and St John"; https://commons.wikimedia.org/wiki/File:Weyden_Christ_on_the_Cross_with_Mary_and_St_John.jpg
+- Иоанна 19:27 — specific; Rogier van der Weyden, "Christ on the Cross with Mary and St John"; https://commons.wikimedia.org/wiki/File:Weyden_Christ_on_the_Cross_with_Mary_and_St_John.jpg
+- Иоанна 20:11 — scene; Perugino, "Noli Me Tangere"; https://commons.wikimedia.org/wiki/File:Perugino_-_Noli_Me_Tangere_-_1933.1026_-_Art_Institute_of_Chicago.jpg
+- Иоанна 20:12 — scene; Perugino, "Noli Me Tangere"; https://commons.wikimedia.org/wiki/File:Perugino_-_Noli_Me_Tangere_-_1933.1026_-_Art_Institute_of_Chicago.jpg
+- Иоанна 20:13 — scene; Perugino, "Noli Me Tangere"; https://commons.wikimedia.org/wiki/File:Perugino_-_Noli_Me_Tangere_-_1933.1026_-_Art_Institute_of_Chicago.jpg
+- Иоанна 20:14 — specific; Perugino, "Noli Me Tangere"; https://commons.wikimedia.org/wiki/File:Perugino_-_Noli_Me_Tangere_-_1933.1026_-_Art_Institute_of_Chicago.jpg
+- Иоанна 20:15 — specific; Perugino, "Noli Me Tangere"; https://commons.wikimedia.org/wiki/File:Perugino_-_Noli_Me_Tangere_-_1933.1026_-_Art_Institute_of_Chicago.jpg
+- Иоанна 20:16 — specific; Perugino, "Noli Me Tangere"; https://commons.wikimedia.org/wiki/File:Perugino_-_Noli_Me_Tangere_-_1933.1026_-_Art_Institute_of_Chicago.jpg
+- Иоанна 20:17 — specific; Perugino, "Noli Me Tangere"; https://commons.wikimedia.org/wiki/File:Perugino_-_Noli_Me_Tangere_-_1933.1026_-_Art_Institute_of_Chicago.jpg
+- Иоанна 20:24 — scene; Caravaggio, "Doubting Thomas"; https://commons.wikimedia.org/wiki/File:Caravaggio_Doubting_Thomas.jpg
+- Иоанна 20:25 — scene; Caravaggio, "Doubting Thomas"; https://commons.wikimedia.org/wiki/File:Caravaggio_Doubting_Thomas.jpg
+- Иоанна 20:26 — scene; Caravaggio, "Doubting Thomas"; https://commons.wikimedia.org/wiki/File:Caravaggio_Doubting_Thomas.jpg
+- Иоанна 20:27 — specific; Caravaggio, "Doubting Thomas"; https://commons.wikimedia.org/wiki/File:Caravaggio_Doubting_Thomas.jpg
+- Иоанна 20:28 — scene; Caravaggio, "Doubting Thomas"; https://commons.wikimedia.org/wiki/File:Caravaggio_Doubting_Thomas.jpg
+- Иоанна 20:29 — scene; Caravaggio, "Doubting Thomas"; https://commons.wikimedia.org/wiki/File:Caravaggio_Doubting_Thomas.jpg
+- Иоанна 21:1 — scene; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:2 — scene; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:3 — scene; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:4 — scene; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:5 — scene; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:6 — specific; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:7 — specific; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:8 — specific; James Tissot, "The Second Miraculous Draught of Fishes"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Second_Miraculous_Draught_of_Fishes_(La_seconde_p%C3%AAche_miraculeuse)_-_James_Tissot.jpg
+- Иоанна 21:9 — scene; James Tissot, "Meal of Our Lord and the Apostles"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_Meal_of_Our_Lord_and_the_Apostles_(Repas_de_Notre-Seigneur_et_des_ap%C3%B4tres)_-_James_Tissot.jpg
+- Иоанна 21:10 — scene; James Tissot, "Meal of Our Lord and the Apostles"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_Meal_of_Our_Lord_and_the_Apostles_(Repas_de_Notre-Seigneur_et_des_ap%C3%B4tres)_-_James_Tissot.jpg
+- Иоанна 21:11 — scene; James Tissot, "Meal of Our Lord and the Apostles"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_Meal_of_Our_Lord_and_the_Apostles_(Repas_de_Notre-Seigneur_et_des_ap%C3%B4tres)_-_James_Tissot.jpg
+- Иоанна 21:12 — scene; James Tissot, "Meal of Our Lord and the Apostles"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_Meal_of_Our_Lord_and_the_Apostles_(Repas_de_Notre-Seigneur_et_des_ap%C3%B4tres)_-_James_Tissot.jpg
+- Иоанна 21:13 — scene; James Tissot, "Meal of Our Lord and the Apostles"; https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_Meal_of_Our_Lord_and_the_Apostles_(Repas_de_Notre-Seigneur_et_des_ap%C3%B4tres)_-_James_Tissot.jpg
+
+## Примечание
+
+Неотмеченные стихи я сознательно оставил без кандидата: цель была не найти любую религиозную картину рядом по теме, а отметить только те места, где уже существует действительно уместная и устойчивая живописная сцена.

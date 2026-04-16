@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:texts": "node scripts/build-gospels-data.mjs && node scripts/add-translation-variants.mjs && node scripts/localize-russian-metadata.mjs",
+    "build:texts": "node scripts/build-gospels-data.mjs && node scripts/build-greek-form-fallbacks.mjs && node scripts/add-translation-variants.mjs && node scripts/localize-russian-metadata.mjs && node scripts/update-luke-art.mjs",
+    "build:greek-forms": "node scripts/build-greek-form-fallbacks.mjs",
     "start": "vite --host 0.0.0.0",
     "dev": "vite",
     "build": "vite build",
