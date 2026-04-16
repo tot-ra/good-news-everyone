@@ -1,0 +1,19 @@
+{
+  "name": "good-news-everyone",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:texts": "node scripts/build-gospels-data.mjs && node scripts/add-translation-variants.mjs && node scripts/localize-russian-metadata.mjs",
+    "start": "vite --host 0.0.0.0",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.5.14"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  }
+}
