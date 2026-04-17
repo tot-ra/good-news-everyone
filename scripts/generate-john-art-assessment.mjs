@@ -29,10 +29,12 @@ const ARTWORKS = {
       "Для Иоанна 2:13-17 есть устойчивая и очень узнаваемая иконография очищения храма."
   },
   "nicodemus-at-night": {
-    title: "Christ and Nicodemus",
+    title: "Nicodemus Visiting Jesus",
     artist: "Henry Ossawa Tanner",
-    pageUrl: 'https://commons.wikimedia.org/wiki/File:%22Christ_and_Nicodemus%22_-_NARA_-_559136.jpg',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/%22Christ%20and%20Nicodemus%22%20-%20NARA%20-%20559136.jpg',
+    pageUrl:
+      "https://commons.wikimedia.org/wiki/File:Nicodemus_Visiting_Jesus%2C_by_Henry_Ossawa_Tanner_adjusted3.jpg",
+    imageUrl:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Nicodemus%20Visiting%20Jesus%2C%20by%20Henry%20Ossawa%20Tanner%20adjusted3.jpg",
     note:
       "Ночной визит Никодима имеет прямую живописную традицию, поэтому Иоанна 3:2 подходит особенно точно."
   },

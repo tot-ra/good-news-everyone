@@ -634,6 +634,145 @@ h1 {
   color: var(--muted);
 }
 
+.chapter-music {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.92), rgba(247, 239, 226, 0.84)),
+    radial-gradient(circle at top left, rgba(169, 120, 50, 0.14), transparent 34%);
+  border: 1px solid rgba(169, 120, 50, 0.18);
+}
+
+.chapter-music--empty {
+  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.chapter-music__header {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.58fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.chapter-music__label,
+.chapter-music__title,
+.chapter-track__index {
+  margin: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.chapter-music h3,
+.chapter-music__copy,
+.chapter-music__detail,
+.chapter-music__note,
+.chapter-music__empty {
+  margin: 0;
+}
+
+.chapter-music__copy,
+.chapter-music__detail,
+.chapter-music__note,
+.chapter-music__empty {
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.chapter-music__layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.2fr);
+  gap: 18px;
+}
+
+.chapter-music__list {
+  display: grid;
+  gap: 10px;
+}
+
+.chapter-track {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.58);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.chapter-track:hover,
+.chapter-track:focus-visible,
+.chapter-track.is-active {
+  transform: translateY(-2px);
+  outline: none;
+  border-color: rgba(169, 120, 50, 0.44);
+  background: rgba(250, 242, 225, 0.98);
+}
+
+.chapter-track__body {
+  display: grid;
+  gap: 4px;
+}
+
+.chapter-track__body strong,
+.chapter-track__body span {
+  display: block;
+}
+
+.chapter-track__body span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.chapter-music__player {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(68, 47, 31, 0.1);
+}
+
+.chapter-music__meta {
+  display: grid;
+  gap: 6px;
+}
+
+.chapter-music__title {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.chapter-music__player iframe {
+  width: 100%;
+  min-height: 352px;
+  border: 0;
+  border-radius: 18px;
+}
+
+.chapter-music__link {
+  justify-self: start;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(169, 120, 50, 0.28);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.chapter-music__link:hover {
+  color: var(--gold);
+}
+
 .chapter-label {
   margin: 0 0 8px;
   font-size: 0.76rem;
@@ -1464,6 +1603,9 @@ h1 {
   .hero,
   .context-column,
   .chapter-banner,
+  .chapter-music--empty,
+  .chapter-music__header,
+  .chapter-music__layout,
   .passage-nav {
     grid-template-columns: 1fr;
   }

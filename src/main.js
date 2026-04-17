@@ -8,6 +8,7 @@ import {
   commentarySourceLibrary,
   getVerseCommentaries
 } from "./commentary.js";
+import { getChapterMusicTracks } from "./chapter-music.js";
 import { greekFormFallbacks } from "./greek-form-fallbacks.js";
 import { greekLemmaLexicon } from "./lexicon.js";
 import { greekLemmaFallbackLexicon } from "./lexicon-fallbacks.js";
@@ -449,6 +450,7 @@ const state = {
     refId: null
   },
   activeArtwork: null,
+  selectedChapterTrackIds: {},
   activeCommentary: {
     sceneKey: null,
     verseNumber: null,
@@ -1681,6 +1683,231 @@ function getLocationsLabel(locations = []) {
   return locations.map((location) => getLocationLabel(location)).join(" · ");
 }
 
+function getChapterMusicStateKey(bookId, chapterNumber) {
+  return `${bookId}:${chapterNumber}`;
+}
+
+function getChapterMusic(scene) {
+  return getChapterMusicTracks(scene.bookId, scene.chapterNumber).slice(0, 5);
+}
+
+function getSpotifyEmbedUrl(spotifyUrl) {
+  try {
+    const url = new URL(spotifyUrl);
+    const parts = url.pathname.split("/").filter(Boolean);
+
+    let offset = 0;
+    if (parts[0] === "embed") {
+      offset = 1;
+    } else if (parts[0]?.startsWith("intl-")) {
+      offset = 1;
+    }
+
+    const type = parts[offset];
+    const id = parts[offset + 1];
+
+    if (!type || !id) {
+      return "";
+    }
+
+    return `https://open.spotify.com/embed/${type}/${id}?utm_source=generator`;
+  } catch {
+    return "";
+  }
+}
+
+function getAppleMusicEmbedUrl(appleMusicUrl) {
+  try {
+    const url = new URL(appleMusicUrl);
+    if (!url.hostname.includes("music.apple.com")) {
+      return "";
+    }
+
+    return `https://embed.music.apple.com${url.pathname}`;
+  } catch {
+    return "";
+  }
+}
+
+function getSoundCloudEmbedUrl(soundCloudUrl) {
+  try {
+    const url = new URL(soundCloudUrl);
+    if (!url.hostname.includes("soundcloud.com")) {
+      return "";
+    }
+
+    return `https://w.soundcloud.com/player/?url=${encodeURIComponent(
+      soundCloudUrl
+    )}&color=%23a97832&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true`;
+  } catch {
+    return "";
+  }
+}
+
+function getTrackExternalUrl(track) {
+  return track.externalUrl ?? track.spotifyUrl ?? "";
+}
+
+function getTrackPlatformLabel(track) {
+  if (track.platformLabel) {
+    return track.platformLabel;
+  }
+
+  const externalUrl = getTrackExternalUrl(track);
+
+  if (externalUrl.includes("open.spotify.com")) {
+    return "Spotify";
+  }
+
+  if (externalUrl.includes("music.apple.com")) {
+    return "Apple Music";
+  }
+
+  if (externalUrl.includes("soundcloud.com")) {
+    return "SoundCloud";
+  }
+
+  return "источнике";
+}
+
+function getTrackEmbedUrl(track) {
+  if (track.embedUrl) {
+    return track.embedUrl;
+  }
+
+  const externalUrl = getTrackExternalUrl(track);
+
+  if (!externalUrl) {
+    return "";
+  }
+
+  if (externalUrl.includes("open.spotify.com")) {
+    return getSpotifyEmbedUrl(externalUrl);
+  }
+
+  if (externalUrl.includes("music.apple.com")) {
+    return getAppleMusicEmbedUrl(externalUrl);
+  }
+
+  if (externalUrl.includes("soundcloud.com")) {
+    return getSoundCloudEmbedUrl(externalUrl);
+  }
+
+  return "";
+}
+
+function getTrackEmbedHeight(track) {
+  const externalUrl = getTrackExternalUrl(track);
+
+  if (externalUrl.includes("music.apple.com")) {
+    return 175;
+  }
+
+  if (externalUrl.includes("soundcloud.com")) {
+    return 166;
+  }
+
+  return 352;
+}
+
+function getSelectedChapterTrack(scene) {
+  const tracks = getChapterMusic(scene);
+  if (tracks.length === 0) {
+    return null;
+  }
+
+  const stateKey = getChapterMusicStateKey(scene.bookId, scene.chapterNumber);
+  const selectedTrackId = state.selectedChapterTrackIds[stateKey];
+
+  return tracks.find((track) => track.id === selectedTrackId) ?? tracks[0];
+}
+
+function renderChapterMusic(scene) {
+  const tracks = getChapterMusic(scene);
+
+  if (tracks.length === 0) {
+    return `
+      <section class="chapter-music chapter-music--empty">
+        <div>
+          <p class="chapter-music__label">Музыка главы</p>
+          <h3>Прямая музыкальная привязка</h3>
+        </div>
+        <p class="chapter-music__empty">
+          Для этой главы пока нет точной подборки произведений, где текст или сюжет достаточно прямо совпадает с новозаветной сценой.
+        </p>
+      </section>
+    `;
+  }
+
+  const selectedTrack = getSelectedChapterTrack(scene);
+  const selectedTrackEmbedUrl = getTrackEmbedUrl(selectedTrack);
+  const selectedTrackExternalUrl = getTrackExternalUrl(selectedTrack);
+  const selectedTrackPlatformLabel = getTrackPlatformLabel(selectedTrack);
+
+  return `
+    <section class="chapter-music">
+      <div class="chapter-music__header">
+        <div>
+          <p class="chapter-music__label">Музыка главы</p>
+          <h3>Классика, привязанная к тексту</h3>
+        </div>
+        <p class="chapter-music__copy">
+          Подборка только из произведений, где связь с этой главой достаточно прямая по тексту, сцене или богослужебной традиции. Не больше пяти треков на главу.
+        </p>
+      </div>
+
+      <div class="chapter-music__layout">
+        <div class="chapter-music__list" role="list" aria-label="Треки для этой главы">
+          ${tracks
+            .map(
+              (track, index) => `
+                <button
+                  class="chapter-track${track.id === selectedTrack.id ? " is-active" : ""}"
+                  type="button"
+                  data-chapter-track="${track.id}"
+                >
+                  <span class="chapter-track__index">${index + 1}</span>
+                  <span class="chapter-track__body">
+                    <strong>${track.title}</strong>
+                    <span>${track.composer} · ${track.work}</span>
+                  </span>
+                </button>
+              `
+            )
+            .join("")}
+        </div>
+
+        <div class="chapter-music__player">
+          <div class="chapter-music__meta">
+            <p class="chapter-music__title">${selectedTrack.title}</p>
+            <p class="chapter-music__detail">${selectedTrack.composer} · ${selectedTrack.work}</p>
+            <p class="chapter-music__detail">${selectedTrack.performers}</p>
+          </div>
+
+          ${
+            selectedTrackEmbedUrl
+              ? `
+                <iframe
+                  title="Медиаплеер: ${selectedTrack.title}"
+                  src="${selectedTrackEmbedUrl}"
+                  style="height:${getTrackEmbedHeight(selectedTrack)}px"
+                  loading="lazy"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                ></iframe>
+              `
+              : ""
+          }
+
+          <p class="chapter-music__note">${selectedTrack.chapterConnection}</p>
+          <a class="chapter-music__link" href="${selectedTrackExternalUrl}" target="_blank" rel="noreferrer">
+            Открыть в ${selectedTrackPlatformLabel}
+          </a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderContextFocusPanel(scene) {
   const activeReference = getSelectedContextReference(scene);
   if (!activeReference) {
@@ -1966,6 +2193,8 @@ async function render() {
               <p>${activeChapter.summary}</p>
             </div>
 
+            ${renderChapterMusic(scene)}
+
             <div class="scene-strip">
               ${activeChapter.scenes
                 .map(
@@ -2173,6 +2402,20 @@ async function render() {
         persistVisibleLanguages(state.visibleLanguages);
         render();
       }
+    });
+  });
+
+  app.querySelectorAll("[data-chapter-track]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const trackId = button.dataset.chapterTrack;
+      const stateKey = getChapterMusicStateKey(scene.bookId, scene.chapterNumber);
+
+      state.selectedChapterTrackIds = {
+        ...state.selectedChapterTrackIds,
+        [stateKey]: trackId
+      };
+
+      render();
     });
   });
 

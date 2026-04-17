@@ -2067,12 +2067,18 @@ const BOOK_METADATA = {
     ],
     chapterOverrides: {
       3: {
+        art: {
+          src: "https://commons.wikimedia.org/wiki/Special:FilePath/Nicodemus%20Visiting%20Jesus%2C%20by%20Henry%20Ossawa%20Tanner%20adjusted3.jpg",
+          credit: "Henry Ossawa Tanner, public-domain image via Wikimedia Commons",
+          caption:
+            "Tanner's Nicodemus painting fits John 3 especially well, since the chapter opens with the night visit and unfolds that private conversation at length."
+        },
         verseArt: {
           2: {
-            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Crijn_Hendricksz.jpeg",
-            credit: "Crijn Hendricksz. Volmarijn, public-domain image via Wikimedia Commons",
+            src: "https://commons.wikimedia.org/wiki/Special:FilePath/Nicodemus%20Visiting%20Jesus%2C%20by%20Henry%20Ossawa%20Tanner%20adjusted3.jpg",
+            credit: "Henry Ossawa Tanner, public-domain image via Wikimedia Commons",
             caption:
-              "John 3:2 is the night visit of Nicodemus, and this candlelit painting gives that intimate conversation a fitting visual tone."
+              "John 3:2 is Nicodemus coming to Jesus by night, and Tanner's painting gives that searching conversation a stronger visual match."
           }
         }
       },
