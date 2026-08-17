@@ -77,6 +77,7 @@ just publish
 
 - Nginx config: [config/nginx.conf](config/nginx.conf)
 - Document root: `/www/good.kurapov.ee/public` (published Vite `dist/`)
+- Static journey previews: tracked under `public/journey-previews/` and served at `/journey-previews/`
 - Deploy on the server: `./restart.sh` (pull, `npm ci`, build, publish `public/`), then reload nginx manually
 - First-time SSL: issue a cert for `good.kurapov.ee` with Certbot and symlink/enable the site config
 

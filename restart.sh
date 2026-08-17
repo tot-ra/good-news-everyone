@@ -37,5 +37,10 @@ if [[ ! -f "$SITE_DIR/public/index.html" ]]; then
     exit 1
 fi
 
+if [[ ! -d "$SITE_DIR/public/journey-previews" ]] || [[ -z "$(ls -A "$SITE_DIR/public/journey-previews" 2>/dev/null || true)" ]]; then
+    echo "Deploy verification failed: public/journey-previews/ is missing or empty." >&2
+    exit 1
+fi
+
 echo "Deploy complete. Nginx root is $SITE_DIR/public"
 echo "Nginx reload is intentionally manual."
