@@ -597,9 +597,21 @@ function renderLeafletMap(scene) {
   const highlightPlaces = highlightPlaceIds
     .map((placeId) => getPlaceById(placeId))
     .filter(Boolean);
-  const activePlace = getPlaceById(scene.scenePlaceId) ?? highlightPlaces[0];
+  const focusedPlace =
+    getPlaceById(state.focusedPlaceId) ??
+    getPlaceById(scene.scenePlaceId) ??
+    highlightPlaces[0];
+  const activePlace =
+    focusedPlace &&
+    (highlightPlaces.some((place) => place.id === focusedPlace.id)
+      ? focusedPlace
+      : focusedPlace);
+  const mapPlaces =
+    activePlace && !highlightPlaces.some((place) => place.id === activePlace.id)
+      ? [...highlightPlaces, activePlace]
+      : highlightPlaces;
 
-  if (!container || !activePlace || highlightPlaces.length === 0) {
+  if (!container || !activePlace || mapPlaces.length === 0) {
     return;
   }
 
@@ -619,16 +631,16 @@ function renderLeafletMap(scene) {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(activeMap);
 
-  if (highlightPlaces.length === 1) {
+  if (mapPlaces.length === 1 || state.focusedPlaceId) {
     activeMap.setView([activePlace.lat, activePlace.lng], scene.map?.zoom ?? 9);
   } else {
-    const bounds = L.latLngBounds(highlightPlaces.map((place) => [place.lat, place.lng]));
+    const bounds = L.latLngBounds(mapPlaces.map((place) => [place.lat, place.lng]));
     activeMap.fitBounds(bounds, { padding: [24, 24] });
   }
 
-  if (highlightPlaces.length > 1) {
+  if (mapPlaces.length > 1 && !state.focusedPlaceId) {
     L.polyline(
-      highlightPlaces.map((place) => [place.lat, place.lng]),
+      mapPlaces.map((place) => [place.lat, place.lng]),
       {
         color: "#a97832",
         weight: 3,
@@ -638,7 +650,7 @@ function renderLeafletMap(scene) {
     ).addTo(activeMap);
   }
 
-  highlightPlaces.forEach((place) => {
+  mapPlaces.forEach((place) => {
     const isActive = place.id === activePlace.id;
     const marker = L.circleMarker([place.lat, place.lng], {
       radius: isActive ? 9 : 6,
@@ -692,20 +704,6 @@ function normalizeContextLookupToken(text = "") {
     .replace(/ё/g, "е")
     .replace(/[^\p{Letter}\p{Number}]+/gu, "");
 }
-
-const commonEntityHighlightTerms = new Set(
-  [
-    "Иисус",
-    "Иисуса",
-    "Иисусу",
-    "Иисусом",
-    "Иисусе",
-    "Христос",
-    "Бог",
-    "Господь",
-    "ученики"
-  ].map((item) => normalizeContextLookupToken(item))
-);
 
 function getContextReferenceAliases(label = "", extraAliases = []) {
   const aliases = new Set();
@@ -840,9 +838,9 @@ function getSceneContextReferences(scene) {
       buildContextReference({
         id: `entity:${index}`,
         role: matchedPlace ? "place" : matchedPerson ? "person" : role === "term" ? "person" : role,
-        title: item.name,
-        meta: item.meta,
-        description: item.description,
+        title: matchedPerson?.name ?? item.name,
+        meta: matchedPerson?.meta ?? item.meta,
+        description: matchedPerson?.description ?? item.description,
         aliases: [...(item.aliases ?? []), ...(matchedPerson?.aliases ?? []), ...(matchedPlace ? getPlaceAliases(matchedPlace) : [])],
         verseNumbers: item.verseNumbers ?? null,
         placeId: matchedPlace?.id ?? item.placeId ?? null,
@@ -1289,12 +1287,19 @@ function renderVerseText(scene, verse, language) {
     if (contextMatch) {
       const phraseTokens = tokens.slice(index, index + contextMatch.length);
       const isActive = activeContextRef?.id === contextMatch.reference.id;
+      const role = contextMatch.reference.role ?? "term";
       parts.push(`
         <button
-          class="word-chip word-chip--context${isActive ? " is-active" : ""}"
+          class="word-chip word-chip--context word-chip--${role}${isActive ? " is-active" : ""}"
           type="button"
           data-context-ref="${verse.number}:${contextMatch.reference.id}"
-          title="${contextMatch.reference.title}"
+          title="${
+            role === "place"
+              ? `Место: ${contextMatch.reference.title} (открыть на карте)`
+              : role === "person"
+                ? `Человек: ${contextMatch.reference.title} (мини-википедия)`
+                : contextMatch.reference.title
+          }"
         >
           ${phraseTokens.join(" ")}
         </button>
@@ -2143,18 +2148,28 @@ function renderChapterMusic(scene) {
 
 function renderContextFocusPanel(scene) {
   const activeReference = getSelectedContextReference(scene);
-  if (!activeReference) {
+  if (!activeReference || activeReference.role === "place") {
     return "";
   }
 
+  const kindLabel =
+    activeReference.role === "person"
+      ? "Мини-википедия · человек"
+      : "Пояснение термина";
+  const iconName = activeReference.role === "person" ? "people" : "term";
+
   return `
     <section class="context-card context-card--focus">
-      <p class="eyebrow">Справка по тексту</p>
+      <p class="eyebrow eyebrow--with-icon">${renderIcon(iconName, "ui-icon ui-icon--eyebrow")}${kindLabel}</p>
       <div class="context-focus">
-        <p class="context-focus__kind">${activeReference.kind === "entity" ? "Люди и места" : "Пояснение термина"}</p>
         <h3>${activeReference.title}</h3>
         <p class="context-focus__meta">${activeReference.meta}</p>
         <p>${activeReference.description}</p>
+        ${
+          activeReference.role === "person"
+            ? `<p class="context-focus__hint">Имена в тексте кликабельны: это короткая внутренняя справка по фигуре сцены.</p>`
+            : ""
+        }
       </div>
     </section>
   `;
@@ -2172,7 +2187,8 @@ function renderWorkspaceTabNav() {
               data-workspace-tab="${tab.id}"
               aria-selected="${state.activeWorkspaceTab === tab.id ? "true" : "false"}"
             >
-              ${tab.label}
+              ${renderIcon(tab.icon, "ui-icon ui-icon--tab")}
+              <span>${tab.label}</span>
             </button>
           `
         )
@@ -2198,16 +2214,19 @@ function renderArtTab(scene, sceneArtwork) {
 }
 
 function renderMapTab(scene, activePlace, activePhotos) {
+  const focusedPlace = getPlaceById(state.focusedPlaceId);
+  const placeForSummary = focusedPlace ?? activePlace;
+
   return `
     <section class="workspace-panel workspace-panel--map">
       <section class="context-card">
-        <p class="eyebrow">Карта</p>
+        <p class="eyebrow eyebrow--with-icon">${renderIcon("map", "ui-icon ui-icon--eyebrow")}Карта</p>
         <h3>${scene.map.title}</h3>
         <div id="context-map" class="story-map story-map--real"></div>
         <p class="map-summary">${scene.map.summary}</p>
         ${
-          activePlace
-            ? `<p class="place-summary"><strong>${activePlace.name}</strong> · ${activePlace.description}</p>`
+          placeForSummary
+            ? `<p class="place-summary"><strong>${placeForSummary.name}</strong> · ${placeForSummary.description}</p>`
             : ""
         }
         <div class="place-photo-grid place-photo-grid--wide">
@@ -2227,54 +2246,73 @@ function renderMapTab(scene, activePlace, activePhotos) {
   `;
 }
 
+function renderWikiListItems(scene, references, emptyLabel) {
+  if (references.length === 0) {
+    return `<p class="wiki-empty">${emptyLabel}</p>`;
+  }
+
+  return `
+    <div class="entity-list">
+      ${references
+        .map((item) => {
+          const isActive =
+            state.selectedContext.sceneKey === getSceneKey(scene) &&
+            state.selectedContext.refId === item.id;
+
+          return `
+            <button
+              class="entity-item entity-item--${item.role}${isActive ? " is-active" : ""}"
+              type="button"
+              data-context-card="${item.id}"
+            >
+              <span class="entity-item__head">
+                ${renderIcon(item.role === "place" ? "place" : item.role === "person" ? "people" : "term", "ui-icon ui-icon--entity")}
+                <span>
+                  <h4>${item.title}</h4>
+                  <span class="entity-meta">${item.meta}</span>
+                </span>
+              </span>
+              <p>${item.description}</p>
+            </button>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
+}
+
 function renderPeopleTab(scene) {
+  const references = getSceneContextReferences(scene);
+  const people = references.filter((item) => item.role === "person");
+  const placeRefs = references.filter((item) => item.role === "place");
+  const terms = references.filter((item) => item.role === "term");
+
   return `
     <section class="workspace-panel workspace-panel--people">
       ${renderContextFocusPanel(scene)}
 
       <section class="context-card">
-        <p class="eyebrow">Люди и места</p>
-        <div class="entity-list">
-          ${scene.entities
-            .map((item, index) => {
-              const refId = `entity:${index}`;
-              const isActive =
-                state.selectedContext.sceneKey === getSceneKey(scene) &&
-                state.selectedContext.refId === refId;
-
-              return `
-                <button class="entity-item${isActive ? " is-active" : ""}" type="button" data-context-card="${refId}">
-                  <h4>${item.name}</h4>
-                  <span class="entity-meta">${item.meta}</span>
-                  <p>${item.description}</p>
-                </button>
-              `;
-            })
-            .join("")}
-        </div>
+        <p class="eyebrow eyebrow--with-icon">${renderIcon("people", "ui-icon ui-icon--eyebrow")}Люди</p>
+        <p class="wiki-lead">Имена в чтении ведут сюда - короткая внутренняя википедия сцены.</p>
+        ${renderWikiListItems(scene, people, "В этой главе пока нет отмеченных людей.")}
       </section>
 
       <section class="context-card">
-        <p class="eyebrow">Система пояснений</p>
-        <div class="glossary-list">
-          ${scene.glossary
-            .map((item, index) => {
-              const refId = `glossary:${index}`;
-              const isActive =
-                state.selectedContext.sceneKey === getSceneKey(scene) &&
-                state.selectedContext.refId === refId;
-
-              return `
-                <button class="glossary-item${isActive ? " is-active" : ""}" type="button" data-context-card="${refId}">
-                  <h4>${item.term}</h4>
-                  <span class="glossary-meta">${item.meta}</span>
-                  <p>${item.description}</p>
-                </button>
-              `;
-            })
-            .join("")}
-        </div>
+        <p class="eyebrow eyebrow--with-icon">${renderIcon("place", "ui-icon ui-icon--eyebrow")}Места</p>
+        <p class="wiki-lead">Нажмите место, чтобы открыть его на вкладке «Карта».</p>
+        ${renderWikiListItems(scene, placeRefs, "В этой главе пока нет отмеченных мест.")}
       </section>
+
+      ${
+        terms.length
+          ? `
+            <section class="context-card">
+              <p class="eyebrow eyebrow--with-icon">${renderIcon("term", "ui-icon ui-icon--eyebrow")}Термины</p>
+              ${renderWikiListItems(scene, terms, "")}
+            </section>
+          `
+          : ""
+      }
     </section>
   `;
 }
@@ -2323,6 +2361,7 @@ async function render() {
       sceneKey: null,
       refId: null
     };
+    state.focusedPlaceId = null;
     state.activeCommentary = {
       sceneKey: null,
       verseNumber: null,
@@ -2385,8 +2424,11 @@ async function render() {
     activeBook.chapters.find((chapter) => chapter.number === scene.chapterNumber) ??
     activeBook.chapters[0];
   const verseColumns = state.visibleLanguages.length;
-  const activePlace = getPlaceById(scene.scenePlaceId);
-  const activePhotos = activePlace?.photos ?? [];
+  const activePlace =
+    getPlaceById(state.focusedPlaceId) ?? getPlaceById(scene.scenePlaceId);
+  const activePhotos = activePlace?.photos?.length
+    ? activePlace.photos
+    : getPlaceById(scene.scenePlaceId)?.photos ?? [];
   const journey = getJourneyConfig(activeBook.id, activeBook.chapters);
   const totalChapters = activeBook.chapters.length;
   const sceneArtwork = getSceneArt(scene);
@@ -2762,6 +2804,7 @@ async function render() {
       const isSameSelection =
         state.selectedContext.sceneKey === getSceneKey(scene) &&
         state.selectedContext.refId === nextRefId;
+      const nextReference = getSceneContextReferences(scene).find((item) => item.id === nextRefId);
 
       state.selectedContext = isSameSelection
         ? {
@@ -2773,8 +2816,14 @@ async function render() {
             refId: nextRefId
           };
 
-      // Open the people tab when a person/term is selected from the reading text
-      if (!isSameSelection) {
+      if (isSameSelection) {
+        state.focusedPlaceId = null;
+      } else if (nextReference?.role === "place" && nextReference.placeId) {
+        // WHY: place names are wiki-links into the map tab for that location
+        state.focusedPlaceId = nextReference.placeId;
+        state.activeWorkspaceTab = "map";
+      } else {
+        state.focusedPlaceId = null;
         state.activeWorkspaceTab = "people";
       }
 
