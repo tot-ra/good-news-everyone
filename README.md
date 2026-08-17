@@ -69,6 +69,19 @@ Create a production build with:
 npm run build
 ```
 
+Publish the build locally the same way production does (`dist/` becomes `public/`):
+
+```bash
+just publish
+```
+
+## Production (good.kurapov.ee)
+
+- Nginx config: [config/nginx.conf](config/nginx.conf)
+- Document root: `/www/good.kurapov.ee/public` (published Vite `dist/`)
+- Deploy on the server: `./restart.sh` (pull, `npm ci`, build, publish `public/`), then reload nginx manually
+- First-time SSL: issue a cert for `good.kurapov.ee` with Certbot and symlink/enable the site config
+
 ## Content notes
 
 - The New Testament was written primarily in Koine Greek, with important Aramaic and Hebrew background in names, quotations, and spoken expressions.

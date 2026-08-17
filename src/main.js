@@ -23,6 +23,12 @@ import {
   translationInfo,
   places
 } from "./content.js";
+import {
+  findPersonCatalogMatch,
+  getPlaceAliases,
+  inferReferenceRole,
+  peopleCatalog
+} from "./wiki.js";
 
 const translationOptions = [
   {
@@ -238,7 +244,9 @@ const lifeJourney = {
         locations: ["bethlehem", "nazareth", "jerusalem", "sea-of-galilee"],
         summary: "От родословия и рождения до крещения и выхода к народу.",
         story: "Детство, скрытая жизнь и первое публичное явление Иисуса.",
-        chapters: [1, 4]
+        chapters: [1, 4],
+        // WHY: stage cards need a concrete visual anchor; WHAT: Leonardo photoreal preview
+        preview: "/journey-previews/matthew-origins.jpg"
       },
       {
         id: "galilee",
@@ -247,7 +255,8 @@ const lifeJourney = {
         locations: ["capernaum", "sea-of-galilee"],
         summary: "Нагорная проповедь, чудеса, притчи и формирование учеников.",
         story: "Главный галилейский отрезок: проповедь, исцеления, конфликты и школа ученичества.",
-        chapters: [5, 18]
+        chapters: [5, 18],
+        preview: "/journey-previews/matthew-galilee.jpg"
       },
       {
         id: "jerusalem",
@@ -256,7 +265,8 @@ const lifeJourney = {
         locations: ["sea-of-galilee", "jerusalem"],
         summary: "Конфликты обостряются, путь сужается, приближается последняя неделя.",
         story: "Повествование темнеет: всё больше споров, всё явственнее курс на Иерусалим.",
-        chapters: [19, 25]
+        chapters: [19, 25],
+        preview: "/journey-previews/matthew-jerusalem.jpg"
       },
       {
         id: "passion",
@@ -265,7 +275,8 @@ const lifeJourney = {
         locations: ["jerusalem"],
         summary: "Тайная вечеря, суд, распятие, погребение и весть о воскресении.",
         story: "Последние дни в Иерусалиме, крест и утро воскресения.",
-        chapters: [26, 28]
+        chapters: [26, 28],
+        preview: "/journey-previews/matthew-passion.jpg"
       }
     ],
     milestones: [
@@ -289,7 +300,8 @@ const lifeJourney = {
         locations: ["sea-of-galilee"],
         summary: "Крещение, искушение и первые сильные действия Иисуса.",
         story: "У Марка всё начинается резко: почти без детства, сразу в силу служения.",
-        chapters: [1, 3]
+        chapters: [1, 3],
+        preview: "/journey-previews/mark-opening.jpg"
       },
       {
         id: "galilee",
@@ -298,7 +310,8 @@ const lifeJourney = {
         locations: ["capernaum", "sea-of-galilee"],
         summary: "Чудеса, споры, притчи и постоянное движение среди людей.",
         story: "Плотный, подвижный этап с толпами, лодками, спорами и исцелениями.",
-        chapters: [4, 8]
+        chapters: [4, 8],
+        preview: "/journey-previews/mark-galilee.jpg"
       },
       {
         id: "turn",
@@ -307,7 +320,8 @@ const lifeJourney = {
         locations: ["sea-of-galilee", "jerusalem"],
         summary: "Преображение, наставления ученикам и дорога к Иерусалиму.",
         story: "После исповедания Петра повествование всё заметнее движется к страстям.",
-        chapters: [9, 13]
+        chapters: [9, 13],
+        preview: "/journey-previews/mark-turn.jpg"
       },
       {
         id: "passion",
@@ -316,7 +330,8 @@ const lifeJourney = {
         locations: ["jerusalem"],
         summary: "Конфликт, вечеря, суд, распятие и весть о воскресении.",
         story: "Короткий и резкий финальный отрезок, где темп только ускоряется.",
-        chapters: [14, 16]
+        chapters: [14, 16],
+        preview: "/journey-previews/mark-passion.jpg"
       }
     ],
     milestones: [
@@ -340,7 +355,8 @@ const lifeJourney = {
         locations: ["nazareth", "bethlehem", "jerusalem"],
         summary: "Истории Иоанна и Иисуса, детство и вступление в служение.",
         story: "От Благовещения и песней младенчества к первым публичным словам Иисуса.",
-        chapters: [1, 4]
+        chapters: [1, 4],
+        preview: "/journey-previews/luke-origins.jpg"
       },
       {
         id: "galilee",
@@ -349,7 +365,8 @@ const lifeJourney = {
         locations: ["capernaum", "sea-of-galilee"],
         summary: "Исцеления, притчи, трапезы и внимание к тем, кого обычно не видят.",
         story: "Галилейская часть у Луки особенно человечная: трапезы, исцеления и лица людей.",
-        chapters: [5, 9]
+        chapters: [5, 9],
+        preview: "/journey-previews/luke-galilee.jpg"
       },
       {
         id: "journey",
@@ -358,7 +375,8 @@ const lifeJourney = {
         locations: ["sea-of-galilee", "sychar", "jerusalem"],
         summary: "Самый протяжённый дорожный отрезок с притчами и встречами.",
         story: "Большая дорожная секция, где путь становится способом рассказа и внутреннего созревания.",
-        chapters: [10, 19]
+        chapters: [10, 19],
+        preview: "/journey-previews/luke-journey.jpg"
       },
       {
         id: "passion",
@@ -367,7 +385,8 @@ const lifeJourney = {
         locations: ["jerusalem"],
         summary: "Последние дни, суд, распятие, пустая гробница и путь в Эммаус.",
         story: "Иерусалимская кульминация с крестом, пустой гробницей и дорогой в Эммаус.",
-        chapters: [20, 24]
+        chapters: [20, 24],
+        preview: "/journey-previews/luke-passion.jpg"
       }
     ],
     milestones: [
@@ -392,7 +411,8 @@ const lifeJourney = {
         locations: ["sea-of-galilee", "sychar"],
         summary: "Пролог, первые ученики и первые знамения.",
         story: "Иоанн начинает выше истории, а потом приземляет рассказ в конкретных встречах и местах.",
-        chapters: [1, 4]
+        chapters: [1, 4],
+        preview: "/journey-previews/john-manifestation.jpg"
       },
       {
         id: "signs",
@@ -401,7 +421,8 @@ const lifeJourney = {
         locations: ["sea-of-galilee", "jerusalem", "sychar"],
         summary: "Чудеса и диалоги постепенно раскрывают, кто такой Иисус.",
         story: "Большие знамения становятся поводом для длинных разговоров о личности Иисуса.",
-        chapters: [5, 12]
+        chapters: [5, 12],
+        preview: "/journey-previews/john-signs.jpg"
       },
       {
         id: "farewell",
@@ -410,7 +431,8 @@ const lifeJourney = {
         locations: ["jerusalem"],
         summary: "Интимное пространство вечери, омовения ног и обещаний Духа.",
         story: "Время как будто замедляется: один вечер превращается в глубокую беседу.",
-        chapters: [13, 17]
+        chapters: [13, 17],
+        preview: "/journey-previews/john-farewell.jpg"
       },
       {
         id: "passion",
@@ -419,7 +441,8 @@ const lifeJourney = {
         locations: ["jerusalem", "sea-of-galilee"],
         summary: "Арест, крест, воскресение и эпилог у моря.",
         story: "Крест, пустая гробница и завершающая сцена у моря Тивериадского.",
-        chapters: [18, 21]
+        chapters: [18, 21],
+        preview: "/journey-previews/john-passion.jpg"
       }
     ],
     milestones: [
@@ -441,6 +464,14 @@ let renderRequestId = 0;
 let activeUtterance = null;
 const lemmaReferencesCache = new Map();
 
+const workspaceTabs = [
+  { id: "reading", label: "Чтение", icon: "reading" },
+  { id: "art", label: "Картины", icon: "art" },
+  { id: "music", label: "Музыка", icon: "music" },
+  { id: "map", label: "Карта", icon: "map" },
+  { id: "people", label: "Люди", icon: "people" }
+];
+
 const state = {
   visibleLanguages: getInitialVisibleLanguages(),
   loadedBooks: new Map(),
@@ -449,6 +480,10 @@ const state = {
     sceneKey: null,
     refId: null
   },
+  // WHY: place wiki-links jump to the map tab and focus that marker
+  focusedPlaceId: null,
+  // WHY: heavy context blocks (art/music/map/people) live in tabs so reading stays uncluttered
+  activeWorkspaceTab: "reading",
   activeArtwork: null,
   selectedChapterTrackIds: {},
   activeCommentary: {
@@ -465,6 +500,28 @@ const state = {
   },
   currentSceneKey: getSceneKey(defaultScene)
 };
+
+function renderIcon(name, className = "ui-icon") {
+  const icons = {
+    reading:
+      '<path d="M4 5.5h7.2c.9 0 1.8.4 2.3 1.1L14 7.2l.5-.6c.5-.7 1.4-1.1 2.3-1.1H24v14.2h-7.5c-.8 0-1.6.3-2.2.8l-.3.3-.3-.3c-.6-.5-1.4-.8-2.2-.8H4V5.5z"/><path d="M14 7.2v12.4"/>',
+    art: '<rect x="4.5" y="6" width="19" height="15" rx="2"/><circle cx="10" cy="11.5" r="1.6"/><path d="M7 18.5l4.2-4.2 3.1 3.1 3.4-3.8 3.3 4.9"/>',
+    music:
+      '<path d="M11 22a3 3 0 1 1-3-3 3 3 0 0 1 3 3zm12-2.5a3 3 0 1 1-3-3 3 3 0 0 1 3 3z"/><path d="M11 19V6.5l12-2.2V16.5"/><path d="M11 9.2l12-2.2"/>',
+    map: '<path d="M5 7.2l6-2.4 6 2.4 6-2.4v14.4l-6 2.4-6-2.4-6 2.4V7.2z"/><path d="M11 4.8v14.4M17 7.2v14.4"/>',
+    people:
+      '<circle cx="10" cy="9" r="3"/><circle cx="18.5" cy="10" r="2.4"/><path d="M4.5 20c.8-3.2 2.9-5 5.5-5s4.7 1.8 5.5 5"/><path d="M14.8 20c.5-2.2 1.8-3.5 3.7-3.5 1.4 0 2.5.7 3.2 2"/>',
+    place:
+      '<path d="M14 4.8c-3.6 0-6.5 2.8-6.5 6.3 0 4.7 6.5 11.1 6.5 11.1s6.5-6.4 6.5-11.1c0-3.5-2.9-6.3-6.5-6.3z"/><circle cx="14" cy="11" r="2.2"/>',
+    term: '<path d="M7 8.5h14M7 14h10M7 19.5h12"/><path d="M4.5 5.5v17"/>'
+  };
+
+  return `
+    <svg class="${className}" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+      ${icons[name] ?? icons.term}
+    </svg>
+  `;
+}
 
 const app = document.querySelector("#app");
 
@@ -672,29 +729,41 @@ function getContextReferenceAliases(label = "", extraAliases = []) {
   return [...aliases];
 }
 
-function getSceneContextReferences(scene) {
-  const entities = (scene.entities ?? []).map((item, index) => ({
-    id: `entity:${index}`,
-    kind: "entity",
-    title: item.name,
-    meta: item.meta,
-    description: item.description,
-    aliases: getContextReferenceAliases(item.name, item.aliases),
-    verseNumbers: item.verseNumbers ?? null
-  }));
-  const glossary = (scene.glossary ?? []).map((item, index) => ({
-    id: `glossary:${index}`,
-    kind: "glossary",
-    title: item.term,
-    meta: item.meta,
-    description: item.description,
-    aliases: getContextReferenceAliases(item.term, item.aliases),
-    verseNumbers: item.verseNumbers ?? null
-  }));
+function matchPlaceForLabel(label = "", extraAliases = []) {
+  const candidates = getContextReferenceAliases(label, extraAliases).map((item) =>
+    normalizeContextLookupToken(item)
+  );
 
-  return [...entities, ...glossary].map((item) => ({
-    ...item,
-    lookupPhrases: item.aliases
+  return (
+    places.find((place) =>
+      getPlaceAliases(place).some((alias) => candidates.includes(normalizeContextLookupToken(alias)))
+    ) ?? null
+  );
+}
+
+function buildContextReference({
+  id,
+  role,
+  title,
+  meta,
+  description,
+  aliases,
+  verseNumbers = null,
+  placeId = null,
+  personId = null
+}) {
+  return {
+    id,
+    kind: role === "term" ? "glossary" : "entity",
+    role,
+    title,
+    meta,
+    description,
+    aliases: getContextReferenceAliases(title, aliases),
+    verseNumbers,
+    placeId,
+    personId,
+    lookupPhrases: getContextReferenceAliases(title, aliases)
       .map((alias) =>
         splitDisplayTokens(alias)
           .map((token) => normalizeContextLookupToken(token))
@@ -702,7 +771,173 @@ function getSceneContextReferences(scene) {
       )
       .filter((phrase) => phrase.length > 0)
       .sort((a, b) => b.length - a.length)
-  }));
+  };
+}
+
+function getSceneRussianTexts(scene) {
+  return (scene.verses ?? [])
+    .flatMap((verse) =>
+      ["russianSynodal", "russian", "russianCassian", "russianBti"]
+        .map((key) => verse?.translations?.[key] ?? "")
+        .filter(Boolean)
+    )
+    .join("\n");
+}
+
+function sceneTextMentionsAlias(sceneText, aliases = []) {
+  const normalizedTextTokens = splitDisplayTokens(sceneText).map((token) =>
+    normalizeContextLookupToken(token)
+  );
+
+  return aliases.some((alias) => {
+    const phrase = splitDisplayTokens(alias)
+      .map((token) => normalizeContextLookupToken(token))
+      .filter(Boolean);
+
+    if (phrase.length === 0 || phrase.length > normalizedTextTokens.length) {
+      return false;
+    }
+
+    for (let index = 0; index <= normalizedTextTokens.length - phrase.length; index += 1) {
+      if (phrase.every((part, offset) => normalizedTextTokens[index + offset] === part)) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+}
+
+function getSceneContextReferences(scene) {
+  const refs = [];
+  const seenKeys = new Set();
+  const sceneText = getSceneRussianTexts(scene);
+
+  const remember = (reference) => {
+    const keys = [reference.title, ...(reference.aliases ?? []), reference.personId, reference.placeId]
+      .filter(Boolean)
+      .map((item) => normalizeContextLookupToken(String(item)));
+
+    if (keys.some((key) => seenKeys.has(key))) {
+      return;
+    }
+
+    keys.forEach((key) => seenKeys.add(key));
+    refs.push(reference);
+  };
+
+  (scene.entities ?? []).forEach((item, index) => {
+    const matchedPlace = matchPlaceForLabel(item.name, item.aliases);
+    const matchedPerson = findPersonCatalogMatch(item.name);
+    const role = inferReferenceRole({
+      title: item.name,
+      meta: item.meta,
+      placeId: matchedPlace?.id ?? item.placeId ?? null,
+      explicitKind: item.kind ?? null
+    });
+
+    remember(
+      buildContextReference({
+        id: `entity:${index}`,
+        role: matchedPlace ? "place" : matchedPerson ? "person" : role === "term" ? "person" : role,
+        title: item.name,
+        meta: item.meta,
+        description: item.description,
+        aliases: [...(item.aliases ?? []), ...(matchedPerson?.aliases ?? []), ...(matchedPlace ? getPlaceAliases(matchedPlace) : [])],
+        verseNumbers: item.verseNumbers ?? null,
+        placeId: matchedPlace?.id ?? item.placeId ?? null,
+        personId: matchedPerson?.id ?? item.personId ?? null
+      })
+    );
+  });
+
+  (scene.glossary ?? []).forEach((item, index) => {
+    const matchedPlace = matchPlaceForLabel(item.term, item.aliases);
+    const matchedPerson = findPersonCatalogMatch(item.term);
+    const role = inferReferenceRole({
+      title: item.term,
+      meta: item.meta,
+      placeId: matchedPlace?.id ?? item.placeId ?? null,
+      explicitKind: item.kind ?? (matchedPerson ? "person" : null)
+    });
+
+    remember(
+      buildContextReference({
+        id: `glossary:${index}`,
+        role,
+        title: item.term,
+        meta: item.meta,
+        description: item.description,
+        aliases: [...(item.aliases ?? []), ...(matchedPerson?.aliases ?? []), ...(matchedPlace ? getPlaceAliases(matchedPlace) : [])],
+        verseNumbers: item.verseNumbers ?? null,
+        placeId: matchedPlace?.id ?? item.placeId ?? null,
+        personId: matchedPerson?.id ?? item.personId ?? null
+      })
+    );
+  });
+
+  peopleCatalog.forEach((person) => {
+    if (!sceneTextMentionsAlias(sceneText, [person.name, ...(person.aliases ?? [])])) {
+      return;
+    }
+
+    remember(
+      buildContextReference({
+        id: `person:${person.id}`,
+        role: "person",
+        title: person.name,
+        meta: person.meta,
+        description: person.description,
+        aliases: person.aliases,
+        personId: person.id
+      })
+    );
+  });
+
+  const highlightPlaceIds = [
+    ...(scene.map?.highlightPlaceIds ?? []),
+    scene.scenePlaceId
+  ].filter(Boolean);
+
+  [...new Set(highlightPlaceIds)].forEach((placeId) => {
+    const place = getPlaceById(placeId);
+    if (!place) {
+      return;
+    }
+
+    remember(
+      buildContextReference({
+        id: `place:${place.id}`,
+        role: "place",
+        title: place.name,
+        meta: "Место на карте сцены",
+        description: place.description,
+        aliases: getPlaceAliases(place),
+        placeId: place.id
+      })
+    );
+  });
+
+  places.forEach((place) => {
+    const aliases = getPlaceAliases(place);
+    if (!sceneTextMentionsAlias(sceneText, aliases)) {
+      return;
+    }
+
+    remember(
+      buildContextReference({
+        id: `place:${place.id}`,
+        role: "place",
+        title: place.name,
+        meta: "География Евангелий",
+        description: place.description,
+        aliases,
+        placeId: place.id
+      })
+    );
+  });
+
+  return refs;
 }
 
 function getSelectedContextReference(scene) {
@@ -719,6 +954,7 @@ function getVerseContextMatches(scene, verse, language) {
   }
 
   const currentVerseNumber = String(verse?.number ?? "");
+  // WHY: people and places become in-text wiki/map links; plain glossary terms stay clickable too
   const references = getSceneContextReferences(scene).filter((reference) => {
     if (
       Array.isArray(reference.verseNumbers) &&
@@ -728,11 +964,7 @@ function getVerseContextMatches(scene, verse, language) {
       return false;
     }
 
-    if (reference.kind !== "entity") {
-      return true;
-    }
-
-    return !commonEntityHighlightTerms.has(normalizeContextLookupToken(reference.title));
+    return true;
   });
   if (references.length === 0) {
     return [];
@@ -756,12 +988,13 @@ function getVerseContextMatches(scene, verse, language) {
           return;
         }
 
+        const roleRank = { place: 3, person: 2, term: 1 }[reference.role] ?? 0;
+        const bestRoleRank = bestMatch ? ({ place: 3, person: 2, term: 1 }[bestMatch.reference.role] ?? 0) : 0;
+
         if (
           !bestMatch ||
           phrase.length > bestMatch.length ||
-          (phrase.length === bestMatch.length &&
-            bestMatch.reference.kind === "glossary" &&
-            reference.kind === "entity")
+          (phrase.length === bestMatch.length && roleRank > bestRoleRank)
         ) {
           bestMatch = {
             start: index,
@@ -1927,6 +2160,125 @@ function renderContextFocusPanel(scene) {
   `;
 }
 
+function renderWorkspaceTabNav() {
+  return `
+    <nav class="workspace-tabs" aria-label="Разделы сцены">
+      ${workspaceTabs
+        .map(
+          (tab) => `
+            <button
+              class="workspace-tab${state.activeWorkspaceTab === tab.id ? " is-active" : ""}"
+              type="button"
+              data-workspace-tab="${tab.id}"
+              aria-selected="${state.activeWorkspaceTab === tab.id ? "true" : "false"}"
+            >
+              ${tab.label}
+            </button>
+          `
+        )
+        .join("")}
+    </nav>
+  `;
+}
+
+function renderArtTab(scene, sceneArtwork) {
+  return `
+    <section class="workspace-panel workspace-panel--art">
+      <div class="art-panel">
+        <div class="art-frame">
+          <img src="${sceneArtwork.src}" alt="${scene.bookTitle} artwork" />
+        </div>
+        <div class="art-overlay art-overlay--static">
+          <p class="art-credit">${sceneArtwork.credit}</p>
+          <p class="art-caption">${sceneArtwork.caption}</p>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderMapTab(scene, activePlace, activePhotos) {
+  return `
+    <section class="workspace-panel workspace-panel--map">
+      <section class="context-card">
+        <p class="eyebrow">Карта</p>
+        <h3>${scene.map.title}</h3>
+        <div id="context-map" class="story-map story-map--real"></div>
+        <p class="map-summary">${scene.map.summary}</p>
+        ${
+          activePlace
+            ? `<p class="place-summary"><strong>${activePlace.name}</strong> · ${activePlace.description}</p>`
+            : ""
+        }
+        <div class="place-photo-grid place-photo-grid--wide">
+          ${activePhotos
+            .map(
+              (photo) => `
+                <figure class="place-photo-card">
+                  <img src="${photo.src}" alt="${photo.title}" />
+                  <figcaption>${photo.title}<span>${photo.credit}</span></figcaption>
+                </figure>
+              `
+            )
+            .join("")}
+        </div>
+      </section>
+    </section>
+  `;
+}
+
+function renderPeopleTab(scene) {
+  return `
+    <section class="workspace-panel workspace-panel--people">
+      ${renderContextFocusPanel(scene)}
+
+      <section class="context-card">
+        <p class="eyebrow">Люди и места</p>
+        <div class="entity-list">
+          ${scene.entities
+            .map((item, index) => {
+              const refId = `entity:${index}`;
+              const isActive =
+                state.selectedContext.sceneKey === getSceneKey(scene) &&
+                state.selectedContext.refId === refId;
+
+              return `
+                <button class="entity-item${isActive ? " is-active" : ""}" type="button" data-context-card="${refId}">
+                  <h4>${item.name}</h4>
+                  <span class="entity-meta">${item.meta}</span>
+                  <p>${item.description}</p>
+                </button>
+              `;
+            })
+            .join("")}
+        </div>
+      </section>
+
+      <section class="context-card">
+        <p class="eyebrow">Система пояснений</p>
+        <div class="glossary-list">
+          ${scene.glossary
+            .map((item, index) => {
+              const refId = `glossary:${index}`;
+              const isActive =
+                state.selectedContext.sceneKey === getSceneKey(scene) &&
+                state.selectedContext.refId === refId;
+
+              return `
+                <button class="glossary-item${isActive ? " is-active" : ""}" type="button" data-context-card="${refId}">
+                  <h4>${item.term}</h4>
+                  <span class="glossary-meta">${item.meta}</span>
+                  <p>${item.description}</p>
+                </button>
+              `;
+            })
+            .join("")}
+        </div>
+      </section>
+    </section>
+  `;
+}
+
 function getLoadedBook(bookId) {
   return state.loadedBooks.get(bookId) ?? null;
 }
@@ -2132,6 +2484,13 @@ async function render() {
 
                     return `
                       <section class="journey-stage">
+                        ${
+                          stage.preview
+                            ? `<figure class="journey-stage__preview">
+                                <img src="${stage.preview}" alt="${stage.title}" loading="lazy" />
+                              </figure>`
+                            : ""
+                        }
                         <div class="journey-stage__meta">
                           <p class="journey-stage__range">Главы ${stage.chapters[0]}-${stage.chapters[1]}</p>
                           <h4>${stage.title}</h4>
@@ -2166,17 +2525,36 @@ async function render() {
       </section>
 
       <main class="workspace">
-        <section class="reading-room">
-          <div class="art-panel">
-            <div class="art-frame">
-              <img src="${sceneArtwork.src}" alt="${scene.bookTitle} artwork" />
-            </div>
-            <div class="art-overlay art-overlay--static">
-              <p class="art-credit">${sceneArtwork.credit}</p>
-              <p class="art-caption">${sceneArtwork.caption}</p>
-            </div>
-          </div>
+        ${renderWorkspaceTabNav()}
 
+        ${
+          state.activeWorkspaceTab === "art"
+            ? renderArtTab(scene, sceneArtwork)
+            : ""
+        }
+
+        ${
+          state.activeWorkspaceTab === "music"
+            ? `<section class="workspace-panel workspace-panel--music">${renderChapterMusic(scene)}</section>`
+            : ""
+        }
+
+        ${
+          state.activeWorkspaceTab === "map"
+            ? renderMapTab(scene, activePlace, activePhotos)
+            : ""
+        }
+
+        ${
+          state.activeWorkspaceTab === "people"
+            ? renderPeopleTab(scene)
+            : ""
+        }
+
+        ${
+          state.activeWorkspaceTab === "reading"
+            ? `
+        <section class="reading-room">
           <section class="passage-head">
             <div class="passage-topline">
               <p class="eyebrow">${bookLabels[scene.bookId] ?? scene.bookTitle} · Глава ${scene.chapterNumber}</p>
@@ -2192,8 +2570,6 @@ async function render() {
               </div>
               <p>${activeChapter.summary}</p>
             </div>
-
-            ${renderChapterMusic(scene)}
 
             <div class="scene-strip">
               ${activeChapter.scenes
@@ -2237,7 +2613,12 @@ async function render() {
                       .map(
                         (language) => `
                           <section class="verse-card">
-                            <p class="verse-language">${translationOptionById[language]?.label ?? language}</p>
+                            ${
+                              /* Labels only help when comparing; hide for a single language. */
+                              state.visibleLanguages.length > 1
+                                ? `<p class="verse-language">${translationOptionById[language]?.label ?? language}</p>`
+                                : ""
+                            }
                             <div class="verse-line">${renderVerseText(scene, verse, language)}</div>
                             ${verse.note ? `<p class="verse-note">${verse.note}</p>` : ""}
                           </section>
@@ -2287,82 +2668,25 @@ async function render() {
             </div>
           </section>
         </section>
-
-        <aside class="context-column">
-          ${renderContextFocusPanel(scene)}
-
-          <section class="context-card">
-            <p class="eyebrow">Карта</p>
-            <h3>${scene.map.title}</h3>
-            <div id="context-map" class="story-map story-map--real"></div>
-            <p class="map-summary">${scene.map.summary}</p>
-            ${
-              activePlace
-                ? `<p class="place-summary"><strong>${activePlace.name}</strong> · ${activePlace.description}</p>`
-                : ""
-            }
-            <div class="place-photo-grid">
-              ${activePhotos
-                .map(
-                  (photo) => `
-                    <figure class="place-photo-card">
-                      <img src="${photo.src}" alt="${photo.title}" />
-                      <figcaption>${photo.title}<span>${photo.credit}</span></figcaption>
-                    </figure>
-                  `
-                )
-                .join("")}
-            </div>
-          </section>
-
-          <section class="context-card">
-            <p class="eyebrow">Люди и места</p>
-            <div class="entity-list">
-              ${scene.entities
-                .map((item, index) => {
-                  const refId = `entity:${index}`;
-                  const isActive =
-                    state.selectedContext.sceneKey === getSceneKey(scene) &&
-                    state.selectedContext.refId === refId;
-
-                  return `
-                    <button class="entity-item${isActive ? " is-active" : ""}" type="button" data-context-card="${refId}">
-                      <h4>${item.name}</h4>
-                      <span class="entity-meta">${item.meta}</span>
-                      <p>${item.description}</p>
-                    </button>
-                  `;
-                })
-                .join("")}
-            </div>
-          </section>
-
-          <section class="context-card">
-            <p class="eyebrow">Система пояснений</p>
-            <div class="glossary-list">
-              ${scene.glossary
-                .map((item, index) => {
-                  const refId = `glossary:${index}`;
-                  const isActive =
-                    state.selectedContext.sceneKey === getSceneKey(scene) &&
-                    state.selectedContext.refId === refId;
-
-                  return `
-                    <button class="glossary-item${isActive ? " is-active" : ""}" type="button" data-context-card="${refId}">
-                      <h4>${item.term}</h4>
-                      <span class="glossary-meta">${item.meta}</span>
-                      <p>${item.description}</p>
-                    </button>
-                  `;
-                })
-                .join("")}
-            </div>
-          </section>
-        </aside>
+            `
+            : ""
+        }
       </main>
       ${renderArtworkLightbox()}
     </div>
   `;
+
+  app.querySelectorAll("[data-workspace-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextTab = button.dataset.workspaceTab;
+      if (!nextTab || nextTab === state.activeWorkspaceTab) {
+        return;
+      }
+
+      state.activeWorkspaceTab = nextTab;
+      render();
+    });
+  });
 
   app.querySelectorAll("[data-book]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -2449,6 +2773,11 @@ async function render() {
             refId: nextRefId
           };
 
+      // Open the people tab when a person/term is selected from the reading text
+      if (!isSameSelection) {
+        state.activeWorkspaceTab = "people";
+      }
+
       render();
     });
   });
@@ -2504,7 +2833,18 @@ async function render() {
     });
   });
 
-  renderLeafletMap(scene);
+  if (state.activeWorkspaceTab === "map") {
+    renderLeafletMap(scene);
+    // Leaflet needs a layout pass after the tab panel becomes visible
+    if (activeMap) {
+      requestAnimationFrame(() => {
+        activeMap.invalidateSize();
+      });
+    }
+  } else if (activeMap) {
+    activeMap.remove();
+    activeMap = null;
+  }
 }
 
 function handleGlobalKeydown(event) {
