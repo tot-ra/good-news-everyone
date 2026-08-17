@@ -1,11 +1,9 @@
 # Good News Everyone!
 <img width="100" alt="farnsworth" src="https://github.com/user-attachments/assets/bd2a0964-ad5c-45f4-bbe1-937906dec0c5" />
 
-A design-first prototype for reading the four Gospels ☦️ as literature, language, geography, and visual culture.
+Learn the Good News ☦️ 
+<img width="1737" height="741" alt="Screenshot 2026-08-18 at 00 01 34" src="https://github.com/user-attachments/assets/3186d0d0-d93a-489c-b342-5c6830572d4a" />
 
-<img width="600" alt="Screenshot 2026-04-17 at 03 12 18" src="https://github.com/user-attachments/assets/49ae539d-e1da-45ab-99a1-8a75500d4cf4" />
-<img width="600" alt="Screenshot 2026-04-17 at 03 13 17" src="https://github.com/user-attachments/assets/cd4b701f-2ec1-4d84-be29-a23ef40c85f6" />
-<img width="600" alt="Screenshot 2026-04-17 at 03 13 37" src="https://github.com/user-attachments/assets/7e4b5820-14ce-4f0f-bb03-eafdc6ae5ee1" />
 
 ## What this first version includes
 
