@@ -66,7 +66,9 @@ const translationDetailsById = Object.fromEntries(
   translationInfo.current.map((item) => [item.id, item])
 );
 const visibleLanguagesStorageKey = "good-news-everyone:visible-languages";
-const defaultVisibleLanguages = ["greek", "russianSynodal", "russianCassian", "russianBti"];
+// Start with one lightweight translation. Every additional selection is fetched
+// as its own chunk, so first-time visitors do not download comparison texts.
+const defaultVisibleLanguages = ["russianSynodal"];
 
 function normalizeAssessmentBook(source) {
   if (!source) {
@@ -463,6 +465,7 @@ let activeMap = null;
 let renderRequestId = 0;
 let activeUtterance = null;
 const lemmaReferencesCache = new Map();
+let sceneContextReferencesCache = { key: null, refs: [] };
 
 const workspaceTabs = [
   { id: "reading", label: "Чтение", icon: "reading" },
@@ -475,12 +478,10 @@ const workspaceTabs = [
 const state = {
   visibleLanguages: getInitialVisibleLanguages(),
   loadedBooks: new Map(),
+  loadedBookTranslations: new Map(),
   selectedWord: null,
-  selectedContext: {
-    sceneKey: null,
-    refId: null
-  },
-  // WHY: place wiki-links jump to the map tab and focus that marker
+  // WHY: keeps the reader in place while a linked person, place, or term is explained.
+  activeReference: null,
   focusedPlaceId: null,
   // WHY: heavy context blocks (art/music/map/people) live in tabs so reading stays uncluttered
   activeWorkspaceTab: "reading",
@@ -513,7 +514,8 @@ function renderIcon(name, className = "ui-icon") {
       '<circle cx="10" cy="9" r="3"/><circle cx="18.5" cy="10" r="2.4"/><path d="M4.5 20c.8-3.2 2.9-5 5.5-5s4.7 1.8 5.5 5"/><path d="M14.8 20c.5-2.2 1.8-3.5 3.7-3.5 1.4 0 2.5.7 3.2 2"/>',
     place:
       '<path d="M14 4.8c-3.6 0-6.5 2.8-6.5 6.3 0 4.7 6.5 11.1 6.5 11.1s6.5-6.4 6.5-11.1c0-3.5-2.9-6.3-6.5-6.3z"/><circle cx="14" cy="11" r="2.2"/>',
-    term: '<path d="M7 8.5h14M7 14h10M7 19.5h12"/><path d="M4.5 5.5v17"/>'
+    term: '<path d="M7 8.5h14M7 14h10M7 19.5h12"/><path d="M4.5 5.5v17"/>',
+    close: '<path d="M7 7l14 14M21 7L7 21"/>'
   };
 
   return `
@@ -601,11 +603,7 @@ function renderLeafletMap(scene) {
     getPlaceById(state.focusedPlaceId) ??
     getPlaceById(scene.scenePlaceId) ??
     highlightPlaces[0];
-  const activePlace =
-    focusedPlace &&
-    (highlightPlaces.some((place) => place.id === focusedPlace.id)
-      ? focusedPlace
-      : focusedPlace);
+  const activePlace = focusedPlace;
   const mapPlaces =
     activePlace && !highlightPlaces.some((place) => place.id === activePlace.id)
       ? [...highlightPlaces, activePlace]
@@ -807,6 +805,11 @@ function sceneTextMentionsAlias(sceneText, aliases = []) {
 }
 
 function getSceneContextReferences(scene) {
+  const cacheKey = getSceneKey(scene);
+  if (sceneContextReferencesCache.key === cacheKey) {
+    return sceneContextReferencesCache.refs;
+  }
+
   const refs = [];
   const seenKeys = new Set();
   const sceneText = getSceneRussianTexts(scene);
@@ -826,7 +829,10 @@ function getSceneContextReferences(scene) {
 
   (scene.entities ?? []).forEach((item, index) => {
     const matchedPlace = matchPlaceForLabel(item.name, item.aliases);
-    const matchedPerson = findPersonCatalogMatch(item.name);
+    const matchedPerson = findPersonCatalogMatch(
+      item.name,
+      item.personId ?? item.referenceKey ?? null
+    );
     const role = inferReferenceRole({
       title: item.name,
       meta: item.meta,
@@ -851,7 +857,10 @@ function getSceneContextReferences(scene) {
 
   (scene.glossary ?? []).forEach((item, index) => {
     const matchedPlace = matchPlaceForLabel(item.term, item.aliases);
-    const matchedPerson = findPersonCatalogMatch(item.term);
+    const matchedPerson = findPersonCatalogMatch(
+      item.term,
+      item.personId ?? item.referenceKey ?? null
+    );
     const role = inferReferenceRole({
       title: item.term,
       meta: item.meta,
@@ -863,9 +872,9 @@ function getSceneContextReferences(scene) {
       buildContextReference({
         id: `glossary:${index}`,
         role,
-        title: item.term,
-        meta: item.meta,
-        description: item.description,
+        title: matchedPerson?.name ?? item.term,
+        meta: matchedPerson?.meta ?? item.meta,
+        description: matchedPerson?.description ?? item.description,
         aliases: [...(item.aliases ?? []), ...(matchedPerson?.aliases ?? []), ...(matchedPlace ? getPlaceAliases(matchedPlace) : [])],
         verseNumbers: item.verseNumbers ?? null,
         placeId: matchedPlace?.id ?? item.placeId ?? null,
@@ -935,15 +944,69 @@ function getSceneContextReferences(scene) {
     );
   });
 
+  sceneContextReferencesCache = { key: cacheKey, refs };
   return refs;
 }
 
-function getSelectedContextReference(scene) {
-  if (state.selectedContext.sceneKey !== getSceneKey(scene) || !state.selectedContext.refId) {
+function getActiveReference(scene) {
+  if (
+    state.activeReference?.sceneKey !== getSceneKey(scene) ||
+    !state.activeReference.refId
+  ) {
     return null;
   }
 
-  return getSceneContextReferences(scene).find((item) => item.id === state.selectedContext.refId) ?? null;
+  return (
+    getSceneContextReferences(scene).find(
+      (reference) => reference.id === state.activeReference.refId
+    ) ?? null
+  );
+}
+
+function renderReferenceSidebar(scene) {
+  const reference = getActiveReference(scene);
+  if (!reference) {
+    return "";
+  }
+
+  const isPlace = reference.role === "place";
+  const place = isPlace ? getPlaceById(reference.placeId) : null;
+  const kindLabel = isPlace ? "Место" : reference.role === "person" ? "Человек" : "Термин";
+  const iconName = isPlace ? "place" : reference.role === "person" ? "people" : "term";
+
+  return `
+    <div class="reference-sidebar" data-reference-sidebar>
+      <button class="reference-sidebar__backdrop" type="button" data-reference-close aria-label="Закрыть справку"></button>
+      <aside class="reference-sidebar__panel" role="dialog" aria-modal="true" aria-labelledby="reference-sidebar-title">
+        <div class="reference-sidebar__header">
+          <p class="eyebrow eyebrow--with-icon">${renderIcon(iconName, "ui-icon ui-icon--eyebrow")}${kindLabel}</p>
+          <button class="reference-sidebar__close" type="button" data-reference-close aria-label="Закрыть справку">
+            ${renderIcon("close", "ui-icon")}
+            <span>Закрыть</span>
+          </button>
+        </div>
+        <div class="reference-sidebar__content">
+          <h2 id="reference-sidebar-title">${reference.title}</h2>
+          <p class="reference-sidebar__meta">${reference.meta}</p>
+          <p class="reference-sidebar__description">${reference.description}</p>
+          ${
+            place
+              ? `
+                <div class="reference-sidebar__place">
+                  <p><strong>Координаты:</strong> ${place.lat.toFixed(3)}, ${place.lng.toFixed(3)}</p>
+                  <button class="reference-sidebar__map-link" type="button" data-reference-map="${place.id}">
+                    ${renderIcon("map", "ui-icon")}
+                    Открыть на карте
+                  </button>
+                </div>
+              `
+              : ""
+          }
+          <p class="reference-sidebar__hint">Справка открыта поверх текста: закрывайте её, когда пояснение больше не нужно.</p>
+        </div>
+      </aside>
+    </div>
+  `;
 }
 
 function getVerseContextMatches(scene, verse, language) {
@@ -1026,8 +1089,58 @@ function getTranslationText(verse, translationId) {
   return verse.translations[translationId] ?? "";
 }
 
+// WHY: BTI source strings often glue footnote lead-ins to the previous word
+// (БогДруг., своимБукв., ЗаконСм. в Словаре) and leave truncated empty tails.
+// Fix at display time so all books benefit without rewriting JSON corpora.
+function formatBtiDisplayText(text = "") {
+  let result = text.replace(
+    /([^\s])(Букв\.|Друг\.|Другая|Или:|В некот\.|Здесь и|См\. в Словаре)/g,
+    "$1 $2"
+  );
+
+  // Drop empty footnote stubs that have no note body (truncated import artifacts).
+  result = result.replace(/\s*Букв\.:\s*(?=но |и |а )/gi, ", ");
+  result = result.replace(
+    /\s*Букв\.:\s*(?=(?:[А-ЯЁа-яё«"„]|$))/g,
+    " "
+  );
+  result = result.replace(
+    /\s*Друг\.\s*возм\.\s*пер\.:\s*$/g,
+    ""
+  );
+  result = result.replace(
+    /\s*Или:\s*$/g,
+    ""
+  );
+  result = result.replace(
+    /\s*В некот\.\s*рукописях:\s*$/g,
+    ""
+  );
+  result = result.replace(
+    /\s*Здесь и далее[^.]*:\s*$/g,
+    ""
+  );
+  result = result.replace(/\s*См\. в Словаре\s*(?=[а-яё])/g, " ");
+  result = result.replace(
+    /\s*См\. в Словаре\s*(?=[А-ЯЁ«"„]|$)/g,
+    " "
+  );
+
+  return result.replace(/\s{2,}/g, " ").trim();
+}
+
 function getDisplayTranslationText(verse, translationId) {
-  return getTranslationText(verse, translationId) || "Стих отсутствует в этом переводе.";
+  const text = getTranslationText(verse, translationId);
+
+  if (!text) {
+    return "Стих отсутствует в этом переводе.";
+  }
+
+  if (translationId === "russianBti") {
+    return formatBtiDisplayText(text);
+  }
+
+  return text;
 }
 
 function getAlignmentForTranslation(verse, translationId) {
@@ -1279,7 +1392,7 @@ function renderVerseText(scene, verse, language) {
   const tokens = splitDisplayTokens(getDisplayTranslationText(verse, language));
   const contextMatches = getVerseContextMatches(scene, verse, language);
   const contextMatchMap = new Map(contextMatches.map((item) => [item.start, item]));
-  const activeContextRef = getSelectedContextReference(scene);
+  const activeContextRef = getActiveReference(scene);
   const parts = [];
 
   for (let index = 0; index < tokens.length; index += 1) {
@@ -1295,9 +1408,9 @@ function renderVerseText(scene, verse, language) {
           data-context-ref="${verse.number}:${contextMatch.reference.id}"
           title="${
             role === "place"
-              ? `Место: ${contextMatch.reference.title} (открыть на карте)`
+              ? `Место: ${contextMatch.reference.title} (открыть справку)`
               : role === "person"
-                ? `Человек: ${contextMatch.reference.title} (мини-википедия)`
+                ? `Человек: ${contextMatch.reference.title} (открыть справку)`
                 : contextMatch.reference.title
           }"
         >
@@ -2147,7 +2260,7 @@ function renderChapterMusic(scene) {
 }
 
 function renderContextFocusPanel(scene) {
-  const activeReference = getSelectedContextReference(scene);
+  const activeReference = getActiveReference(scene);
   if (!activeReference || activeReference.role === "place") {
     return "";
   }
@@ -2322,13 +2435,24 @@ function getLoadedBook(bookId) {
 }
 
 async function ensureBookLoaded(bookId) {
-  if (state.loadedBooks.has(bookId)) {
+  const requestedTranslationIds = [...state.visibleLanguages];
+  const loadedTranslations = state.loadedBookTranslations.get(bookId) ?? new Set();
+  const missingTranslations = requestedTranslationIds.filter(
+    (translationId) => !loadedTranslations.has(translationId)
+  );
+
+  if (state.loadedBooks.has(bookId) && missingTranslations.length === 0) {
     return state.loadedBooks.get(bookId);
   }
 
-  const book = await loadBookData(bookId);
+  const book = await loadBookData(bookId, requestedTranslationIds);
   if (book) {
     state.loadedBooks.set(bookId, book);
+    const latestLoadedTranslations = state.loadedBookTranslations.get(bookId) ?? new Set();
+    state.loadedBookTranslations.set(
+      bookId,
+      new Set([...latestLoadedTranslations, ...requestedTranslationIds])
+    );
   }
   return book;
 }
@@ -2361,6 +2485,7 @@ async function render() {
       sceneKey: null,
       refId: null
     };
+    state.activeReference = null;
     state.focusedPlaceId = null;
     state.activeCommentary = {
       sceneKey: null,
@@ -2402,11 +2527,12 @@ async function render() {
 
   if (state.currentSceneKey !== getSceneKey(scene)) {
     stopGreekPronunciation({ rerender: false });
-    state.selectedWord = null;
     state.selectedContext = {
       sceneKey: null,
       refId: null
     };
+    state.activeReference = null;
+    state.activeArtwork = null;
     state.activeArtwork = null;
     state.activeCommentary = {
       sceneKey: null,
@@ -2714,6 +2840,7 @@ async function render() {
             : ""
         }
       </main>
+      ${renderReferenceSidebar(scene)}
       ${renderArtworkLightbox()}
     </div>
   `;
@@ -2802,31 +2929,36 @@ async function render() {
         ? rawValue.split(":").slice(1).join(":")
         : rawValue;
       const isSameSelection =
-        state.selectedContext.sceneKey === getSceneKey(scene) &&
-        state.selectedContext.refId === nextRefId;
-      const nextReference = getSceneContextReferences(scene).find((item) => item.id === nextRefId);
+        state.activeReference?.sceneKey === getSceneKey(scene) &&
+        state.activeReference.refId === nextRefId;
 
-      state.selectedContext = isSameSelection
-        ? {
-            sceneKey: null,
-            refId: null
-          }
+      state.activeReference = isSameSelection
+        ? null
         : {
             sceneKey: getSceneKey(scene),
             refId: nextRefId
           };
+      render();
+    });
+  });
 
-      if (isSameSelection) {
-        state.focusedPlaceId = null;
-      } else if (nextReference?.role === "place" && nextReference.placeId) {
-        // WHY: place names are wiki-links into the map tab for that location
-        state.focusedPlaceId = nextReference.placeId;
-        state.activeWorkspaceTab = "map";
-      } else {
-        state.focusedPlaceId = null;
-        state.activeWorkspaceTab = "people";
+  app.querySelectorAll("[data-reference-close]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.activeReference = null;
+      render();
+    });
+  });
+
+  app.querySelectorAll("[data-reference-map]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const placeId = button.dataset.referenceMap;
+      if (!placeId) {
+        return;
       }
 
+      state.activeReference = null;
+      state.focusedPlaceId = placeId;
+      state.activeWorkspaceTab = "map";
       render();
     });
   });
@@ -2897,6 +3029,12 @@ async function render() {
 }
 
 function handleGlobalKeydown(event) {
+  if (event.key === "Escape" && state.activeReference) {
+    state.activeReference = null;
+    render();
+    return;
+  }
+
   if (event.key === "Escape" && state.activeArtwork) {
     state.activeArtwork = null;
     render();

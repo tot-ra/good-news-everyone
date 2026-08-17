@@ -284,15 +284,77 @@ export function getPlaceById(placeId) {
   return places.find((place) => place.id === placeId) ?? null;
 }
 
-const bookModules = import.meta.glob("./data/books/*.json");
+const baseBookModules = import.meta.glob("./data/book-chunks/*/base.json");
+const translationModules = import.meta.glob(
+  "./data/book-chunks/*/translations/*.json"
+);
+const bookCache = new Map();
+const loadedTranslations = new Map();
 
-export async function loadBookData(bookId) {
-  const loader = bookModules[`./data/books/${bookId}.json`];
+function applyTranslationChunk(book, chunk) {
+  chunk.chapters.forEach((chapter, chapterIndex) => {
+    chapter.forEach((scene, sceneIndex) => {
+      scene.forEach((translation, verseIndex) => {
+        const verse = book.chapters[chapterIndex]?.scenes[sceneIndex]?.verses[verseIndex];
+        if (!verse) {
+          return;
+        }
+
+        verse.translations ??= {};
+        verse.translations[chunk.translationId] = translation.text;
+
+        if (translation.greekTokens) {
+          verse.greekTokens = translation.greekTokens;
+        }
+
+        if (translation.alignment) {
+          verse.alignments ??= {};
+          verse.alignments[chunk.translationId] = translation.alignment;
+        }
+      });
+    });
+  });
+}
+
+export async function loadBookData(bookId, translationIds = []) {
+  const loader = baseBookModules[`./data/book-chunks/${bookId}/base.json`];
 
   if (!loader) {
     return null;
   }
 
-  const module = await loader();
-  return module.default ?? null;
+  if (!bookCache.has(bookId)) {
+    const module = await loader();
+    bookCache.set(bookId, module.default ?? null);
+    loadedTranslations.set(bookId, new Set());
+  }
+
+  const book = bookCache.get(bookId);
+  if (!book) {
+    return null;
+  }
+
+  const loaded = loadedTranslations.get(bookId);
+  const missingIds = [...new Set(translationIds)].filter(
+    (translationId) => !loaded.has(translationId)
+  );
+
+  await Promise.all(
+    missingIds.map(async (translationId) => {
+      const translationLoader =
+        translationModules[
+          `./data/book-chunks/${bookId}/translations/${translationId}.json`
+        ];
+
+      if (!translationLoader) {
+        return;
+      }
+
+      const module = await translationLoader();
+      applyTranslationChunk(book, module.default);
+      loaded.add(translationId);
+    })
+  );
+
+  return book;
 }

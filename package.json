@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:texts": "node scripts/build-gospels-data.mjs && node scripts/build-greek-form-fallbacks.mjs && node scripts/add-translation-variants.mjs && node scripts/localize-russian-metadata.mjs && node scripts/update-luke-art.mjs",
+    "build:texts": "node scripts/build-gospels-data.mjs && node scripts/build-greek-form-fallbacks.mjs && node scripts/add-translation-variants.mjs && node scripts/localize-russian-metadata.mjs && node scripts/update-luke-art.mjs && node scripts/build-book-chunks.mjs",
+    "build:book-chunks": "node scripts/build-book-chunks.mjs",
     "build:greek-forms": "node scripts/build-greek-form-fallbacks.mjs",
+    "test": "node --test",
     "start": "vite --host 0.0.0.0",
     "dev": "vite",
     "build": "vite build",

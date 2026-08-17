@@ -18,12 +18,30 @@ export const peopleCatalog = [
       "Христа",
       "Христу",
       "Христом",
+      "Мессия",
+      "Мессии",
+      "Мессию",
+      "Мессией",
       "Иисус Христос",
       "Иисуса Христа"
     ],
     meta: "Центральная фигура Евангелий",
     description:
       "Иисус из Назарета - учитель, целитель и Мессия евангельского повествования. В тексте Матфея Его слова и дела раскрывают Царство и исполняют Писание."
+  },
+  {
+    id: "john-zebedee",
+    name: "Иоанн, сын Зеведея",
+    aliases: [
+      "Иоанн Зеведеев",
+      "Иоанна Зеведеева",
+      "Иоанну Зеведееву",
+      "Иоанном Зеведеевым",
+      "Иоанне Зеведееве"
+    ],
+    meta: "Апостол, сын Зеведея",
+    description:
+      "Иоанн, сын Зеведея, - брат Иакова и один из двенадцати апостолов. Вместе с Петром и Иаковом он входит в ближайший круг учеников и становится свидетелем преображения Иисуса."
   },
   {
     id: "john-baptist",
@@ -93,12 +111,28 @@ export const peopleCatalog = [
       "Имя Ирод в Евангелиях может относиться к разным правителям династии. Общий фон - политическая власть, опасность для младенца Иисуса и поздние конфликты с Иоанном."
   },
   {
+    id: "moses",
+    name: "Моисей",
+    aliases: ["Моисей", "Моисея", "Моисею", "Моисеем", "Моисее", "Моисеев", "Моисееву"],
+    meta: "Законодатель и пророк Исхода",
+    description:
+      "Моисей - вождь Исхода и главный законодатель Израиля. В Евангелиях его имя указывает на Закон, Пятикнижие и древнее свидетельство о Божьем обещании."
+  },
+  {
     id: "isaiah",
     name: "Исаия",
     aliases: ["Исаия", "Исаии", "Исайя", "Исайи"],
     meta: "Ветхозаветный пророк",
     description:
       "Пророк, чьи слова евангелисты часто цитируют, чтобы объяснить смысл служения Иоанна и Иисуса."
+  },
+  {
+    id: "elijah",
+    name: "Илия",
+    aliases: ["Илия", "Илии", "Илию", "Илией", "Илиею"],
+    meta: "Ветхозаветный пророк",
+    description:
+      "Пророк, которого ждали перед приходом Мессии. В вопросах к Иоанну Крестителю и в сценах преображения его имя связывает Новый Завет с ожиданиями Израиля."
   },
   {
     id: "pharisees",
@@ -126,7 +160,13 @@ export const placeAliasCatalog = {
     "Галилейское море",
     "Галилейского моря",
     "Галилейском море",
-    "море Галилейское"
+    "море Галилейское",
+    // WHY: John 1 says «в Галилею» for the region around the lake, not only the water itself
+    "Галилея",
+    "Галилеи",
+    "Галилее",
+    "Галилею",
+    "Галилеей"
   ],
   sychar: ["Сихарь", "Сихаря", "Сихаре"],
   jerusalem: ["Иерусалим", "Иерусалима", "Иерусалиме", "Иерусалиму", "Иерусалимом"],
@@ -206,16 +246,34 @@ export function getPlaceAliases(place) {
   return [...new Set([place.name, ...(place.aliases ?? []), ...fromCatalog].filter(Boolean))];
 }
 
-export function findPersonCatalogMatch(label = "") {
+export function findPersonCatalogMatch(label = "", personId = null) {
+  const normalizedPersonId = personId
+    ?.trim()
+    .toLowerCase()
+    .replace(/^codex:/, "")
+    .replace(/:\d+$/, "");
+  if (normalizedPersonId) {
+    const explicitMatch = peopleCatalog.find((person) => person.id === normalizedPersonId);
+    if (explicitMatch) {
+      return explicitMatch;
+    }
+  }
+
   const needle = label.trim().toLowerCase();
   if (!needle) {
     return null;
   }
 
+  const catalogNames = (person) =>
+    [person.name, ...(person.aliases ?? [])].map((item) => item.toLowerCase());
+  const exactMatch = peopleCatalog.find((person) => catalogNames(person).includes(needle));
+  if (exactMatch) {
+    return exactMatch;
+  }
+
   return (
-    peopleCatalog.find((person) => {
-      const names = [person.name, ...(person.aliases ?? [])].map((item) => item.toLowerCase());
-      return names.includes(needle) || names.some((alias) => alias.startsWith(needle) || needle.startsWith(alias));
-    }) ?? null
+    peopleCatalog.find((person) =>
+      catalogNames(person).some((alias) => alias.startsWith(needle) || needle.startsWith(alias))
+    ) ?? null
   );
 }

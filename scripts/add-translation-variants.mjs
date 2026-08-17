@@ -112,13 +112,73 @@ function cleanupVerseText(text) {
     .trim();
 }
 
-function htmlToText(html) {
-  const withoutFootnotes = html.replace(/<span[^>]*class="fn-tip"[\s\S]*?<\/span>/g, "");
-  const withLineBreakSpaces = withoutFootnotes.replace(/<\/(?:p|div|h\d|br)>/gi, " ");
-  const withoutTags = withLineBreakSpaces.replace(/<[^>]+>/g, "");
-  return cleanupVerseText(decodeHtmlEntities(withoutTags));
+/** End index of an HTML tag starting at `start`, respecting quotes inside attributes. */
+function findTagEnd(html, start) {
+  let quote = null;
+
+  for (let index = start; index < html.length; index += 1) {
+    const char = html[index];
+
+    if (quote) {
+      if (char === quote) {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (char === '"' || char === "'") {
+      quote = char;
+      continue;
+    }
+
+    if (char === ">") {
+      return index;
+    }
+  }
+
+  return -1;
 }
 
+function extractQuotedAttr(tag, attrName) {
+  const match = tag.match(new RegExp(`\\b${attrName}\\s*=\\s*("([^"]*)"|'([^']*)')`, "i"));
+  return match ? (match[2] ?? match[3] ?? "") : null;
+}
+
+function tagHasClass(tag, className) {
+  const classAttr = extractQuotedAttr(tag, "class") ?? "";
+  return classAttr.split(/\s+/).includes(className);
+}
+
+function appendToVerses(verseMap, verseNumbers, chunk) {
+  for (const verseNumber of verseNumbers) {
+    verseMap.set(verseNumber, `${verseMap.get(verseNumber) ?? ""}${chunk}`);
+  }
+}
+
+function parseVerseNumbers(tag) {
+  const primary = extractQuotedAttr(tag, "vers");
+  if (!primary || !/^\d+$/.test(primary) || Number(primary) <= 0) {
+    return null;
+  }
+
+  // BTI sometimes merges verses: vers="7" vers-alt="8"
+  const alt = extractQuotedAttr(tag, "vers-alt");
+  const numbers = [Number(primary)];
+  if (alt && /^\d+$/.test(alt) && Number(alt) > 0 && Number(alt) !== Number(primary)) {
+    numbers.push(Number(alt));
+  }
+  return numbers;
+}
+
+/**
+ * Walk the chapter HTML and collect verse text.
+ *
+ * Why not a simple regex: only.bible BTI footnotes put raw `</span>` inside the
+ * `title` attribute of empty `fn-tip` markers. Non-greedy `...</span>` patterns
+ * stop there, so verses were truncated and leftover "Букв.:" leaked into russianBti.
+ * Some chapter tails also open a continuation `vers` span around the footnotes
+ * panel without closing it, so parsing must stop at `.footnotes`.
+ */
 function extractVerseTexts(html) {
   const bibleMatch = html.match(
     /<div class="row equal" id="bible">([\s\S]*?)<div class="hidden-print mt-5 btn-toolbar show-all">/
@@ -128,23 +188,87 @@ function extractVerseTexts(html) {
     throw new Error("Could not locate bible text block");
   }
 
+  const footnotesAt = bibleMatch[1].search(
+    /<div\b[^>]*\bclass="[^"]*\bfootnotes\b[^"]*"/i
+  );
+  const block = footnotesAt === -1 ? bibleMatch[1] : bibleMatch[1].slice(0, footnotesAt);
   const verseMap = new Map();
-  const spanRegex = /<span[^>]*\bvers="(\d+)"[^>]*>([\s\S]*?)<\/span>/g;
-  let match;
+  let index = 0;
+  let activeVerses = null;
+  let depthInActive = 0;
+  let skipDepth = 0;
 
-  while ((match = spanRegex.exec(bibleMatch[1]))) {
-    const verseNumber = Number(match[1]);
-    if (!verseNumber) {
+  while (index < block.length) {
+    if (block[index] !== "<") {
+      if (activeVerses && skipDepth === 0) {
+        const nextTag = block.indexOf("<", index);
+        const chunk = nextTag === -1 ? block.slice(index) : block.slice(index, nextTag);
+        appendToVerses(verseMap, activeVerses, chunk);
+        index = nextTag === -1 ? block.length : nextTag;
+        continue;
+      }
+
+      index += 1;
       continue;
     }
 
-    const segment = htmlToText(match[2]);
-    if (!segment) {
+    if (block.startsWith("<!--", index)) {
+      const commentEnd = block.indexOf("-->", index + 4);
+      index = commentEnd === -1 ? block.length : commentEnd + 3;
       continue;
     }
 
-    const current = verseMap.get(verseNumber) ?? "";
-    verseMap.set(verseNumber, cleanupVerseText(`${current} ${segment}`));
+    const tagEnd = findTagEnd(block, index);
+    if (tagEnd === -1) {
+      break;
+    }
+
+    const tag = block.slice(index, tagEnd + 1);
+    const isClose = /^<\//.test(tag);
+    const name = tag.match(/^<\/?\s*([a-zA-Z0-9:-]+)/)?.[1]?.toLowerCase() ?? "";
+    const selfClosing =
+      /\/>$/.test(tag) || ["br", "hr", "img", "input", "meta", "link"].includes(name);
+
+    if (name === "span") {
+      if (!isClose) {
+        if (skipDepth > 0) {
+          skipDepth += 1;
+        } else if (tagHasClass(tag, "fn-tip")) {
+          // Drop translator footnotes ("Букв.: …") entirely from reading text.
+          skipDepth = 1;
+        } else {
+          const verseNumbers = parseVerseNumbers(tag);
+          if (verseNumbers) {
+            activeVerses = verseNumbers;
+            depthInActive = 1;
+          } else if (activeVerses) {
+            depthInActive += 1;
+          }
+        }
+      } else if (skipDepth > 0) {
+        skipDepth -= 1;
+      } else if (activeVerses) {
+        depthInActive -= 1;
+        if (depthInActive <= 0) {
+          activeVerses = null;
+          depthInActive = 0;
+        }
+      }
+    } else if (
+      activeVerses &&
+      skipDepth === 0 &&
+      ((isClose && /^(p|div|h\d)$/.test(name)) ||
+        (!isClose && name === "br") ||
+        (selfClosing && name === "br"))
+    ) {
+      appendToVerses(verseMap, activeVerses, " ");
+    }
+
+    index = tagEnd + 1;
+  }
+
+  for (const [verseNumber, raw] of verseMap) {
+    verseMap.set(verseNumber, cleanupVerseText(decodeHtmlEntities(raw.replace(/<[^>]+>/g, ""))));
   }
 
   return verseMap;

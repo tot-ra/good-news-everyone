@@ -1,4 +1,4 @@
-# Good News (εὐαγγέλιον) Everyone
+# Good News Everyone!
 <img width="100" alt="farnsworth" src="https://github.com/user-attachments/assets/bd2a0964-ad5c-45f4-bbe1-937906dec0c5" />
 
 A design-first prototype for reading the four Gospels ☦️ as literature, language, geography, and visual culture.
