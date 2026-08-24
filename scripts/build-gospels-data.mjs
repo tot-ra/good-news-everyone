@@ -660,6 +660,55 @@ function buildRareGlossaryEntries(russianTexts) {
 }
 
 function getBookSpecificGlossaryEntries(bookId, chapterNumber) {
+  if (bookId === "matthew" && chapterNumber === 17) {
+    return [
+      {
+        term: "драхма",
+        aliases: ["драхма", "драхмы", "драхму", "драхме", "драхмой", "драхм"],
+        meta: "древняя серебряная монета",
+        description:
+          "Древнегреческая серебряная монета. В I веке одна драхма примерно соответствовала дневному заработку работника, а две драхмы составляли храмовый сбор с одного человека.",
+        verseNumbers: ["27"]
+      },
+      {
+        term: "статир",
+        aliases: ["статир", "статира", "статиру", "статиром", "статире"],
+        meta: "монета в четыре драхмы",
+        description:
+          "В этом стихе, вероятно, имеется в виду серебряная монета стоимостью четыре драхмы, то есть тетрадрахма. Её хватало, чтобы уплатить храмовый сбор в две драхмы за двоих - Иисуса и Петра.",
+        // The imported Synodal corpus currently displays canonical 17:27 in row 26,
+        // while Cassian keeps it in row 27. Cover both display rows until alignment is corrected.
+        verseNumbers: ["26", "27"]
+      }
+    ];
+  }
+
+  if (bookId === "matthew" && chapterNumber === 27) {
+    return [
+      {
+        term: "Поле Крови",
+        aliases: ["Поле Крови", "Полем Крови"],
+        kind: "place",
+        placeId: "akeldama",
+        meta: "Акелдама, место погребения странников",
+        description:
+          "Поле близ Иерусалима, купленное на возвращённые Иудой тридцать серебряников для погребения странников и потому названное Полем Крови.",
+        verseNumbers: ["8"]
+      },
+      {
+        referenceKey: "codex:jeremiah:27",
+        term: "Иеремия",
+        aliases: ["Иеремия", "Иеремии", "Иеремию", "Иеремией", "Иеремиею"],
+        kind: "person",
+        meta: "ветхозаветный пророк",
+        description:
+          "Пророк Иеремия возвещал суд и надежду восстановления Иудее. Матфей связывает его имя с пророческими словами о цене предательства и земле горшечника.",
+        // Synodal and Cassian/BTI place the Jeremiah wording on different display rows.
+        verseNumbers: ["8", "9"]
+      }
+    ];
+  }
+
   if (bookId === "mark") {
     return MARK_CHAPTER_GLOSSARY_ADDITIONS[chapterNumber] ?? [];
   }

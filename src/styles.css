@@ -1321,15 +1321,21 @@ h1 {
 
 .reference-sidebar__place {
   margin-top: 24px;
-  padding: 16px;
+  padding: 10px;
   border-radius: 18px;
   background: rgba(55, 98, 92, 0.08);
   border: 1px solid rgba(55, 98, 92, 0.16);
 }
 
-.reference-sidebar__place p {
-  margin: 0;
-  color: var(--muted);
+.reference-sidebar__map {
+  min-height: 260px;
+  border: 1px solid rgba(55, 98, 92, 0.16);
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.reference-sidebar__place .leaflet-control-attribution {
+  font-size: 0.62rem;
 }
 
 .reference-sidebar__hint {

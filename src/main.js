@@ -462,6 +462,7 @@ const lifeJourney = {
 
 const defaultScene = allScenes[0];
 let activeMap = null;
+let activeReferenceMap = null;
 let renderRequestId = 0;
 let activeUtterance = null;
 const lemmaReferencesCache = new Map();
@@ -993,10 +994,15 @@ function renderReferenceSidebar(scene) {
             place
               ? `
                 <div class="reference-sidebar__place">
-                  <p><strong>Координаты:</strong> ${place.lat.toFixed(3)}, ${place.lng.toFixed(3)}</p>
+                  <div
+                    id="reference-map"
+                    class="reference-sidebar__map"
+                    role="region"
+                    aria-label="Карта места ${place.name}"
+                  ></div>
                   <button class="reference-sidebar__map-link" type="button" data-reference-map="${place.id}">
                     ${renderIcon("map", "ui-icon")}
-                    Открыть на карте
+                    Открыть большую карту
                   </button>
                 </div>
               `
@@ -1007,6 +1013,48 @@ function renderReferenceSidebar(scene) {
       </aside>
     </div>
   `;
+}
+
+function renderReferenceMap(place) {
+  const container = document.querySelector("#reference-map");
+
+  if (activeReferenceMap) {
+    activeReferenceMap.remove();
+    activeReferenceMap = null;
+  }
+
+  if (!container || !place) {
+    return;
+  }
+
+  activeReferenceMap = L.map(container, {
+    zoomControl: true,
+    scrollWheelZoom: false
+  }).setView([place.lat, place.lng], 12);
+
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(activeReferenceMap);
+
+  L.circleMarker([place.lat, place.lng], {
+    radius: 8,
+    color: "#a97832",
+    fillColor: "#d3a95a",
+    fillOpacity: 0.92,
+    weight: 3
+  })
+    .addTo(activeReferenceMap)
+    .bindTooltip(place.name, {
+      permanent: true,
+      direction: "top",
+      offset: [0, -10],
+      className: "map-label map-label--active"
+    });
+
+  // Leaflet measures the map after the fixed sidebar finishes its layout pass.
+  requestAnimationFrame(() => activeReferenceMap?.invalidateSize());
 }
 
 function getVerseContextMatches(scene, verse, language) {
@@ -3013,6 +3061,10 @@ async function render() {
       }
     });
   });
+
+  renderReferenceMap(
+    getPlaceById(getActiveReference(scene)?.placeId)
+  );
 
   if (state.activeWorkspaceTab === "map") {
     renderLeafletMap(scene);
