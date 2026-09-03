@@ -7,9 +7,14 @@
 - Prefer `public/` for generated static preview images so Vite serves them as `/...` without bundling.
 - Leonardo CDN downloads can return HTTP 403 without a browser-like `User-Agent`; retry with `User-Agent: Mozilla/5.0` and short backoff.
 - Do not print Leonardo/integration secrets from sqlite into chat or repo files; load them into a chmod 600 temp env file for scripts only.
+- Shell `source` of `KEY=value` env files does not export into child Python unless you `set -a` before sourcing (or use `export`); otherwise generation scripts raise `KeyError: LEONARDO_API_KEY`.
+- For Gospel of John journey regen: map Last Supper -> `john-farewell.jpg`, first disciples -> `john-manifestation.jpg`, miracles/Book of Signs -> `john-signs.jpg`; keep prompts first-century, fully clothed, no preset_style.
 - Leonardo `preset_style` values are API-specific; when a human-readable style such as `Cinematic` returns 400, omit the preset and encode the visual direction in the prompt instead.
 - If a configured review agent name is unavailable, continue with local inspection and tests; do not block the task on delegation.
+- Delegation may fail when a remembered UUID is absent from the configured agent list; treat it as unavailable and proceed with a local review rather than retrying arbitrary IDs.
 - A2gent `suggest_*` / `question` / docker subagent tools are not available in Cursor Agent CLI; implement and verify locally, and put follow-ups / commit suggestions in the Russian reply text.
+- OpenAI image generation requires a configured OpenAI provider API key; if it is unavailable, use an enabled image integration such as Leonardo and keep the generated asset local under `public/`.
+- Chrome extension screenshots require `<all_urls>` or `activeTab`; when permission is missing, verify the DOM there and use the isolated browser controller for visual screenshots.
 - Browser extension style inspection can time out on a busy tab; retry through the browser controller and verify computed styles after the page settles.
 - Vague journey prompts like "solitary figure by a river" for Mark opening yield modern-looking mismatches; specify baptism of Jesus by John, first-century Judean dress, both figures fully clothed, reed Jordan banks, and omit `preset_style` when it 400s.
 - Journey preview CSS uses `aspect-ratio: 4 / 3`; prefer Leonardo sizes near 1472x832 over square 1024 so `object-fit: cover` crops less awkwardly.
@@ -34,3 +39,9 @@
 - Do not assume a standalone places JSON path; trace the actual export/import in `src/content.js` before scripting data checks.
 - An external agent may be listed as online while delegation still fails because the local A2A tunnel is disconnected; treat discovery status as advisory and fall back to local review.
 - Registry agents reported as online can still time out while contacting their upstream LLM; after one context-deadline failure, fall back to local diff review and browser verification instead of retrying.
+- This project has no `npm test` script; run its Node tests explicitly (for example `node --test test/wiki.test.js`) and use `npm run build` for the frontend verification.
+- For scenes set in Jesus' lifetime, explicitly prohibit all post-70 CE and modern Jerusalem landmarks in the image prompt (including Al-Aqsa, Dome of the Rock, churches, minarets and modern skyline) and specify the Second Temple period, c. 30 CE, before generating.
+- Leonardo still often inserts Dome of the Rock into any Jerusalem skyline; for Triumphal Entry prefer a tight Mount of Olives road composition with no city panorama at all, then visually reject candidates that show any dome or minaret before overwriting `matthew-jerusalem.jpg`.
+- Image-description helpers can hallucinate Dome of the Rock across sibling candidates; before accepting a Jerusalem preview, crop the upper skyline band and also run a simple gold-pixel heuristic so selection is not based on a single full-frame caption.
+
+- When delegating, first verify the configured agent IDs; `frontend-developer` was unavailable.

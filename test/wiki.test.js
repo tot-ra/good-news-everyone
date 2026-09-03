@@ -14,6 +14,14 @@ test("an unqualified John keeps the existing Baptist fallback", () => {
   assert.equal(findPersonCatalogMatch("Иоанн")?.id, "john-baptist");
 });
 
+test("Jesus uses the God-man label and exposes a local reference image", () => {
+  const person = findPersonCatalogMatch("Иисус");
+
+  assert.equal(person?.kindLabel, "Богочеловек");
+  assert.equal(person?.image?.src, "/reference-images/jesus.jpg");
+  assert.ok(person?.image?.alt);
+});
+
 test("Jeremiah inflections resolve to the prophet catalog entry", () => {
   assert.equal(findPersonCatalogMatch("Иеремию")?.id, "jeremiah");
   assert.equal(findPersonCatalogMatch("Иеремия", "codex:jeremiah:27")?.id, "jeremiah");

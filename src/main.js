@@ -488,6 +488,12 @@ const state = {
   activeWorkspaceTab: "reading",
   activeArtwork: null,
   selectedChapterTrackIds: {},
+  // WHY: long journey TOC pushes reading down; remember open/closed across re-renders
+  journeyTocOpen: true,
+  // WHY: per-book stage accordion; null means "derive from active chapter"
+  journeyStageOpen: {},
+  // WHY: only force-open when the active stage changes, not on every chapter hop
+  journeyActiveStageKey: null,
   activeCommentary: {
     sceneKey: null,
     verseNumber: null,
@@ -744,6 +750,8 @@ function buildContextReference({
   title,
   meta,
   description,
+  kindLabel = null,
+  image = null,
   aliases,
   verseNumbers = null,
   placeId = null,
@@ -756,6 +764,8 @@ function buildContextReference({
     title,
     meta,
     description,
+    kindLabel,
+    image,
     aliases: getContextReferenceAliases(title, aliases),
     verseNumbers,
     placeId,
@@ -848,6 +858,8 @@ function getSceneContextReferences(scene) {
         title: matchedPerson?.name ?? item.name,
         meta: matchedPerson?.meta ?? item.meta,
         description: matchedPerson?.description ?? item.description,
+        kindLabel: matchedPerson?.kindLabel ?? item.kindLabel,
+        image: matchedPerson?.image ?? item.image,
         aliases: [...(item.aliases ?? []), ...(matchedPerson?.aliases ?? []), ...(matchedPlace ? getPlaceAliases(matchedPlace) : [])],
         verseNumbers: item.verseNumbers ?? null,
         placeId: matchedPlace?.id ?? item.placeId ?? null,
@@ -876,6 +888,8 @@ function getSceneContextReferences(scene) {
         title: matchedPerson?.name ?? item.term,
         meta: matchedPerson?.meta ?? item.meta,
         description: matchedPerson?.description ?? item.description,
+        kindLabel: matchedPerson?.kindLabel ?? item.kindLabel,
+        image: matchedPerson?.image ?? item.image,
         aliases: [...(item.aliases ?? []), ...(matchedPerson?.aliases ?? []), ...(matchedPlace ? getPlaceAliases(matchedPlace) : [])],
         verseNumbers: item.verseNumbers ?? null,
         placeId: matchedPlace?.id ?? item.placeId ?? null,
@@ -896,6 +910,8 @@ function getSceneContextReferences(scene) {
         title: person.name,
         meta: person.meta,
         description: person.description,
+        kindLabel: person.kindLabel,
+        image: person.image,
         aliases: person.aliases,
         personId: person.id
       })
@@ -972,7 +988,9 @@ function renderReferenceSidebar(scene) {
 
   const isPlace = reference.role === "place";
   const place = isPlace ? getPlaceById(reference.placeId) : null;
-  const kindLabel = isPlace ? "Место" : reference.role === "person" ? "Человек" : "Термин";
+  const kindLabel =
+    reference.kindLabel ??
+    (isPlace ? "Место" : reference.role === "person" ? "Человек" : "Термин");
   const iconName = isPlace ? "place" : reference.role === "person" ? "people" : "term";
 
   return `
@@ -989,6 +1007,16 @@ function renderReferenceSidebar(scene) {
         <div class="reference-sidebar__content">
           <h2 id="reference-sidebar-title">${reference.title}</h2>
           <p class="reference-sidebar__meta">${reference.meta}</p>
+          ${
+            reference.image
+              ? `
+                <figure class="reference-sidebar__figure">
+                  <img src="${reference.image.src}" alt="${reference.image.alt ?? reference.title}" />
+                  ${reference.image.caption ? `<figcaption>${reference.image.caption}</figcaption>` : ""}
+                </figure>
+              `
+              : ""
+          }
           <p class="reference-sidebar__description">${reference.description}</p>
           ${
             place
@@ -2037,6 +2065,50 @@ function chapterInRange(chapterNumber, range) {
   return chapterNumber >= range[0] && chapterNumber <= range[1];
 }
 
+function isJourneyStageOpen(bookId, stage, activeChapterNumber) {
+  const bookState = state.journeyStageOpen[bookId];
+  if (bookState && Object.prototype.hasOwnProperty.call(bookState, stage.id)) {
+    return Boolean(bookState[stage.id]);
+  }
+
+  // Default: only the stage that contains the current chapter is expanded.
+  return chapterInRange(activeChapterNumber, stage.chapters);
+}
+
+function formatJourneyStageCount(count) {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  if (mod10 === 1 && mod100 !== 11) {
+    return `${count} этап`;
+  }
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+    return `${count} этапа`;
+  }
+  return `${count} этапов`;
+}
+
+function ensureActiveJourneyStageTracked(bookId, stages, activeChapterNumber) {
+  const activeStage = stages.find((stage) =>
+    chapterInRange(activeChapterNumber, stage.chapters)
+  );
+  const stageKey = activeStage ? `${bookId}:${activeStage.id}` : `${bookId}:none`;
+  const stageChanged = state.journeyActiveStageKey !== stageKey;
+  state.journeyActiveStageKey = stageKey;
+
+  if (!stageChanged || !activeStage) {
+    return;
+  }
+
+  const bookState = state.journeyStageOpen[bookId];
+  if (!bookState) {
+    return;
+  }
+
+  // After moving into a different stage, keep that stage discoverable even if
+  // the reader previously collapsed other stages in this book.
+  bookState[activeStage.id] = true;
+}
+
 function getMilestonePosition(chapterNumber, totalChapters) {
   if (totalChapters <= 1) {
     return 0;
@@ -2606,6 +2678,7 @@ async function render() {
   const journey = getJourneyConfig(activeBook.id, activeBook.chapters);
   const totalChapters = activeBook.chapters.length;
   const sceneArtwork = getSceneArt(scene);
+  ensureActiveJourneyStageTracked(activeBook.id, journey.stages, activeChapter.number);
 
   app.innerHTML = `
     <div class="page-shell">
@@ -2634,8 +2707,16 @@ async function render() {
           </section>
 
           <section class="library-chapters">
-            <p class="section-kicker">Путь жизни</p>
-            <div class="journey-shell">
+            <details class="journey-toc"${state.journeyTocOpen ? " open" : ""} data-journey-toc>
+              <summary class="journey-toc__summary">
+                <div class="journey-toc__summary-copy">
+                  <p class="section-kicker">Путь жизни</p>
+                  <strong>Оглавление · ${formatJourneyStageCount(journey.stages.length)}</strong>
+                  <span>Сверните блок, чтобы быстрее читать текст главы.</span>
+                </div>
+                <span class="journey-toc__chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="journey-shell">
               <div class="journey-header">
                 <div>
                   <p class="journey-label">От рождения до смерти</p>
@@ -2697,22 +2778,36 @@ async function render() {
                     const stageChapters = activeBook.chapters.filter((chapter) =>
                       chapterInRange(chapter.number, stage.chapters)
                     );
+                    const stageIsActive = chapterInRange(activeChapter.number, stage.chapters);
+                    const stageIsOpen = isJourneyStageOpen(
+                      activeBook.id,
+                      stage,
+                      activeChapter.number
+                    );
 
                     return `
-                      <section class="journey-stage">
-                        ${
-                          stage.preview
-                            ? `<figure class="journey-stage__preview">
-                                <img src="${stage.preview}" alt="${stage.title}" loading="lazy" />
-                              </figure>`
-                            : ""
-                        }
-                        <div class="journey-stage__meta">
-                          <p class="journey-stage__range">Главы ${stage.chapters[0]}-${stage.chapters[1]}</p>
-                          <h4>${stage.title}</h4>
-                          <p class="journey-stage__details">${stage.years} · ${getLocationsLabel(stage.locations)}</p>
-                          <p>${stage.summary}</p>
-                        </div>
+                      <details
+                        class="journey-stage${stageIsActive ? " is-active" : ""}"
+                        data-journey-stage="${stage.id}"
+                        data-journey-book="${activeBook.id}"
+                        ${stageIsOpen ? "open" : ""}
+                      >
+                        <summary class="journey-stage__summary">
+                          ${
+                            stage.preview
+                              ? `<figure class="journey-stage__preview">
+                                  <img src="${stage.preview}" alt="" loading="lazy" />
+                                </figure>`
+                              : `<span class="journey-stage__preview journey-stage__preview--empty" aria-hidden="true"></span>`
+                          }
+                          <div class="journey-stage__meta">
+                            <p class="journey-stage__range">Главы ${stage.chapters[0]}-${stage.chapters[1]}</p>
+                            <h4>${stage.title}</h4>
+                            <p class="journey-stage__details">${stage.years} · ${getLocationsLabel(stage.locations)}</p>
+                            <p>${stage.summary}</p>
+                          </div>
+                          <span class="journey-stage__chevron" aria-hidden="true"></span>
+                        </summary>
                         <div class="journey-stage__chapters">
                           ${stageChapters
                             .map((chapter) => {
@@ -2730,12 +2825,13 @@ async function render() {
                             })
                             .join("")}
                         </div>
-                      </section>
+                      </details>
                     `;
                   })
                   .join("")}
               </div>
             </div>
+            </details>
           </section>
         </div>
       </section>
@@ -2919,6 +3015,29 @@ async function render() {
         chapterNumber: firstChapter.number,
         id: firstScene.id
       });
+    });
+  });
+
+  // WHY: native details toggles must sync into state because render() rebuilds the DOM.
+  const journeyToc = app.querySelector("[data-journey-toc]");
+  if (journeyToc) {
+    journeyToc.addEventListener("toggle", () => {
+      state.journeyTocOpen = journeyToc.open;
+    });
+  }
+
+  app.querySelectorAll("[data-journey-stage]").forEach((details) => {
+    details.addEventListener("toggle", () => {
+      const bookId = details.dataset.journeyBook;
+      const stageId = details.dataset.journeyStage;
+      if (!bookId || !stageId) {
+        return;
+      }
+
+      if (!state.journeyStageOpen[bookId]) {
+        state.journeyStageOpen[bookId] = {};
+      }
+      state.journeyStageOpen[bookId][stageId] = details.open;
     });
   });
 

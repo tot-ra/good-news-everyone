@@ -2,7 +2,9 @@ node_modules
 dist
 
 # Published Vite output lives in public/ after restart.sh / just publish.
-# Keep journey preview sources tracked so production builds can copy them into dist/.
+# Keep curated static image sources tracked so production builds can copy them into dist/.
 public/*
 !public/journey-previews/
 !public/journey-previews/**
+!public/reference-images/
+!public/reference-images/**
