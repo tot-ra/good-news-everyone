@@ -1101,8 +1101,8 @@ h1 {
 
 .translation-tooltip {
   position: absolute;
-  left: calc(100% + 14px);
-  top: 50%;
+  left: 0;
+  top: calc(100% + 10px);
   z-index: 999;
   display: grid;
   gap: 6px;
@@ -1115,7 +1115,7 @@ h1 {
   color: #f7efe2;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-50%) translateX(-6px);
+  transform: translateY(6px);
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
@@ -1133,13 +1133,14 @@ h1 {
 .pill--translation:hover .translation-tooltip,
 .pill--translation:focus-visible .translation-tooltip {
   opacity: 1;
-  transform: translateY(-50%) translateX(0);
+  transform: translateY(0);
 }
 
 .pill--translation:hover,
 .pill--translation:focus-visible {
   z-index: 1000;
 }
+
 
 .verse-grid {
   display: grid;
@@ -1544,8 +1545,8 @@ h1 {
 
 .word-chip {
   display: inline;
-  margin: 0 0.12em 0 0;
-  padding: 0.04em 0.14em;
+  margin: 0;
+  padding: 0;
   border: 0;
   border-radius: 0.35em;
   background: transparent;

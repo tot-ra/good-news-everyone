@@ -45,3 +45,8 @@
 - Image-description helpers can hallucinate Dome of the Rock across sibling candidates; before accepting a Jerusalem preview, crop the upper skyline band and also run a simple gold-pixel heuristic so selection is not based on a single full-frame caption.
 
 - When delegating, first verify the configured agent IDs; `frontend-developer` was unavailable.
+- Cursor Agent CLI can fail with `bufio.Scanner: token too long` when a parent prompt embeds a huge `a2gent_browser_diagnostic` JSON; summarize annotations (page URL + numbered element texts) instead of pasting the full diagnostic bundle.
+- Runtime text comes from `src/data/book-chunks/*/translations/*.json`, not only `src/data/books/*.json`. After fixing Synodal spacing in a book JSON, also patch or rebuild the matching translation chunk (`npm run build:book-chunks`) or the UI keeps serving the broken string.
+- Splitting a glued Synodal token (e.g. `Младенцас` -> `Младенца с`) changes word indices; bump `alignments.russian` values after the split point and remap `παιδιον`/`μετά` when they were `-1`.
+- Upstream Bible JSON may begin with a UTF-8 BOM; decode with `utf-8-sig` in ad-hoc Python audits, matching the generator's BOM stripping.
+- The former `thiagobodruk/bible` Russian Synodal corpus has missing spaces, malformed punctuation, and at least one omitted Gospel verse that shifts chapter numbering; prefer the MIT-licensed `jsonbible/rst` per-book files and adapt their chapter/verse object shape during import.

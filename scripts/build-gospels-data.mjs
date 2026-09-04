@@ -13,7 +13,13 @@ const legacyOutputPath = path.join(dataDir, "gospel-library.json");
 
 const DATA_SOURCES = {
   english: "https://raw.githubusercontent.com/thiagobodruk/bible/master/json/en_kjv.json",
-  russian: "https://raw.githubusercontent.com/thiagobodruk/bible/master/json/ru_synodal.json",
+  // MIT-licensed source pinned so a future upstream edit cannot silently shift verses.
+  russian: {
+    mt: "https://raw.githubusercontent.com/jsonbible/rst/b6467281bfc8584cf54c1185a6633ab8b033d8a4/matt.json",
+    mk: "https://raw.githubusercontent.com/jsonbible/rst/b6467281bfc8584cf54c1185a6633ab8b033d8a4/mark.json",
+    lk: "https://raw.githubusercontent.com/jsonbible/rst/b6467281bfc8584cf54c1185a6633ab8b033d8a4/luke.json",
+    jo: "https://raw.githubusercontent.com/jsonbible/rst/b6467281bfc8584cf54c1185a6633ab8b033d8a4/john.json"
+  },
   greek: "https://jsonbible.github.io/tr.json",
   morph: {
     matthew: "https://raw.githubusercontent.com/morphgnt/sblgnt/master/61-Mt-morphgnt.txt",
@@ -2555,9 +2561,23 @@ function buildVerseData({ chapterNumber, verseNumber, greekText, englishText, ru
 }
 
 async function buildLibrary() {
-  const [englishRaw, russianRaw, greekRaw] = await Promise.all([
+  const [englishRaw, russianEntries, greekRaw] = await Promise.all([
     fetchText(DATA_SOURCES.english),
-    fetchText(DATA_SOURCES.russian),
+    Promise.all(
+      Object.entries(DATA_SOURCES.russian).map(async ([abbrev, url]) => {
+        const sourceBook = JSON.parse(await fetchText(url));
+
+        return [
+          abbrev,
+          {
+            abbrev,
+            chapters: sourceBook.chapters.map((chapter) =>
+              chapter.verses.map((verse) => verse.text.trim())
+            )
+          }
+        ];
+      })
+    ),
     fetchText(DATA_SOURCES.greek)
   ]);
   const morphEntries = await Promise.all(
@@ -2566,7 +2586,7 @@ async function buildLibrary() {
   const morphBooks = Object.fromEntries(morphEntries);
 
   const englishData = JSON.parse(englishRaw);
-  const russianData = JSON.parse(russianRaw);
+  const russianData = russianEntries.map(([, book]) => book);
   const greekData = JSON.parse(greekRaw);
 
   const alignmentSentencePairs = {
