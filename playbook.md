@@ -2,6 +2,7 @@
 
 ## Lessons
 
+- ImageMagick `montage` may fail in this environment because its default font is unavailable; use a font-independent Pillow contact sheet or inspect candidates individually.
 - Cursor Agent CLI cannot call A2gent tools such as `leonardo_generate_image` / `suggest_*` (MCP bridge not attached). Call Leonardo REST API directly using the enabled `leonardo` integration from `~/.local/share/aagent/aagent.db`, keep the API key out of repo files and chat replies.
 - Journey stage previews live on `lifeJourney` in `src/main.js`; there is no preview field until we add one and render it in `.journey-stage`.
 - Prefer `public/` for generated static preview images so Vite serves them as `/...` without bundling.
@@ -14,10 +15,12 @@
 - Delegation may fail when a remembered UUID is absent from the configured agent list; treat it as unavailable and proceed with a local review rather than retrying arbitrary IDs.
 - A2gent `suggest_*` / `question` / docker subagent tools are not available in Cursor Agent CLI; implement and verify locally, and put follow-ups / commit suggestions in the Russian reply text.
 - OpenAI image generation requires a configured OpenAI provider API key; if it is unavailable, use an enabled image integration such as Leonardo and keep the generated asset local under `public/`.
+- Local ComfyUI can be unavailable when its server at `127.0.0.1:8188` is not running; after one connection-refused attempt, use the enabled Leonardo integration rather than retrying.
 - Chrome extension screenshots require `<all_urls>` or `activeTab`; when permission is missing, verify the DOM there and use the isolated browser controller for visual screenshots.
 - Browser extension style inspection can time out on a busy tab; retry through the browser controller and verify computed styles after the page settles.
 - Vague journey prompts like "solitary figure by a river" for Mark opening yield modern-looking mismatches; specify baptism of Jesus by John, first-century Judean dress, both figures fully clothed, reed Jordan banks, and omit `preset_style` when it 400s.
 - Journey preview CSS uses `aspect-ratio: 4 / 3`; prefer Leonardo sizes near 1472x832 over square 1024 so `object-fit: cover` crops less awkwardly.
+- Before delegating a review task, verify the configured agent ID is available; if it is not, record the failure and perform a focused local review rather than retrying unknown agent names.
 - When regenerating a rejected preview, keep several Leonardo candidates, visually pick one, then overwrite the canonical `public/journey-previews/*.jpg` and delete candidates.
 - Sibling kurapov static sites (`kurapov.ee`, `dina.kurapov.ee`) serve nginx `root /www/<domain>/public` after publishing Vite/blog `dist/` to `public/` via `restart.sh`; keep `config/nginx.conf` in-repo and leave nginx reload + Certbot issuance as manual server steps.
 - Do not gitignore all of `public/` when Vite static sources must ship: keep `public/journey-previews/**` tracked, add an nginx `location /journey-previews/` with `try_files $uri =404` (no SPA fallback), and verify the folder is non-empty in `restart.sh`. A missing preview otherwise returns `index.html` with `Content-Type: text/html`.
@@ -35,6 +38,8 @@
 - If an external review agent times out after a missing local reviewer, do not retry indefinitely; proceed with local diff review, focused tests, build, and browser DOM verification.
 - Wikidata entity JSON may return HTTP 403 to bare `urllib`; use a browser-like `User-Agent` or corroborate coordinates with search results instead.
 - `browser_chrome.eval` does not accept bare top-level `await`; wrap asynchronous browser checks in an async IIFE such as `(async () => { ... })()`.
+- Gospel Russian text has several Marys; never give Mary Magdalene the bare alias `Мария`. Keep qualified phrases (`Мария Магдалина`, `Магдалина`, inflections) so `getVerseContextMatches` longest-phrase ranking unifies the two tokens and does not open Mary of Nazareth.
+- When adding a qualified person whose name starts with another person's short alias, exact match must win for the short form; prefix fallback must not prefer longer `alias.startsWith(needle)` expansions (otherwise `Мария` resolves to `Мария Магдалина`).
 
 - Do not assume a standalone places JSON path; trace the actual export/import in `src/content.js` before scripting data checks.
 - An external agent may be listed as online while delegation still fails because the local A2A tunnel is disconnected; treat discovery status as advisory and fall back to local review.
@@ -45,8 +50,16 @@
 - Image-description helpers can hallucinate Dome of the Rock across sibling candidates; before accepting a Jerusalem preview, crop the upper skyline band and also run a simple gold-pixel heuristic so selection is not based on a single full-frame caption.
 
 - When delegating, first verify the configured agent IDs; `frontend-developer` was unavailable.
+- `code_execution` may reject PIL imports; for local image contact sheets or metadata inspection, use project-local Node/sharp or browser image viewing instead.
 - Cursor Agent CLI can fail with `bufio.Scanner: token too long` when a parent prompt embeds a huge `a2gent_browser_diagnostic` JSON; summarize annotations (page URL + numbered element texts) instead of pasting the full diagnostic bundle.
 - Runtime text comes from `src/data/book-chunks/*/translations/*.json`, not only `src/data/books/*.json`. After fixing Synodal spacing in a book JSON, also patch or rebuild the matching translation chunk (`npm run build:book-chunks`) or the UI keeps serving the broken string.
 - Splitting a glued Synodal token (e.g. `Младенцас` -> `Младенца с`) changes word indices; bump `alignments.russian` values after the split point and remap `παιδιον`/`μετά` when they were `-1`.
 - Upstream Bible JSON may begin with a UTF-8 BOM; decode with `utf-8-sig` in ad-hoc Python audits, matching the generator's BOM stripping.
 - The former `thiagobodruk/bible` Russian Synodal corpus has missing spaces, malformed punctuation, and at least one omitted Gospel verse that shifts chapter numbering; prefer the MIT-licensed `jsonbible/rst` per-book files and adapt their chapter/verse object shape during import.
+- When inserting a test before an existing test via exact replacement, include the original test declaration in `new_string`; otherwise the insertion can silently remove the neighboring test header.
+- If a nominally online external reviewer times out, do one local completeness pass over every generated asset path and rely on focused tests, production build, and browser verification rather than retrying the remote call.
+- Exa rejects incompatible category/type combinations; when using a specialized category, use the provider-compatible search type or fall back to another search integration.
+- Verify that a web-search integration is actually enabled before calling it; tool availability in general does not guarantee a configured provider.
+- `git diff --check` reports a blank line at EOF as `new blank line at EOF`; keep exactly one trailing newline in edited test files before the final verification.
+- External-agent discovery can fail with `agent is not active` even when the registry integration is enabled; record it once and complete a bounded local visual and metadata review.
+- A requested generic delegation target may not be configured; after recording the unavailable ID once, proceed with a bounded local review instead of guessing agent IDs.
